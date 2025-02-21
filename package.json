@@ -6,8 +6,8 @@
   "homepage": "/",
   "scripts": {
     "dev": "vite",
-    "dev-server": "tsx watch ./src/server/index.ts",
-    "prod": "tsx ./src/server/index.ts",
+    "dev-server": "tsx watch ./index.ts",
+    "prod": "tsx ./index.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
