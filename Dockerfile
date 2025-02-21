@@ -6,7 +6,7 @@ FROM node:${NODE_VERSION}-alpine
 
 WORKDIR /home/node/app
 
-COPY . ./home/node/app
+COPY . .
 
 # bc typescript is a devdependency
 RUN npm install tsx
