@@ -21,6 +21,7 @@ if (process.env.NODE_ENV == 'development') {
     app.use(express.static(path.join(__dirname, 'dist')))
 
     app.get('/*', (req :Request, res: Response) => {
+        console.log("request recieved")
         res.sendFile(path.join(__dirname, 'dist', 'index.html'));
     })
 }
