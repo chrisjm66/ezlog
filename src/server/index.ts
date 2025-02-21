@@ -1,4 +1,4 @@
-import express, {Express, Response } from "express"
+import express, {Express, Request, Response } from "express"
 import dotenv from 'dotenv'
 import path, {dirname} from 'path'
 import { fileURLToPath } from "url"
@@ -15,7 +15,7 @@ const __dirname = dirname(__filename);
 app.use(express.static(path.join(__dirname, '..', '..', 'public')))
 
 if (process.env.NODE_ENV == 'development') {
-    app.get('/*', (res: Response) => {
+    app.get('/*', (req: Request, res: Response) => {
         res.send('hi')
     })
 } else {
