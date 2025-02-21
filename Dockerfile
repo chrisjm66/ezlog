@@ -8,7 +8,8 @@ WORKDIR /home/node/app
 
 COPY . .
 
-RUN ls
+# bc typescript is a devdependency
+RUN npm install -g typescript 
 
 RUN npm install
 
