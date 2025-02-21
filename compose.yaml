@@ -1,0 +1,12 @@
+services:
+  website:
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+      PORT: "8001"
+      HOST: "localhost"
+      VIRTUAL_HOST: ezlog.chrismangan.net
+    ports:
+      - "8100:8100"
+    restart: on-failure
