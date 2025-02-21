@@ -9,7 +9,7 @@ WORKDIR /home/node/app
 COPY . .
 
 # bc typescript is a devdependency
-RUN npm install typescript 
+RUN npm install tsx
 
 RUN npm install
 
