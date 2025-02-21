@@ -17,4 +17,4 @@ RUN npm run build
 
 EXPOSE 8100
 
-CMD tsx server.ts
+CMD npm run prod
