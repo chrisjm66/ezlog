@@ -1,18 +1,25 @@
-import { ReactElement, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { ReactElement, useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 import Layout from './components/Layout'
 import Homepage from './components/Homepage'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import NotFound from './components/NotFound'
+import Login from './components/Login'
+import Signup from './components/Signup'
 
 const App = (): ReactElement => {
   return (
     <BrowserRouter>
+      <title>ezlog</title>
       <Routes>
         <Route path='/' element={<Layout/>}>
           <Route index element={<Homepage/>}/>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/signup' element={<Signup/>}/>
         </Route>
+
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
     </BrowserRouter>
   )

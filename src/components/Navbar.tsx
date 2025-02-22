@@ -16,7 +16,7 @@ const Navbar = (): ReactElement => {
                     </h2>
                 </Link>
 
-                <Link to='/signup'>
+                <Link to='/login'>
                     <h2 className="text-white text-3xl">
                         Log In
                     </h2>
