@@ -1,0 +1,120 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model aircraft {
+  aircraft_id      Int     @id @db.UnsignedInt
+  tail_number      String? @db.VarChar(20)
+  description      String? @db.VarChar(500)
+  make             String? @db.VarChar(50)
+  type_code        String? @db.VarChar(5)
+  model            String? @db.VarChar(50)
+  engine_type      String? @db.VarChar(20)
+  taa              Int?    @db.TinyInt
+  complex          Int?    @db.TinyInt
+  high_performance Int?    @db.TinyInt
+  user_id          Int     @db.UnsignedInt
+
+  @@index([user_id], map: "aircraft_users_user_id_fk")
+}
+
+model certificates {
+  certificate_id            Int       @id @default(autoincrement()) @db.UnsignedInt
+  expires                   DateTime? @db.DateTime(0)
+  user_id                   Int       @db.UnsignedInt
+  name                      String    @db.VarChar(50)
+  ratings                   String?   @db.VarChar(1000)
+  is_pillot_certificate     Int       @default(0) @db.TinyInt
+  is_instructor_certificate Int       @default(0) @db.TinyInt
+  issued                    DateTime  @db.DateTime(0)
+
+  @@index([user_id], map: "certificates_users_user_id_fk")
+}
+
+model instructors {
+  instructor_id  Int       @id @default(autoincrement()) @db.UnsignedInt
+  certificate_id String    @db.VarChar(11)
+  user_id        Int       @db.UnsignedInt
+  date_issued    DateTime? @db.Date
+  date_expires   DateTime? @db.Date
+
+  @@index([user_id], map: "instructors_users_user_id_fk")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model logbook_entries {
+  logbook_entry_id     Int      @id @default(autoincrement()) @db.UnsignedInt
+  aircraft_id          Int      @db.UnsignedInt
+  total_time           Decimal  @default(0.00) @db.Decimal(4, 2)
+  pic                  Decimal  @default(0.00) @db.Decimal(4, 2)
+  sic                  Decimal  @default(0.00) @db.Decimal(4, 2)
+  cross_country        Decimal  @default(0.00) @db.Decimal(4, 2)
+  sim_imc              Decimal  @default(0.00) @db.Decimal(4, 2)
+  actual_imc           Decimal  @default(0.00) @db.Decimal(4, 2)
+  night                Decimal  @default(0.00) @db.Decimal(4, 2)
+  day_takeoffs         Int      @default(0) @db.UnsignedInt
+  day_landings         Int      @default(0) @db.UnsignedInt
+  night_takeoffs       Int      @default(0) @db.UnsignedInt
+  night_landings       Int      @default(0) @db.UnsignedInt
+  holding              Int      @default(0) @db.TinyInt
+  approaches           Int      @default(0) @db.UnsignedInt
+  dual_given           Decimal  @default(0.00) @db.Decimal(4, 2)
+  dual_recieved        Decimal  @default(0.00) @db.Decimal(4, 2)
+  route                String   @db.VarChar(300)
+  ipc                  Int      @default(0) @db.TinyInt
+  checkride            Int      @default(0) @db.TinyInt
+  flight_review        Int      @default(0) @db.TinyInt
+  user_id              Int      @db.UnsignedInt
+  instructor_signature Bytes?   @db.Blob
+  instructor_id        Int?     @db.UnsignedInt
+  date                 DateTime @db.Date
+
+  @@index([aircraft_id], map: "logbook_entries_aircraft_aircraft_id_fk")
+  @@index([date, user_id], map: "logbook_entries_date")
+  @@index([instructor_id], map: "logbook_entries_instructors_instructor_id_fk")
+  @@index([user_id], map: "logbook_entries_users_user_id_fk")
+}
+
+model sessions {
+  session_id String    @id @db.VarChar(255)
+  user_id    Int?      @db.UnsignedInt
+  browser    String?   @db.VarChar(45)
+  expires    DateTime? @db.DateTime(0)
+
+  @@index([user_id], map: "sessions_users_user_id_fk")
+}
+
+model users {
+  user_id    Int    @id @default(autoincrement()) @db.UnsignedInt
+  first_name String @db.VarChar(45)
+  last_name  String @db.VarChar(45)
+  password   String @db.VarChar(256)
+  email      String @db.VarChar(100)
+}
+
+model mytable {
+  id                Int     @id
+  ident             String  @db.VarChar(7)
+  type              String  @db.VarChar(14)
+  name              String  @db.VarChar(108)
+  latitude_deg      Decimal @db.Decimal(21, 18)
+  longitude_deg     Decimal @db.Decimal(22, 18)
+  elevation_ft      Int?
+  continent         String  @db.VarChar(2)
+  iso_country       String  @db.VarChar(2)
+  iso_region        String  @db.VarChar(7)
+  municipality      String? @db.VarChar(61)
+  scheduled_service String  @db.VarChar(3)
+  gps_code          String? @db.VarChar(4)
+  iata_code         String? @db.VarChar(3)
+  local_code        String? @db.VarChar(7)
+  home_link         String? @db.VarChar(128)
+  wikipedia_link    String? @db.VarChar(128)
+  keywords          String? @db.VarChar(256)
+}
