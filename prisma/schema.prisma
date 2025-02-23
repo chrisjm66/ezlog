@@ -8,7 +8,7 @@ datasource db {
   relationMode = "prisma"
 }
 
-model aircraft {
+model Aircraft {
   aircraft_id      Int     @id @db.UnsignedInt
   tail_number      String? @db.VarChar(20)
   description      String? @db.VarChar(500)
@@ -22,9 +22,10 @@ model aircraft {
   user_id          Int     @db.UnsignedInt
 
   @@index([user_id], map: "aircraft_users_user_id_fk")
+  @@map("aircraft")
 }
 
-model certificates {
+model Certificate {
   certificate_id            Int       @id @default(autoincrement()) @db.UnsignedInt
   expires                   DateTime? @db.DateTime(0)
   user_id                   Int       @db.UnsignedInt
@@ -35,9 +36,10 @@ model certificates {
   issued                    DateTime  @db.DateTime(0)
 
   @@index([user_id], map: "certificates_users_user_id_fk")
+  @@map("certificates")
 }
 
-model instructors {
+model Instructor {
   instructor_id  Int       @id @default(autoincrement()) @db.UnsignedInt
   certificate_id String    @db.VarChar(11)
   user_id        Int       @db.UnsignedInt
@@ -45,10 +47,11 @@ model instructors {
   date_expires   DateTime? @db.Date
 
   @@index([user_id], map: "instructors_users_user_id_fk")
+  @@map("instructors")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model logbook_entries {
+model LogbookEntry {
   logbook_entry_id     Int      @id @default(autoincrement()) @db.UnsignedInt
   aircraft_id          Int      @db.UnsignedInt
   total_time           Decimal  @default(0.00) @db.Decimal(4, 2)
@@ -79,23 +82,26 @@ model logbook_entries {
   @@index([date, user_id], map: "logbook_entries_date")
   @@index([instructor_id], map: "logbook_entries_instructors_instructor_id_fk")
   @@index([user_id], map: "logbook_entries_users_user_id_fk")
+  @@map("logbook_entries")
 }
 
-model sessions {
-  session_id String    @id @db.VarChar(255)
-  user_id    Int?      @db.UnsignedInt
-  browser    String?   @db.VarChar(45)
-  expires    DateTime? @db.DateTime(0)
+model Session {
+  session_id String   @id @db.VarChar(255)
+  user_id    Int      @db.UnsignedInt
+  expires    DateTime @db.DateTime(0)
 
   @@index([user_id], map: "sessions_users_user_id_fk")
+  @@map("sessions")
 }
 
-model users {
+model User {
   user_id    Int    @id @default(autoincrement()) @db.UnsignedInt
   first_name String @db.VarChar(45)
   last_name  String @db.VarChar(45)
   password   String @db.VarChar(256)
   email      String @db.VarChar(100)
+
+  @@map("users")
 }
 
 model mytable {

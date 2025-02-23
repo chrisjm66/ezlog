@@ -1,24 +1,30 @@
 //@ts-nocheck
-import { ReactElement } from "react"
-import bg from "/site-background.jpg"
+import { ReactElement, useState } from "react"
 import { Link } from "react-router-dom"
 import { useFormStatus } from "react-dom"
-
+import axios from "axios"
 
 const Signup = (): ReactElement => {
     const status = useFormStatus()
+    const [formValid, setFormValid] = useState(true)
+
+    const handleChange = (e) => {
+        
+    }
+
     const handleSubmit = async(e) => {
         e.preventDefault()
         const formData: FormData = new FormData(e.target)
-        
-        const response = await fetch({
-            method: 'POST',
-            url: "localhost:8100/api/auth/register",
-            body: formData
+
+        const response = await axios.post("/api/auth/register", 
+            formData,
+            {headers: {
+                'Content-Type': 'application/json'
+            }
         })
 
         console.log(response)
-        console.log(await response.text())
+        console.log(await response.data)
     }
     return (
             <form 
@@ -43,16 +49,17 @@ const Signup = (): ReactElement => {
 
                 <div>
                     <label htmlFor='password' className='text-lg'>Password</label><br/>
-                    <input required minLength={8} title="password" name="password" type='password' className='w-full rounded-sm'/><br/>
+                    <input required minLength={8} placeholder="Must be at least 8 characters" title="password" name="password" type='password' className='w-full rounded-sm'/><br/>
                 </div>
 
                 <div>
                     <label htmlFor='confirmPassword' className='text-lg'>Confirm Password</label><br/>
-                    <input required title="confirmPassword" name="confirmPassword" type='password' className='w-full rounded-sm'/><br/>
+                    <input required title="confirmPassword" name="confirmPassword" type='password' className='w-full rounded-sm'
+                    /><br/>
                 </div>
 
                 <div className='flex flex-col items-center mt-5'>
-                    <button type='submit' disabled={status.pending} className='bg-ezblue text-white text-xl w-max px-8 py-1 rounded-sm hover:bg-blue-500 transition-all'>
+                    <button type='submit' disabled={status.pending || !formValid} className='bg-ezblue text-white text-xl w-max px-8 py-1 rounded-sm hover:bg-blue-500 transition-all'>
                         Sign Up
                     </button>
 
