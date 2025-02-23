@@ -5,16 +5,9 @@ import bcrypt from 'bcrypt'
 const SALT_ROUNDS = 12
 
 // private functions
-export const generateHash = (plainTextPassword: string): string => {
-    bcrypt.hash(plainTextPassword, SALT_ROUNDS, (err: Error | undefined, hash: string) => {
-        if (err) {
-            console.error(err.stack)
-            throw err
-        }
-
-        return hash
-    })
-    throw new Error('generateHash')
+export const generateHash = async(plainTextPassword: string): Promise<string> => {
+    const hash: string = await bcrypt.hash(plainTextPassword, SALT_ROUNDS)
+    return hash
 }
 
 export const userExists = async(email: string): Promise<boolean> => {
@@ -26,11 +19,15 @@ export const userExists = async(email: string): Promise<boolean> => {
 }
 
 export const isRegristrationInputValid = (userData: RegisterRequest): boolean => {
-    return true
+    if (userData.email.includes('@') && userData.password == userData.confirmPassword) {
+        return true
+    } else {
+        return false
+    }
 }
 
-export const createUser = async(userData: RegisterRequest) => {
-    const hashedPassword: string = generateHash(userData.password)
+export const createUser = async(userData: RegisterRequest): Promise<number> => {
+    const hashedPassword: string = await generateHash(userData.password)
 
     const newUser: User = await prisma.user.create({
         data: {
@@ -46,6 +43,27 @@ export const createUser = async(userData: RegisterRequest) => {
     return newUser.user_id
 }
 
+export const getUser = async(userId: number): Promise<UserModel | null> => {
+    const result = await prisma.user.findUnique({
+        where: {user_id: userId}
+    })
+
+    if (!result) {return null}
+
+    const user: UserModel = {
+        firstName: result?.first_name,
+        lastName: result?.last_name,
+        email: result?.email
+    }
+
+    return user
+}
+// this exists to we arent sending a password around everywhere
+export type UserModel = {
+    firstName: string
+    lastName: string
+    email: string
+}
 
 export type RegisterRequest = {
     firstName: string

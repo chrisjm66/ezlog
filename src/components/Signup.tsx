@@ -1,13 +1,13 @@
 //@ts-nocheck
 import { ReactElement, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, redirect, useNavigate } from "react-router-dom"
 import { useFormStatus } from "react-dom"
 import axios from "axios"
 
 const Signup = (): ReactElement => {
     const status = useFormStatus()
     const [formValid, setFormValid] = useState(true)
-
+    const navigate = useNavigate()
     const handleChange = (e) => {
         
     }
@@ -23,8 +23,11 @@ const Signup = (): ReactElement => {
             }
         })
 
-        console.log(response)
-        console.log(await response.data)
+        console.log(response.status)
+        console.log(response.statusText)
+        if (response.status == 200) {
+            return navigate('/')
+        }
     }
     return (
             <form 
