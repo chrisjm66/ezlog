@@ -1,5 +1,5 @@
 import { ReactElement } from "react"
-import bg from "/site-background.jpg"
+import bg from "../assets/site-background.jpg"
 import { Link } from "react-router-dom"
 
 const Homepage = (): ReactElement => {

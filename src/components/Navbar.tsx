@@ -1,5 +1,5 @@
 import { ReactElement } from "react"
-import logo from "../../public/ezlog-full-white.png"
+import logo from "../assets/ezlog-full-white.png"
 import { Link } from "react-router-dom"
 
 const Navbar = (): ReactElement => {
