@@ -53,16 +53,46 @@ export const getUser = async(userId: number): Promise<UserModel | null> => {
     const user: UserModel = {
         firstName: result?.first_name,
         lastName: result?.last_name,
-        email: result?.email
+        email: result?.email,
+        userId: result?.user_id
     }
 
     return user
 }
+
+export const getUserByEmail = async(email: string): Promise<UserModel | null> => {
+    const result = await prisma.user.findFirst({
+        where: {email: email}
+    })
+
+    if (!result) {return null}
+
+    const user: UserModel = {
+        firstName: result?.first_name,
+        lastName: result?.last_name,
+        email: result?.email,
+        userId: result?.user_id
+    }
+
+    return user
+}
+
+export const validateUser = async(loginRequest: LoginRequest): Promise<boolean> => {
+    const user: User | null = await prisma.user.findFirst({where: {email: loginRequest.email}})
+
+    if(!user) {
+        return false
+    }
+
+    return bcrypt.compare(loginRequest.password, user.password)
+}
+
 // this exists to we arent sending a password around everywhere
 export type UserModel = {
     firstName: string
     lastName: string
     email: string
+    userId: number
 }
 
 export type RegisterRequest = {
@@ -71,4 +101,9 @@ export type RegisterRequest = {
     email: string
     password: string
     confirmPassword: string
+}
+
+export type LoginRequest = {
+    email: string
+    password: string
 }

@@ -26,7 +26,24 @@ const useAuthActions = () => {
         }
     }
 
-    return {user, signup}
+    const login = async(userData: LoginRequest) => {
+        const response = await axios.post("/api/auth/login", 
+            userData,
+            {headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        console.log(response)
+        console.log(response.statusText)
+
+        if (response.status == 200) {
+            console.log('login success')
+            console.log(response)
+            return navigate('/')
+        }
+    }
+    return {user, signup, login}
 }
 
 // creates a wrapper for the rest of the app
@@ -45,6 +62,11 @@ export type RegisterRequest = {
     email: string
     password: string
     confirmPassword: string
+}
+
+export type LoginRequest = {
+    email: string
+    password: string
 }
 
 export default useAuth

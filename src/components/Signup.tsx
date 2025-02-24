@@ -2,7 +2,6 @@
 import { ReactElement, useState } from "react"
 import { Link, redirect } from "react-router-dom"
 import { useFormStatus } from "react-dom"
-import axios from "axios"
 import useAuth, { RegisterRequest } from "../hooks/auth"
 
 const Signup = (): ReactElement => {

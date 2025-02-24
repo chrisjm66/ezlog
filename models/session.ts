@@ -88,19 +88,18 @@ export const invalidateAllSessions = async(userId: number): Promise<void> => {
 }
 
 export const setSessionToken = (req: Request, res: Response, next: NextFunction) => {
-    //@ts-nocheck
     const token = res.locals.sessionToken
     const session: Session = res.locals.session
 
     if (process.env.NODE_ENV === 'production') {
-		// When deployed over HTTPS
+        // When deployed over HTTPS
         res.cookie('auth', token, {httpOnly: true, sameSite: "lax", expires: session.expires, path: '/', secure: true})
-	} else {
-		// When deployed over HTTP (localhost)
+    } else {
+        // When deployed over HTTP (localhost)
         res.cookie('auth', token, {httpOnly: true, sameSite: "lax", expires: session.expires, path: '/', secure: false})
 
-	}
-
+    }
+    
     res.status(200).send()
 }
 type SessionResult = {session: Session, user: UserModel } | {session: null, user: null}
