@@ -3,10 +3,10 @@ services:
     build:
       context: .
     environment:
-      NODE_ENV: production
+      NODE_ENV: ${NODE_ENV}
       PORT: "8100"
       HOST: "localhost"
-      DATABASE_URL: ${{secrets.DATABASE_URL}}
+      DATABASE_URL: ${{DATABASE_URL}}
       VIRTUAL_HOST: ezlog.chrismangan.net
     ports:
       - "8100:8100"

@@ -8,10 +8,9 @@ WORKDIR /home/node/app
 
 COPY . .
 
-# bc typescript is a devdependency
-RUN npm install tsx
-
 RUN npm install
+
+RUN npx prisma generate
 
 RUN npm run build
 

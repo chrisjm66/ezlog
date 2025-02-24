@@ -12,4 +12,5 @@ jobs:
     - name: Deploy
       run: docker compose up --build -d
     env:
-      hello: "hi"
+      NODE_ENV: production
+      DATABASE_URL: ${{secrets.DATABASE_URL}}
