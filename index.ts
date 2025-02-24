@@ -16,9 +16,7 @@ const __dirname = dirname(__filename);
 
 app.use(express.json())
 app.use(express.urlencoded())
-
 app.use(express.static(path.join(__dirname, 'dist', 'index.html')))
-console.log(path.join(__dirname, 'dist', 'index.html'))
 
 app.use('/api', apiRouter)
 

@@ -1,13 +1,14 @@
 //@ts-nocheck
 import { ReactElement, useState } from "react"
-import { Link, redirect, useNavigate } from "react-router-dom"
+import { Link, redirect } from "react-router-dom"
 import { useFormStatus } from "react-dom"
 import axios from "axios"
+import useAuth, { RegisterRequest } from "../hooks/auth"
 
 const Signup = (): ReactElement => {
+    const auth = useAuth()
     const status = useFormStatus()
     const [formValid, setFormValid] = useState(true)
-    const navigate = useNavigate()
     const handleChange = (e) => {
         
     }
@@ -15,19 +16,17 @@ const Signup = (): ReactElement => {
     const handleSubmit = async(e) => {
         e.preventDefault()
         const formData: FormData = new FormData(e.target)
-
-        const response = await axios.post("/api/auth/register", 
-            formData,
-            {headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-
-        console.log(response.status)
-        console.log(response.statusText)
-        if (response.status == 200) {
-            return navigate('/')
+        const userData: RegisterRequest = {
+            firstName: formData.get('firstName'),
+            lastName: formData.get('lastName'),
+            email: formData.get('email'),
+            password: formData.get('password'),
+            confirmPassword: formData.get('confirmPassword')
         }
+        
+        if (!auth.user) {
+            auth.signup(userData)
+        }  
     }
     return (
             <form 
