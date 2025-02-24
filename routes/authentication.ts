@@ -1,6 +1,6 @@
-import express, {Request, Response} from 'express'
+import express, {NextFunction, Request, Response} from 'express'
 import {type RegisterRequest, userExists, isRegristrationInputValid, createUser} from '../models/authModel.ts'
-
+import { createWebSession, generateSessionToken, setSessionToken } from '../models/session.ts'
 import cors from 'cors'
 const router = express.Router()
 
@@ -10,7 +10,7 @@ router.get('/login', (req: Request, res: Response) => {
     res.send('works')
 })
 
-router.post('/register', async(req: Request, res: Response) => {
+router.post('/register', async(req: Request, res: Response, next: NextFunction) => {
     const userData: RegisterRequest = req.body
 
     // Check that user input is valid and that user doesnt exist
@@ -25,11 +25,15 @@ router.post('/register', async(req: Request, res: Response) => {
     }
 
     // create user and session
-    const user_id = await createUser(userData)
-    const sessionToken = generateSessionToken()
+    const userId: number = await createUser(userData)
+    const sessionToken: string = generateSessionToken()
+    const session = await createWebSession(sessionToken, userId)
 
-    res.status(200).send('<Redirect to={"/"}/>')
-})
+    // pass to middleware
+    res.locals.sessionToken = sessionToken
+    res.locals.session = session
+    next()
+}, setSessionToken)
 
 
 export default router

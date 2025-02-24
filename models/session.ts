@@ -1,7 +1,12 @@
-import { randomBytes } from "crypto"
-import { generateHash, getUser, UserModel } from "./authModel"
+import { createHash, randomBytes } from "crypto"
+import { getUser, UserModel } from "./authModel"
 import { Session, User } from "@prisma/client"
 import prisma from "../middlewares/db"
+import { NextFunction, Request, Response } from "express"
+
+const generateSessionHash = (input: string): string => {
+    return createHash('sha256').update(input).digest("hex")
+}
 
 export const generateSessionToken = () => {
     // this is the token given to the user
@@ -11,7 +16,7 @@ export const generateSessionToken = () => {
 
 export const createWebSession = async(token: string, userId: number): Promise<Session> => {
     // session ID (stored in the DB) is the hash of the session token. this is so if DB leaked sessions cannot be stolen b/c hashing is one way
-    let sessionId: string = await generateHash(token)
+    let sessionId: string = generateSessionHash(token)
 
     const session: Session = {
         session_id: sessionId,
@@ -26,9 +31,9 @@ export const createWebSession = async(token: string, userId: number): Promise<Se
     return session
 }
 
-export const validateSession = async(token: string): Promise<Session | null> => {
+export const validateSession = async(token: string): Promise<SessionResult> => {
     // get session id hash, which is what stored in DB
-    let sessionId: string = await generateHash(token)
+    let sessionId: string = generateSessionHash(token)
 
     // get session and user, make sure they exist
     const session: Session | null = await prisma.session.findUnique({
@@ -38,17 +43,17 @@ export const validateSession = async(token: string): Promise<Session | null> => 
 	});
 
     if (!session) {
-        return null
+        return {session: null, user: null}
     }
 
     const user: UserModel | null = await getUser(session.user_id)
 
-    if (!user) {return null}
+    if (!user) {return {session: null, user: null}}
 
     // check session not expired
     if (Date.now() >= session.expires.getTime()) {
         await prisma.session.delete({where: {session_id: sessionId}})
-        return null
+        {return {session: null, user: null}}
     }
 
     if (Date.now() >= session.expires.getTime() - 1000 * 60 * 60 * 24 * 15) { // 15 days from current time
@@ -63,7 +68,7 @@ export const validateSession = async(token: string): Promise<Session | null> => 
         })
     }
 
-    return session
+    return {session: session, user: user}
 }
 
 export const invalidateSession = async(sessionId: string): Promise<void> => {
@@ -81,3 +86,21 @@ export const invalidateAllSessions = async(userId: number): Promise<void> => {
         }
     })
 }
+
+export const setSessionToken = (req: Request, res: Response, next: NextFunction) => {
+    //@ts-nocheck
+    const token = res.locals.sessionToken
+    const session: Session = res.locals.session
+
+    if (process.env.NODE_ENV === 'production') {
+		// When deployed over HTTPS
+        res.cookie('auth', token, {httpOnly: true, sameSite: "lax", expires: session.expires, path: '/', secure: true})
+	} else {
+		// When deployed over HTTP (localhost)
+        res.cookie('auth', token, {httpOnly: true, sameSite: "lax", expires: session.expires, path: '/', secure: false})
+
+	}
+
+    res.status(200).send()
+}
+type SessionResult = {session: Session, user: UserModel } | {session: null, user: null}
