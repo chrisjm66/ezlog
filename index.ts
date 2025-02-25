@@ -8,7 +8,7 @@ import cors from 'cors'
 // env
 dotenv.config()
 const corsOptions = {
-    origin: ['http://localhost:5173', 'http://localhost:8100'],
+    origin: ['http://localhost:5173', 'http://localhost:8100', 'http://chrismangan.net'],
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204,
     exposedHeaders: 'Set-Cookie',
     allowedHeaders: 'Authorizaton,Content-Type',
