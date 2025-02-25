@@ -1,4 +1,4 @@
-import express, {Express, Request, Response } from "express"
+import express, { Express, Request, Response } from "express"
 import dotenv from 'dotenv'
 import path, {dirname} from 'path'
 import { fileURLToPath } from "url"
@@ -23,20 +23,18 @@ const __dirname = dirname(__filename);
 app.use(cors(corsOptions))
 app.use(express.json())
 app.use(express.urlencoded())
-app.use(express.static(path.join(__dirname, 'dist', 'index.html')))
+app.use(express.static(path.join(__dirname, 'dist')))
 
 app.use('/api', apiRouter)
 
 if (process.env.NODE_ENV == 'development') {
     app.get('*', (req: Request, res: Response) => {
-        console.log(req.path)
         res.send("unknown route")
     })
 } else {
     app.use(express.static(path.join(__dirname, 'dist')))
 
     app.get('*', (req :Request, res: Response) => {
-        console.log(req.path)
         res.sendFile(path.join(__dirname, 'dist', 'index.html'));
     })
 }
