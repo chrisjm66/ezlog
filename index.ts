@@ -11,7 +11,7 @@ dotenv.config()
 const corsOptions = {
     origin: ['http://localhost:5173', 'http://localhost:8100', 'https://ezlog.chrismangan.net'],
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204,
-    exposedHeaders: true,
+    exposedHeaders: '*',
     allowedHeaders: 'Content-Type, Authorization, X-Requested-With, X-CSRF-Token',
     credentials: true,
 }

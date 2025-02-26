@@ -4,7 +4,7 @@ import { Link, NavLink } from "react-router-dom"
 import useAuth, { UserModel } from "../hooks/auth"
 import { Icon } from "@iconify/react/dist/iconify.js"
 
-const styleNavLink = ({isActive, isPending}): string => {
+const styleNavLink = ({isActive, isPending}: any): string => {
     return "text-3xl transition transition-all hover:text-green-200 " + (isActive ? "text-amber-200" : "text-white")
 }
 
