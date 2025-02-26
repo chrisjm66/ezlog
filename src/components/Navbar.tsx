@@ -22,9 +22,9 @@ const AccountDropdown = (): ReactElement<any> => {
                 <h1 className="text-white font-semibold text-3xl">{`${user.firstName} ${user.lastName}`}</h1>
             </div>
             
-            <button type='button' className="text-white text-3xl" onClick={logout}>
+            <NavLink to='/' className="text-white text-3xl" onClick={logout}>
                 Log Out
-            </button>
+            </NavLink>
         </div>
     )
 }
