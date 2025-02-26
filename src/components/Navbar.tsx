@@ -1,16 +1,27 @@
 import { ReactElement } from "react"
 import logo from "../assets/ezlog-full-white.png"
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import useAuth, { UserModel } from "../hooks/auth"
 import { Icon } from "@iconify/react/dist/iconify.js"
+
+const styleNavLink = ({isActive, isPending}): string => {
+    return "text-3xl transition transition-all hover:text-green-200 " + (isActive ? "text-amber-200" : "text-white")
+}
 
 const AccountDropdown = (): ReactElement<any> => {
     const {user, logout} = useAuth()
 
     return (
         <div className="flex-row flex items-center gap-x-10 absolute right-10">
-            <Icon icon="mdi:person" width={50} className="text-white text-3xl"/>
-            <h1 className="text-white font-semibold text-3xl">{`${user.userId} ${user.firstName} ${user.lastName}`}</h1>
+            <NavLink to='/dashboard' className={styleNavLink}>
+                    Dashboard
+            </NavLink>
+
+            <div className='flex flex-row items-center gap-x-4'>
+                <Icon icon="mdi:person" width={50} className="text-white text-3xl"/>
+                <h1 className="text-white font-semibold text-3xl">{`${user.firstName} ${user.lastName}`}</h1>
+            </div>
+            
             <button type='button' className="text-white text-3xl" onClick={logout}>
                 Log Out
             </button>
@@ -21,16 +32,13 @@ const AccountDropdown = (): ReactElement<any> => {
 const InitialUserOptions = (): ReactElement => {
     return (
         <div className="flex-row flex gap-x-10 absolute right-10">
-            <Link to='/login'>
-                <h2 className="text-white text-3xl">
+            <NavLink to='/login' className={styleNavLink}>
                     Log In
-                </h2>
-            </Link>
-            <Link to='/register'>
-                <h2 className="text-white text-3xl">
+            </NavLink>
+
+            <NavLink to='/signup' className={styleNavLink}>
                     Sign Up
-                </h2>
-            </Link>
+            </NavLink>
         </div>
     )
 }

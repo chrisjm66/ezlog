@@ -92,8 +92,6 @@ export const ProtectedRoute = () => {
     const navigate: NavigateFunction = useNavigate()
 
     useMemo(() => {
-        console.log(auth.user.userId)
-        console.log(auth.user.firstName)
         if (auth.user.userId === -1) {
             navigate('/login')
         }

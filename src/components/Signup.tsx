@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { ReactElement, useState } from "react"
-import { Link, redirect } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useFormStatus } from "react-dom"
 import useAuth, { RegisterRequest } from "../hooks/auth"
 
@@ -64,7 +64,7 @@ const Signup = (): ReactElement => {
                         Sign Up
                     </button>
 
-                    <p className='mt-2 italic text-lg'>Don't have an account? <Link to='/signup' className="text-ezblue hover:text-blue-500 transition-all">Sign up here!</Link></p>
+                    <p className='mt-2 italic text-lg'>Already have an account? <Link to='/login' className="text-ezblue hover:text-blue-500 transition-all">Log in here!</Link></p>
                 </div>
                 
             </form>
