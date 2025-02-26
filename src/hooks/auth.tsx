@@ -1,5 +1,5 @@
-import { createContext, ReactElement, useContext, useEffect, useState } from "react"
-import { NavigateFunction, useNavigate } from "react-router-dom"
+import { createContext, ReactElement, useMemo, useContext, useEffect, useState } from "react"
+import { NavigateFunction, Outlet, useNavigate } from "react-router-dom"
 import axios from "axios"
 
 const AuthContext: React.Context<any> = createContext({})
@@ -32,7 +32,7 @@ const useAuthActions = () => {
 
         if (response.status == 200) {
             setUser(response.data)
-            return navigate('/')
+            return navigate('/dashboard')
         }
     }
 
@@ -49,7 +49,7 @@ const useAuthActions = () => {
 
         if (response.status == 200) {
             setUser(response.data)
-            return navigate('/')
+            return navigate('/dashboard')
         }
     }
 
@@ -87,15 +87,23 @@ export const ProvideAuth = ({children}: any) => {
     )
 }
 
-export const requireAuth = (children: ReactElement) => {
+export const ProtectedRoute = () => {
     const auth = useAuth()
     const navigate: NavigateFunction = useNavigate()
 
-    if (!auth.user) {
-        return navigate('/login')
-    }
-    return children
+    useMemo(() => {
+        console.log(auth.user.userId)
+        console.log(auth.user.firstName)
+        if (auth.user.userId === -1) {
+            navigate('/login')
+        }
+    }, [auth])
+    
+    return (
+        <Outlet/>
+    )
 }
+
 export type RegisterRequest = {
     firstName: string
     lastName: string

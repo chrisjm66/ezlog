@@ -10,7 +10,7 @@ const AccountDropdown = (): ReactElement<any> => {
     return (
         <div className="flex-row flex items-center gap-x-10 absolute right-10">
             <Icon icon="mdi:person" width={50} className="text-white text-3xl"/>
-            <h1 className="text-white font-semibold text-3xl">{`${user.firstName} ${user.lastName}`}</h1>
+            <h1 className="text-white font-semibold text-3xl">{`${user.userId} ${user.firstName} ${user.lastName}`}</h1>
             <button type='button' className="text-white text-3xl" onClick={logout}>
                 Log Out
             </button>
