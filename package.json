@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "homepage": "/",
-  "proxy": "localhost:8100",
+  "proxy": "https://ezlog.chrismangan.net",
   "scripts": {
     "dev": "vite",
     "dev-server": "tsx watch ./index.ts",
