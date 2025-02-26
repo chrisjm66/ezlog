@@ -15,6 +15,7 @@ export const setAuthSesionCookie = (req: Request, res: Response, next: NextFunct
     }
     res.json(res.locals.user)
     res.status(200)
+    next()
 }
 
 export const clearAuthSessionCookie = (req: Request, res: Response, next: NextFunction) => {
