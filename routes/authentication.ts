@@ -1,11 +1,30 @@
 import express, {NextFunction, Request, Response} from 'express'
 import {type RegisterRequest, type LoginRequest, userExists, isRegristrationInputValid, createUser, validateUser, getUser, getUserByEmail, UserModel} from '../models/authModel.ts'
-import { createWebSession, generateSessionToken, setSessionToken } from '../models/session.ts'
-import cors from 'cors'
+import { createWebSession, generateSessionToken, validateSession, invalidateSession } from '../models/session.ts'
+import { setAuthSesionCookie, clearAuthSessionCookie } from '../middlewares/auth.ts'
+
 const router = express.Router()
 
-router.use(cors())
+router.get('/validate', async(req: Request, res: Response, next: NextFunction): Promise<any> => {
+    const token = req.cookies.auth
 
+    if (!token) {
+        return res.status(401).send()
+    }
+
+    const {session, user} = await validateSession(token)
+
+    if (!session || !user) {
+        return res.status(401).send()
+    }
+
+    res.locals.sessionToken = token
+    res.locals.session = session
+    res.locals.user = user
+    next()
+}, setAuthSesionCookie)
+
+// login request
 router.post('/login', async(req: Request, res: Response, next: NextFunction): Promise<any> => {
     const userData: LoginRequest = req.body
 
@@ -18,17 +37,34 @@ router.post('/login', async(req: Request, res: Response, next: NextFunction): Pr
         const userId: number = user?.userId
     
         const sessionToken: string = generateSessionToken()
-        const session = await createWebSession(sessionToken, user?.userId)
+        const session = await createWebSession(sessionToken, userId)
         
         // pass to middleware
         res.locals.sessionToken = sessionToken
         res.locals.session = session
+        res.locals.user = user
         next()
     } else {
         return res.status(500).send().end()
     }
-}, setSessionToken)
+}, setAuthSesionCookie)
 
+// logout request
+router.post('/logout', async(req: Request, res: Response, next: NextFunction): Promise<any> => {
+    const userData: UserModel = req.body
+
+    if(!userData) {
+        return res.status(401).send().end()
+    }
+
+    const sessionToken: string = req.cookies.auth
+    console.log(sessionToken)
+    await invalidateSession(sessionToken)
+    
+    next()
+}, clearAuthSessionCookie)
+
+// register request
 router.post('/register', async(req: Request, res: Response, next: NextFunction) => {
     const userData: RegisterRequest = req.body
 
@@ -52,7 +88,7 @@ router.post('/register', async(req: Request, res: Response, next: NextFunction) 
     res.locals.sessionToken = sessionToken
     res.locals.session = session
     next()
-}, setSessionToken)
+}, setAuthSesionCookie)
 
 
 export default router

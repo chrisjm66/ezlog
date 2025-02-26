@@ -5,6 +5,8 @@
   --color-ezred: #d34848;
   --color-ezblue: #5296f0;
   --color-ezgray: #adadad;
+
+  --font-display: 'Times New Roman', sans-serif;
 }
 
 @layer base {

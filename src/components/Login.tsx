@@ -19,8 +19,8 @@ const Login = (): ReactElement => {
             email: formData.get('email'),
             password: formData.get('password')
         }
-        
-        if (!auth.user) {
+
+        if (auth.user.userId === -1) {
             auth.login(userData)
         }  
     }

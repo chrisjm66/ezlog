@@ -1,16 +1,18 @@
-import { createHash, randomBytes } from "crypto"
+import crypto from "crypto"
 import { getUser, UserModel } from "./authModel"
-import { Session, User } from "@prisma/client"
+import { Session } from "@prisma/client"
 import prisma from "../middlewares/db"
-import { NextFunction, Request, Response } from "express"
 
+// Thanks a lot to lucia-auth for the great resources to make these 2 functions.
 const generateSessionHash = (input: string): string => {
-    return createHash('sha256').update(input).digest("hex")
+    if (!input) {
+        return ''
+    }
+    return crypto.createHash('sha256').update(input).digest("hex")
 }
 
 export const generateSessionToken = () => {
-    // this is the token given to the user
-    const token = randomBytes(20).toString()
+    const token = crypto.randomBytes(20).toString()
     return token
 }
 
@@ -71,13 +73,15 @@ export const validateSession = async(token: string): Promise<SessionResult> => {
     return {session: session, user: user}
 }
 
-export const invalidateSession = async(sessionId: string): Promise<void> => {
-    await prisma.session.delete({
+export const invalidateSession = async(token: string): Promise<void> => {
+    const sessionId: string = generateSessionHash(token)
+    await prisma.session.deleteMany({
         where: {
             session_id: sessionId
         }
     })
 }
+
 
 export const invalidateAllSessions = async(userId: number): Promise<void> => {
     await prisma.session.deleteMany({
@@ -87,19 +91,4 @@ export const invalidateAllSessions = async(userId: number): Promise<void> => {
     })
 }
 
-export const setSessionToken = (req: Request, res: Response, next: NextFunction) => {
-    const token = res.locals.sessionToken
-    const session: Session = res.locals.session
-
-    if (process.env.NODE_ENV === 'production') {
-        // When deployed over HTTPS
-        res.cookie('auth', token, {httpOnly: true, sameSite: "lax", expires: session.expires, path: '/', secure: true})
-    } else {
-        // When deployed over HTTP (localhost)
-        res.cookie('auth', token, {httpOnly: true, sameSite: "lax", expires: session.expires, path: '/', secure: false})
-
-    }
-    
-    res.status(200).send()
-}
 type SessionResult = {session: Session, user: UserModel } | {session: null, user: null}
