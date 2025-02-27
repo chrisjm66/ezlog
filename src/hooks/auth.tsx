@@ -79,7 +79,7 @@ const useAuthActions = () => {
 export const ProvideAuth = ({children}: any) => {
     const auth: any = useAuthActions()
 
-    useEffect(() => auth.validate, [])
+    useEffect(() => auth.validate, [auth.user])
     return (
         <AuthContext.Provider value={auth}>
             {children}
@@ -91,7 +91,7 @@ export const ProtectedRoute = () => {
     const auth = useAuth()
     const navigate: NavigateFunction = useNavigate()
 
-    useMemo(() => {
+    useEffect(() => {
         if (auth.user.userId === -1) {
             navigate('/login')
         }
