@@ -23,7 +23,7 @@ const Signup = (): ReactElement => {
             confirmPassword: formData.get('confirmPassword')
         }
         
-        if (!auth.user) {
+        if (!auth.userId !== -1) {
             auth.signup(userData)
         }  
     }
