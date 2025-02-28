@@ -8,9 +8,6 @@ const Signup = (): ReactElement => {
     const auth = useAuth()
     const status = useFormStatus()
     const [formValid, setFormValid] = useState(true)
-    const handleChange = (e) => {
-        
-    }
 
     const handleSubmit = async(e) => {
         e.preventDefault()

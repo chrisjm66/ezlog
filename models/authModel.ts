@@ -26,7 +26,7 @@ export const isRegristrationInputValid = (userData: RegisterRequest): boolean =>
     }
 }
 
-export const createUser = async(userData: RegisterRequest): Promise<number> => {
+export const createUser = async(userData: RegisterRequest): Promise<UserModel> => {
     const hashedPassword: string = await generateHash(userData.password)
 
     const newUser: User = await prisma.user.create({
@@ -38,9 +38,16 @@ export const createUser = async(userData: RegisterRequest): Promise<number> => {
         }
     })
 
+    const newUserModel: UserModel = {
+        firstName: newUser.first_name,
+        lastName: newUser.last_name,
+        email: newUser.email,
+        userId: newUser.user_id
+    }
+
     if (!newUser) { throw new Error('Error generating new user.') }
 
-    return newUser.user_id
+    return newUserModel
 }
 
 export const getUser = async(userId: number): Promise<UserModel | null> => {

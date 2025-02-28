@@ -2,8 +2,8 @@ import { createContext, ReactElement, useMemo, useContext, useEffect, useState }
 import { NavigateFunction, Outlet, useNavigate } from "react-router-dom"
 import axios from "axios"
 
-const AuthContext: React.Context<any> = createContext({})
-const useAuth = () => useContext(AuthContext)
+const AuthContext = createContext({})
+const useAuth = (): any => useContext(AuthContext)
 
 
 // logic for the context provider
@@ -29,7 +29,7 @@ const useAuthActions = () => {
 
         console.log(response.status)
         console.log(response.statusText)
-
+        console.log( response.data)
         if (response.status == 200) {
             setUser(response.data)
             return navigate('/dashboard')
@@ -43,10 +43,7 @@ const useAuthActions = () => {
                 'Content-Type': 'application/json'
             }
         })
-
-        console.log(response)
-        console.log(response.statusText)
-
+       
         if (response.status == 200) {
             setUser(response.data)
             return navigate('/dashboard')
@@ -55,31 +52,32 @@ const useAuthActions = () => {
 
     const logout = async(): Promise<void> => {
         const response = await axios.post("/api/auth/logout", user)
-
+        
         if (response.status == 200) {
             setUser(defaultUser)
             return navigate('/')
         }
 
     }
-    const validate = (): void => {
-        axios.get("/api/auth/validate")
-        .then(response => {
-            console.log(response)
-            setUser(response.data)
-        })
-        .catch(error => {
-            console.log(error)
-        })
+    const validate = async(): Promise<void> => {
+        const response = await axios.get("/api/auth/validate")
+
+        if (response) {
+            return setUser(response.data)
+        } else {
+            console.error('Server returned null value while validating user')
+            return
+        }
+            
     }
     return {user, signup, login, validate, logout}
 }
 
 // creates a wrapper for the rest of the app
-export const ProvideAuth = ({children}: any) => {
-    const auth: any = useAuthActions()
+export const ProvideAuth = ({children}): ReactElement => {
+    const auth = useAuthActions()
 
-    useEffect(() => auth.validate, [])
+    useMemo(() => auth.validate, [auth])
     return (
         <AuthContext.Provider value={auth}>
             {children}
@@ -87,15 +85,15 @@ export const ProvideAuth = ({children}: any) => {
     )
 }
 
-export const ProtectedRoute = () => {
-    const auth = useAuth()
+export const ProtectedRoute = (): ReactElement => {
+    const auth: any = useAuth()
     const navigate: NavigateFunction = useNavigate()
 
-    useMemo(() => {
+    useEffect(() => {
         if (auth.user.userId === -1) {
             navigate('/login')
         }
-    }, [auth])
+    }, [auth.user, navigate])
     
     return (
         <Outlet/>
@@ -120,6 +118,14 @@ export type UserModel = {
     lastName: string
     email: string
     userId: number
+}
+
+export type AuthActions = {
+    user: UserModel
+    signup: (userData: RegisterRequest) => void
+    login: (userData: LoginRequest) => void
+    validate: () => void
+    logout: () => void
 }
 
 export default useAuth
