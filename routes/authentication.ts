@@ -1,5 +1,5 @@
 import express, {NextFunction, Request, Response} from 'express'
-import {type RegisterRequest, type LoginRequest, userExists, isRegristrationInputValid, createUser, validateUser, getUser, getUserByEmail, UserModel} from '../models/authModel.ts'
+import {type RegisterRequest, type LoginRequest, userExists, isRegristrationInputValid, createUser, validateUser, getUserByEmail, UserModel} from '../models/authModel.ts'
 import { createWebSession, generateSessionToken, validateSession, invalidateSession } from '../models/session.ts'
 import { setAuthSesionCookie, clearAuthSessionCookie } from '../middlewares/auth.ts'
 
@@ -80,13 +80,14 @@ router.post('/register', async(req: Request, res: Response, next: NextFunction) 
     }
 
     // create user and session
-    const userId: number = await createUser(userData)
+    const user: UserModel = await createUser(userData)
     const sessionToken: string = generateSessionToken()
-    const session = await createWebSession(sessionToken, userId)
+    const session = await createWebSession(sessionToken, user.userId)
 
     // pass to middleware
     res.locals.sessionToken = sessionToken
     res.locals.session = session
+    res.locals.user = user
     next()
 }, setAuthSesionCookie)
 

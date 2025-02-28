@@ -1,14 +1,14 @@
 import { ReactElement } from "react"
 import logo from "../assets/ezlog-full-white.png"
 import { Link, NavLink } from "react-router-dom"
-import useAuth, { UserModel } from "../hooks/auth"
+import useAuth from "../hooks/auth"
 import { Icon } from "@iconify/react/dist/iconify.js"
 
-const styleNavLink = ({isActive, isPending}: any): string => {
+const styleNavLink = ({isActive}: any): string => {
     return "text-3xl transition transition-all hover:text-green-200 " + (isActive ? "text-amber-200" : "text-white")
 }
 
-const AccountDropdown = (): ReactElement<any> => {
+const AccountDropdown = (): ReactElement => {
     const {user, logout} = useAuth()
 
     return (
@@ -33,6 +33,7 @@ const InitialUserOptions = (): ReactElement => {
     return (
         <div className="flex-row flex gap-x-10 absolute right-10">
             <NavLink to='/login' className={styleNavLink}>
+            
                     Log In
             </NavLink>
 
@@ -50,7 +51,7 @@ const Navbar = (): ReactElement => {
             <Link to='/' className="h-full p-2">
                 <img src={logo} alt='logo' className="h-full"/>
             </Link>
-
+            
             {user.userId === -1 ? <InitialUserOptions/> : <AccountDropdown/>}
         </div>
     )
