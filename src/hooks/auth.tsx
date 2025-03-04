@@ -49,21 +49,28 @@ const useAuthActions = () => {
     const logout = async(): Promise<void> => {
         const response = await axios.post("/api/auth/logout", user)
         
+        
         if (response.status == 200) {
             setUser(defaultUser)
             return navigate('/')
         }
 
     }
-    const validate = (): void => {
-        axios.get("/api/auth/validate")
-        .then(response => {
-            console.log(response)
-            setUser(response.data)
+    const validate = async(): Promise<any> => {
+        axios.get("/api/auth/validate").then((response: AxiosResponse) => {
+            setLoading(false)
+            if (response.status == 200) {
+                return setUser(response.data)
+            } else {
+                return console.error('Server returned null value while validating user')
+            }
+        }).catch((err) => {
+            setLoading(false)
+            console.error(err)
         })
-        .catch(error => {
-            console.log(error)
-        })
+        
+        
+            
     }
     return {user, signup, login, validate, logout, loading, setLoading}
 }
@@ -72,7 +79,10 @@ const useAuthActions = () => {
 export const ProvideAuth = ({children}): ReactElement => {
     const auth = useAuthActions()
 
-    useEffect(() => auth.validate, [])
+    useEffect(() => {
+        auth.validate()
+    }, [])
+    
     return (
         <AuthContext.Provider value={auth}>
             {children}
@@ -84,11 +94,11 @@ export const ProtectedRoute = (): ReactElement => {
     const auth: any = useAuth()
     const navigate: NavigateFunction = useNavigate()
 
-    useMemo(() => {
-        if (auth.user.userId === -1) {
+    useEffect(() => {
+        if (!auth.loading && auth.user.userId === -1) {
             navigate('/login')
         }
-    }, [auth])
+    }, [auth.loading, auth.user.userId, navigate])
     
     return (
         <Outlet/>
