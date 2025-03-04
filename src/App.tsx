@@ -1,5 +1,5 @@
 import './App.css'
-import { ReactElement, useState } from 'react'
+import { ReactElement } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ProtectedRoute, ProvideAuth } from './hooks/auth'
 import Layout from './components/Layout'
@@ -8,6 +8,7 @@ import NotFound from './components/NotFound'
 import Login from './components/Login'
 import Signup from './components/Signup'
 import Dashboard from './components/Dashboard'
+import CreateLogbookEntry from './components/CreateLogbookEntry'
 
 const App = (): ReactElement => {
   return (
@@ -22,7 +23,14 @@ const App = (): ReactElement => {
 
             <Route path='/dashboard' element={<ProtectedRoute/>}>
               <Route index element={<Dashboard/>}/>
+              <Route path='/dashboard/logbook'>
+                <Route index element={<div>Logbook</div>}/>
+                <Route path='/dashboard/logbook/create' element={<CreateLogbookEntry/>}/>
+                
             </Route>
+            </Route>
+
+            
           </Route>
           <Route path="*" element={<NotFound/>}/>
         </Routes>

@@ -5,7 +5,7 @@ import useAuth from "../hooks/auth"
 import { Icon } from "@iconify/react/dist/iconify.js"
 
 const styleNavLink = ({isActive}: any): string => {
-    return "text-3xl transition transition-all hover:text-green-200 " + (isActive ? "text-amber-200" : "text-white")
+    return "text-2xl transition transition-all hover:text-green-200 " + (isActive ? "text-amber-200" : "text-white")
 }
 
 const AccountDropdown = (): ReactElement => {
@@ -13,16 +13,22 @@ const AccountDropdown = (): ReactElement => {
 
     return (
         <div className="flex-row flex items-center gap-x-10 absolute right-10">
+            
+
             <NavLink to='/dashboard' className={styleNavLink}>
                     Dashboard
             </NavLink>
 
+            <NavLink to='/dashboard/logbook' className={styleNavLink}>
+                    Logbook
+            </NavLink>
+
             <div className='flex flex-row items-center gap-x-4'>
-                <Icon icon="mdi:person" width={50} className="text-white text-3xl"/>
-                <h1 className="text-white font-semibold text-3xl">{`${user.firstName} ${user.lastName}`}</h1>
+                <Icon icon="mdi:person" width={40} className="text-white text-2xl"/>
+                <h1 className="text-white font-semibold text-2xl">{`${user.firstName} ${user.lastName}`}</h1>
             </div>
             
-            <NavLink to='/' className="text-white text-3xl" onClick={logout}>
+            <NavLink to='/' className="text-white text-2xl" onClick={logout}>
                 Log Out
             </NavLink>
         </div>
@@ -47,7 +53,7 @@ const InitialUserOptions = (): ReactElement => {
 const Navbar = (): ReactElement => {
     const {user} = useAuth()
     return (
-        <div id="navbar" className="bg-ezblue w-screen h-20 flex justify-left items-center relative z-20">
+        <div id="navbar" className="bg-ezblue w-screen h-15 flex justify-left items-center relative z-20">
             <Link to='/' className="h-full p-2">
                 <img src={logo} alt='logo' className="h-full"/>
             </Link>
