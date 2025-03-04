@@ -6,6 +6,7 @@ import { setAuthSesionCookie, clearAuthSessionCookie } from '../middlewares/auth
 const router = express.Router()
 
 router.get('/validate', async(req: Request, res: Response, next: NextFunction): Promise<any> => {
+    console.log('Validating session')
     const token = req.cookies.auth
 
     if (!token) {

@@ -1,15 +1,14 @@
-import { createContext, ReactElement, useMemo, useContext, useEffect, useState } from "react"
+import { createContext, ReactElement, useContext, useEffect, useMemo, useState } from "react"
 import { NavigateFunction, Outlet, useNavigate } from "react-router-dom"
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 
 const AuthContext = createContext({})
 const useAuth = (): any => useContext(AuthContext)
 
-
 // logic for the context provider
 const useAuthActions = () => {
     const navigate: NavigateFunction = useNavigate()
-
+    const [loading, setLoading] = useState(true)
     const defaultUser: UserModel = {
         firstName: "",
         lastName: "",
@@ -27,9 +26,6 @@ const useAuthActions = () => {
             }
         })
 
-        console.log(response.status)
-        console.log(response.statusText)
-        console.log( response.data)
         if (response.status == 200) {
             setUser(response.data)
             return navigate('/dashboard')
@@ -43,7 +39,7 @@ const useAuthActions = () => {
                 'Content-Type': 'application/json'
             }
         })
-       
+
         if (response.status == 200) {
             setUser(response.data)
             return navigate('/dashboard')
@@ -53,31 +49,40 @@ const useAuthActions = () => {
     const logout = async(): Promise<void> => {
         const response = await axios.post("/api/auth/logout", user)
         
+        
         if (response.status == 200) {
             setUser(defaultUser)
             return navigate('/')
         }
 
     }
-    const validate = async(): Promise<void> => {
-        const response = await axios.get("/api/auth/validate")
-
-        if (response) {
-            return setUser(response.data)
-        } else {
-            console.error('Server returned null value while validating user')
-            return
-        }
+    const validate = async(): Promise<any> => {
+        axios.get("/api/auth/validate").then((response: AxiosResponse) => {
+            setLoading(false)
+            if (response.status == 200) {
+                return setUser(response.data)
+            } else {
+                return console.error('Server returned null value while validating user')
+            }
+        }).catch((err) => {
+            setLoading(false)
+            console.error(err)
+        })
+        
+        
             
     }
-    return {user, signup, login, validate, logout}
+    return {user, signup, login, validate, logout, loading, setLoading}
 }
 
 // creates a wrapper for the rest of the app
 export const ProvideAuth = ({children}): ReactElement => {
     const auth = useAuthActions()
 
-    useMemo(() => auth.validate, [auth])
+    useEffect(() => {
+        auth.validate()
+    }, [])
+    
     return (
         <AuthContext.Provider value={auth}>
             {children}
@@ -90,13 +95,14 @@ export const ProtectedRoute = (): ReactElement => {
     const navigate: NavigateFunction = useNavigate()
 
     useEffect(() => {
-        if (auth.user.userId === -1) {
+        if (!auth.loading && auth.user.userId === -1) {
             navigate('/login')
         }
-    }, [auth.user, navigate])
+    }, [auth.loading, auth.user.userId, navigate])
     
     return (
         <Outlet/>
+        
     )
 }
 
