@@ -100,6 +100,10 @@ export const ProtectedRoute = (): ReactElement => {
         }
     }, [auth.loading, auth.user.userId, navigate])
     
+    if (auth.loading) {
+        return <></>
+    }
+    
     return (
         <Outlet/>
         
