@@ -1,7 +1,18 @@
 import { Request, Response, NextFunction } from 'express'
 import { Session } from "@prisma/client"
+import { validateSession } from '../models/session'
 
-export const setAuthSesionCookie = (req: Request, res: Response, next: NextFunction) => {
+export const populateUserInfo = async(req: Request, res: Response, next: NextFunction) => {
+    const token = req.cookies.auth
+    const {session, user} = await validateSession(token)
+    
+    res.locals.session = session
+    res.locals.user = user
+
+    next()
+}
+
+export const setAuthSesionCookie = async(req: Request, res: Response): Promise<any> => {
     const token = res.locals.sessionToken
     const session: Session = res.locals.session
 
@@ -13,9 +24,7 @@ export const setAuthSesionCookie = (req: Request, res: Response, next: NextFunct
         res.cookie('auth', token, {httpOnly: true, sameSite: "lax", expires: session.expires, path: '/', secure: false})
 
     }
-    res.json(res.locals.user)
-    res.status(200)
-    next()
+    return res.json(res.locals.user)
 }
 
 export const clearAuthSessionCookie = (req: Request, res: Response, next: NextFunction) => {
@@ -28,6 +37,5 @@ export const clearAuthSessionCookie = (req: Request, res: Response, next: NextFu
 
     }
 
-    res.status(200).send()
     next()
 }

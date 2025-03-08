@@ -9,13 +9,13 @@ router.get('/validate', async(req: Request, res: Response, next: NextFunction): 
     const token = req.cookies.auth
 
     if (!token) {
-        return res.status(401).send()
+        return res.status(401).send().end()
     }
 
     const {session, user} = await validateSession(token)
 
     if (!session || !user) {
-        return res.status(401).send()
+        return res.status(401).send().end()
     }
 
     res.locals.sessionToken = token

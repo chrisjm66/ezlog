@@ -1,30 +1,68 @@
-import { ReactElement } from "react"
+import { ReactElement, useState } from "react"
+import type { LogbookEntry } from "../hooks/logbook"
+import axios from 'axios'
 import NumberInputComponent from "../components/NumberInputComponent"
 import TextInputComponent from "../components/TextInputComponent"
 import CheckboxComponent from "../components/CheckboxInputComponent"
 
 const INPUT_CLASSNAME = 'px-2 py-1 w-full bg-white rounded-sm border-1 font-bold text-xl text-ezblue'
 const LABEL_CLASSNAME = 'text-xl mb-2'
+const INITIAL_STATE: LogbookEntry = {
+            date: new Date().toISOString().slice(0,10),
+            totalTime: 0,
+            pic: 0,
+            sic: 0,
+            crossCountry: 0,
+            simImc: 0,
+            actImc: 0,
+            night: 0,
+            dayLandings: 0,
+            nightLandings: 0,
+            totalLandings: 0,
+            holding: 0,
+            approaches: 0,
+            dualGiven: 0,
+            dualRecieved: 0,
+            route: '',
+            ipc: false,
+            checkride: false,
+            flightReview: false
+}
 
 const CreateLogbookEntry = (): ReactElement => {
-    
+    const [values, setValues] = useState(INITIAL_STATE)
+    const [submitActive, setSubmitActive] = useState(false)
 
-    const handleChange = () => {
+    // onChange
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValues({ ...values, [event.target.name]: 
+        event.target.value });
+        console.log(values)
+    };
 
+    const submitForm = async(form) => {
+        if (!submitActive) {
+            setSubmitActive(true)
+            form.preventDefault()
+
+            await axios.post('/api/logbook', values)
+            setSubmitActive(false)
+        }
+        
     }
 
     return (
             <div className="flex flex-col justify-evenly items-center p-2">
                 <h1 className="text-2xl font-bold w-full mb-5">Create Logbook Entry</h1>
 
-                <form className="w-screen flex flex-wrap gap-y-10 justify-center mb-10" onChange={handleChange}>
+                <form className="w-screen flex flex-wrap gap-y-10 justify-center mb-10" onChange={handleChange} onSubmit={submitForm}>
                     <div className="flex flex-wrap justify-left border-2 border-ezgray bg-gray-200 p-5 rounded-xl gap-x-5 gap-y-1 w-3/4 h-3/4">
                         {/* general info page */}
                         <h1 className="text-xl font-bold w-full mb-5">GENERAL INFO</h1>
 
                         <div className="flex flex-col w-40">
                             <label className={LABEL_CLASSNAME}>Date</label>
-                            <input name='date' type="date" placeholder="today" className={INPUT_CLASSNAME}/>
+                            <input name='date' type="date" defaultValue={values.date} className={INPUT_CLASSNAME}/>
                         </div>
 
                         <div className="flex flex-col w-64">
@@ -68,8 +106,8 @@ const CreateLogbookEntry = (): ReactElement => {
                     <div className="flex flex-wrap justify-left border-2 border-ezgray bg-gray-200 p-5 rounded-xl gap-x-5 gap-y-2 w-3/4 h-3/4">
                         <h1 className="text-xl font-bold w-full mb-2">INSTRUMENT</h1>
             
-                        <NumberInputComponent title='Simulated IMC' formName='sim'/>
-                        <NumberInputComponent title='Actual IMC' formName='imc'/>
+                        <NumberInputComponent title='Simulated IMC' formName='simImc'/>
+                        <NumberInputComponent title='Actual IMC' formName='actImc'/>
                         <NumberInputComponent int buttonHidden title='Approaches' formName='numApproaches'/>
                         <TextInputComponent extended title='Approach Names' formName='approachNames'/>
 
@@ -114,13 +152,13 @@ const CreateLogbookEntry = (): ReactElement => {
                         <div className="w-full my-2"/>
                         <div className="w-1/3 ml-10">
                             <label htmlFor='remarks' className={LABEL_CLASSNAME}>Remarks</label>
-                            <textarea name='remarks' className='mt-2 px-2 py-1 w-120 h-56 bg-white rounded-sm border-1 text-md text-ezblue resiz'></textarea>
+                            <textarea name='remarks' placeholder="Enter remarks here" className='mt-2 px-2 py-1 w-120 h-56 bg-white rounded-sm border-1 text-md text-ezblue resiz'></textarea>
                         </div>
                         
 
                         <div className='absolute right-5 bottom-5 flex flex-col gap-y-2'>
                             <button className='border-2 border-ezgray bg-ezgray text-white font-bold text-xl p-2 rounded-md transition-all hover:border-gray-800'>Verify Times</button>
-                            <button className='border-2 border-ezblue bg-ezblue text-white font-bold text-xl p-2 rounded-md transition-all hover:border-gray-800'>Submit</button>
+                            <button disabled={submitActive} className='border-2 border-ezblue bg-ezblue text-white font-bold text-xl p-2 rounded-md transition-all hover:border-gray-800'>Submit</button>
                         </div>
                     </div>
                 </form>
@@ -128,5 +166,6 @@ const CreateLogbookEntry = (): ReactElement => {
         
     )
 }
+
 
 export default CreateLogbookEntry

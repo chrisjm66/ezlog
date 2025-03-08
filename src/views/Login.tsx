@@ -1,12 +1,10 @@
 //@ts-nocheck
 import { ReactElement, useState } from "react"
 import { Link, redirect } from "react-router-dom"
-import { useFormStatus } from "react-dom"
 import useAuth, { LoginRequest } from "../hooks/auth"
 
 const Login = (): ReactElement => {
     const auth = useAuth()
-    const status = useFormStatus()
     const [formValid, setFormValid] = useState(true)
     const handleChange = (e) => {
         

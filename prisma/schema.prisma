@@ -52,31 +52,30 @@ model Instructor {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model LogbookEntry {
-  logbook_entry_id     Int      @id @default(autoincrement()) @db.UnsignedInt
-  aircraft_id          Int      @db.UnsignedInt
-  total_time           Decimal  @default(0.00) @db.Decimal(4, 2)
+  logbook_entry_id     Int      @id @default(autoincrement()) @db.UnsignedInt @map("logbookEntryId")
+  aircraft_id          Int      @db.UnsignedInt @map("aircraftId")
+  total_time           Decimal  @default(0.00) @db.Decimal(4, 2) @map("totalTime")
   pic                  Decimal  @default(0.00) @db.Decimal(4, 2)
   sic                  Decimal  @default(0.00) @db.Decimal(4, 2)
-  cross_country        Decimal  @default(0.00) @db.Decimal(4, 2)
-  sim_imc              Decimal  @default(0.00) @db.Decimal(4, 2)
-  actual_imc           Decimal  @default(0.00) @db.Decimal(4, 2)
+  cross_country        Decimal  @default(0.00) @db.Decimal(4, 2) @map("crossCountry")
+  sim_imc              Decimal  @default(0.00) @db.Decimal(4, 2) @map("simImc")
+  actual_imc           Decimal  @default(0.00) @db.Decimal(4, 2) @map("actualImc")
   night                Decimal  @default(0.00) @db.Decimal(4, 2)
-  day_takeoffs         Int      @default(0) @db.UnsignedInt
-  day_landings         Int      @default(0) @db.UnsignedInt
-  night_takeoffs       Int      @default(0) @db.UnsignedInt
-  night_landings       Int      @default(0) @db.UnsignedInt
+  day_landings         Int      @default(0) @db.UnsignedInt @map("dayLandings")
+  total_landings       Int?     @default(0) @db.UnsignedInt @map("totalLandings")
+  night_landings       Int      @default(0) @db.UnsignedInt @map("nightLandings")
   holding              Int      @default(0) @db.TinyInt
   approaches           Int      @default(0) @db.UnsignedInt
-  dual_given           Decimal  @default(0.00) @db.Decimal(4, 2)
-  dual_recieved        Decimal  @default(0.00) @db.Decimal(4, 2)
+  dual_given           Decimal  @default(0.00) @db.Decimal(4, 2) @map("dualRecieved")
+  dual_recieved        Decimal  @default(0.00) @db.Decimal(4, 2) @map("dualGiven")
   route                String   @db.VarChar(300)
   ipc                  Int      @default(0) @db.TinyInt
   checkride            Int      @default(0) @db.TinyInt
-  flight_review        Int      @default(0) @db.TinyInt
-  user_id              Int      @db.UnsignedInt
-  instructor_signature Bytes?   @db.Blob
-  instructor_id        Int?     @db.UnsignedInt
-  date                 DateTime @db.Date
+  flight_review        Int      @default(0) @db.TinyInt @map("flightReview")
+  user_id              Int      @db.UnsignedInt @map("userId")
+  instructor_signature Bytes?   @db.Blob @map("instructorSignature")
+  instructor_id        Int?     @db.UnsignedInt @map("instructorId")
+  date                 DateTime @db.Date @map("date")
 
   @@index([aircraft_id], map: "logbook_entries_aircraft_aircraft_id_fk")
   @@index([date, user_id], map: "logbook_entries_date")
@@ -102,25 +101,4 @@ model User {
   email      String @db.VarChar(100)
 
   @@map("users")
-}
-
-model mytable {
-  id                Int     @id
-  ident             String  @db.VarChar(7)
-  type              String  @db.VarChar(14)
-  name              String  @db.VarChar(108)
-  latitude_deg      Decimal @db.Decimal(21, 18)
-  longitude_deg     Decimal @db.Decimal(22, 18)
-  elevation_ft      Int?
-  continent         String  @db.VarChar(2)
-  iso_country       String  @db.VarChar(2)
-  iso_region        String  @db.VarChar(7)
-  municipality      String? @db.VarChar(61)
-  scheduled_service String  @db.VarChar(3)
-  gps_code          String? @db.VarChar(4)
-  iata_code         String? @db.VarChar(3)
-  local_code        String? @db.VarChar(7)
-  home_link         String? @db.VarChar(128)
-  wikipedia_link    String? @db.VarChar(128)
-  keywords          String? @db.VarChar(256)
 }

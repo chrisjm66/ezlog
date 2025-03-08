@@ -35,7 +35,7 @@ export const createWebSession = async(token: string, userId: number): Promise<Se
 
 export const validateSession = async(token: string): Promise<SessionResult> => {
     // get session id hash, which is what stored in DB
-    let sessionId: string = generateSessionHash(token)
+    const sessionId: string = generateSessionHash(token)
 
     // get session and user, make sure they exist
     const session: Session | null = await prisma.session.findUnique({
