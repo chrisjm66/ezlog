@@ -2,6 +2,7 @@
 
 
 export type LogbookEntry = {
+  aircraftId: number
   date: string
   totalTime: number
   pic: number

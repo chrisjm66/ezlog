@@ -8,7 +8,8 @@ import CheckboxComponent from "../components/CheckboxInputComponent"
 const INPUT_CLASSNAME = 'px-2 py-1 w-full bg-white rounded-sm border-1 font-bold text-xl text-ezblue'
 const LABEL_CLASSNAME = 'text-xl mb-2'
 const INITIAL_STATE: LogbookEntry = {
-            date: new Date().toISOString().slice(0,10),
+            date: new Date().toISOString(),
+            aircraftId: -1,
             totalTime: 0,
             pic: 0,
             sic: 0,
@@ -67,13 +68,10 @@ const CreateLogbookEntry = (): ReactElement => {
 
                         <div className="flex flex-col w-64">
                             <label className={LABEL_CLASSNAME}>Aircraft</label>
-                            <select className='bg-white px-2 py-1 font-bold text-ezblue rounded-sm w-full border-1 border-ezblue'>
-                                <option>
+                            <select required name='aircraftId' className='bg-white px-2 py-1 font-bold text-ezblue rounded-sm w-full border-1 border-ezblue'>
+                                <option value={1}>
                                     N41JA (P28A)
                                 </option>
-                                <option>EUR</option>
-                                <option>JPY</option>
-                                <option>GBP</option>
                             </select>
                         </div>
                         
