@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Aircraft {
-  aircraft_id      Int     @id @db.UnsignedInt
+  aircraft_id      Int     @id @default(autoincrement()) @db.UnsignedInt
   tail_number      String? @db.VarChar(20)
   description      String? @db.VarChar(500)
   make             String? @db.VarChar(50)
@@ -57,7 +57,7 @@ model LogbookEntry {
   total_time           Decimal  @default(0.00) @db.Decimal(4, 2)
   pic                  Decimal  @default(0.00) @db.Decimal(4, 2)
   sic                  Decimal  @default(0.00) @db.Decimal(4, 2)
-  cross_country        Decimal  @default(0.00) @db.Decimal(4, 2) 
+  cross_country        Decimal  @default(0.00) @db.Decimal(4, 2)
   sim_imc              Decimal  @default(0.00) @db.Decimal(4, 2)
   actual_imc           Decimal  @default(0.00) @db.Decimal(4, 2)
   night                Decimal  @default(0.00) @db.Decimal(4, 2)
@@ -74,7 +74,7 @@ model LogbookEntry {
   flight_review        Int      @default(0) @db.TinyInt
   user_id              Int      @db.UnsignedInt
   instructor_signature Bytes?   @db.Blob
-  instructor_id        Int?     @db.UnsignedInt 
+  instructor_id        Int?     @db.UnsignedInt
   date                 DateTime @db.Date
 
   @@index([aircraft_id], map: "logbook_entries_aircraft_aircraft_id_fk")
