@@ -9,7 +9,11 @@ const router = express.Router()
 router.use(populateUserInfo)
 
 // get logbook data
-router.post('/', async(req: Request, res: Response, next: NextFunction): Promise<any> => {
+router.get('/', async(req: Request, res: Response) => {
+    
+})
+
+router.post('/', async(req: Request, res: Response): Promise<any> => {
     const body: LogbookEntry = req.body
     const user: UserModel = res.locals.user
 
@@ -42,7 +46,7 @@ router.post('/', async(req: Request, res: Response, next: NextFunction): Promise
                 flight_review: body.flightReview ? 1 : 0
     
                 /*
-    pic                  Decimal  @default(0.00) @db.Decimal(4, 2)
+                pic                  Decimal  @default(0.00) @db.Decimal(4, 2)
                 sic                  Decimal  @default(0.00) @db.Decimal(4, 2)
                 cross_country        Decimal  @default(0.00) @db.Decimal(4, 2) @map("crossCountry")
                 sim_imc              Decimal  @default(0.00) @db.Decimal(4, 2) @map("simImc")

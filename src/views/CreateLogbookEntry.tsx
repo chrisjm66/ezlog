@@ -1,10 +1,11 @@
 import { ReactElement, useState } from "react"
 import type { LogbookEntry } from "../hooks/logbook"
 import axios from 'axios'
+import Modal from "../components/Modal"
 import NumberInputComponent from "../components/NumberInputComponent"
 import TextInputComponent from "../components/TextInputComponent"
 import CheckboxComponent from "../components/CheckboxInputComponent"
-
+import obama from '../../public/obama.jpg'
 const INPUT_CLASSNAME = 'px-2 py-1 w-full bg-white rounded-sm border-1 font-bold text-xl text-ezblue'
 const LABEL_CLASSNAME = 'text-xl mb-2'
 const INITIAL_STATE: LogbookEntry = {
@@ -33,6 +34,7 @@ const INITIAL_STATE: LogbookEntry = {
 const CreateLogbookEntry = (): ReactElement => {
     const [values, setValues] = useState(INITIAL_STATE)
     const [submitActive, setSubmitActive] = useState(false)
+    const [modalOpen, setModalOpen] = useState(false)
 
     // onChange
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,19 +43,31 @@ const CreateLogbookEntry = (): ReactElement => {
         console.log(values)
     };
 
-    const submitForm = async(form) => {
-        if (!submitActive) {
-            setSubmitActive(true)
-            form.preventDefault()
+    const closeModal = (): void => {
+        setModalOpen(false)
+    }
 
-            await axios.post('/api/logbook', values)
-            setSubmitActive(false)
+    const submitForm = async(form) => {
+        try {
+            if (!submitActive) {
+                setSubmitActive(true)
+                form.preventDefault()
+    
+                await axios.post('/api/logbook', values)
+                setSubmitActive(false)
+            }
+        } catch(error: any) {
+            console.error(error)
+
+            
         }
-        
     }
 
     return (
             <div className="flex flex-col justify-evenly items-center p-2">
+                <Modal title='Error Occured' open={modalOpen} onClose={closeModal}>
+                    <h1>Unexpected Error Occured</h1>
+                </Modal>
                 <h1 className="text-2xl font-bold w-full mb-5">Create Logbook Entry</h1>
 
                 <form className="w-screen flex flex-wrap gap-y-10 justify-center mb-10" onChange={handleChange} onSubmit={submitForm}>
@@ -83,16 +97,16 @@ const CreateLogbookEntry = (): ReactElement => {
 
                         <div className="w-full my-1"/>
                         
-                        <NumberInputComponent title='PIC' formName='pic'/>
-                        <NumberInputComponent title='SIC' formName='sic'/>
-                        <NumberInputComponent title='Night' formName='night'/>
-                        <NumberInputComponent title='Solo' formName='solo'/>
-                        <NumberInputComponent title='Cross Country' formName='crossCountry'/>
-                        <NumberInputComponent title='Dual Recieved' formName='dualRecieved'/>
-                        <NumberInputComponent title='Dual Given' formName='dualGiven'/>
-                        <NumberInputComponent int title='Day Landings' formName='dayLandings'/>
-                        <NumberInputComponent int title='Night Landings' formName='nightLandings'/>
-                        <NumberInputComponent int title='Total Landings' formName='totalLandings'/>
+                        <NumberInputComponent title='PIC' formName='pic' fillValue={values.totalTime}/>
+                        <NumberInputComponent title='SIC' formName='sic' fillValue={values.totalTime}/>
+                        <NumberInputComponent title='Night' formName='night' fillValue={values.totalTime}/>
+                        <NumberInputComponent title='Solo' formName='solo' fillValue={values.totalTime}/>
+                        <NumberInputComponent title='Cross Country' formName='crossCountry' fillValue={values.totalTime}/>
+                        <NumberInputComponent title='Dual Recieved' formName='dualRecieved' fillValue={values.totalTime}/>
+                        <NumberInputComponent title='Dual Given' formName='dualGiven' fillValue={values.totalTime}/>
+                        <NumberInputComponent int title='Day Landings' formName='dayLandings'  fillValue={values.totalLandings}/>
+                        <NumberInputComponent int title='Night Landings' formName='nightLandings' fillValue={values.totalLandings}/>
+                        <NumberInputComponent int title='Total Landings' formName='totalLandings' fillValue={values.dayLandings + values.nightLandings}/>
 
                         <div className="w-full my-1"/>
 
