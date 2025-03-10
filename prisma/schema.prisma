@@ -57,25 +57,31 @@ model LogbookEntry {
   total_time           Decimal  @default(0.00) @db.Decimal(4, 2)
   pic                  Decimal  @default(0.00) @db.Decimal(4, 2)
   sic                  Decimal  @default(0.00) @db.Decimal(4, 2)
+  solo                 Decimal? @default(0.00) @db.Decimal(4, 2)
   cross_country        Decimal  @default(0.00) @db.Decimal(4, 2)
   sim_imc              Decimal  @default(0.00) @db.Decimal(4, 2)
   actual_imc           Decimal  @default(0.00) @db.Decimal(4, 2)
   night                Decimal  @default(0.00) @db.Decimal(4, 2)
   day_landings         Int      @default(0) @db.UnsignedInt
-  total_landings       Int?     @default(0) @db.UnsignedInt
+  total_landings       Int      @default(0) @db.UnsignedInt
   night_landings       Int      @default(0) @db.UnsignedInt
-  holding              Int      @default(0) @db.TinyInt
+  holding              Boolean  @default(false)
+  intercepting         Boolean  @default(false)
+  remarks              String   @default("") @db.VarChar(500)
   approaches           Int      @default(0) @db.UnsignedInt
   dual_given           Decimal  @default(0.00) @db.Decimal(4, 2)
   dual_recieved        Decimal  @default(0.00) @db.Decimal(4, 2)
   route                String   @db.VarChar(300)
-  ipc                  Int      @default(0) @db.TinyInt
-  checkride            Int      @default(0) @db.TinyInt
-  flight_review        Int      @default(0) @db.TinyInt
+  ipc                  Boolean  @default(false)
+  checkride            Boolean  @default(false)
+  flight_review        Boolean  @default(false)
   user_id              Int      @db.UnsignedInt
   instructor_signature Bytes?   @db.Blob
   instructor_id        Int?     @db.UnsignedInt
   date                 DateTime @db.Date
+  to                   String   @default("") @db.VarChar(4)
+  from                 String   @db.VarChar(4)
+  approach_names       String   @default("") @db.VarChar(300)
 
   @@index([aircraft_id], map: "logbook_entries_aircraft_aircraft_id_fk")
   @@index([date, user_id], map: "logbook_entries_date")

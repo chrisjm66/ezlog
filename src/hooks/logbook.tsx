@@ -1,5 +1,40 @@
+import { createContext, useContext, ReactElement } from "react"
+import axios, { AxiosResponse } from "axios"
+
+const LogbookContext = createContext({})
+const useLogbook = (): any => useContext(LogbookContext)
 
 
+const useLogbookActions = (): LogbookActions => {
+  
+  const getLogbookEntries = async(): Promise<LogbookEntry[]> => {
+    const {data} = await axios.get<LogbookEntry[]>('/api/logbook')
+
+    return data
+  }
+
+  const submitEntry = async(data: LogbookEntry): Promise<number> => {
+    const response: AxiosResponse = await axios.post('/api/logbook', data)
+
+    return response.status
+  }
+
+  return {getLogbookEntries, submitEntry}
+}
+
+export const ProvideLogbook = ({children}): ReactElement => {
+    const logbook = useLogbookActions()
+
+    /*useEffect(() => {
+        // get the logbook info here?
+    }, [])*/
+    
+    return (
+        <LogbookContext.Provider value={logbook}>
+            {children}
+        </LogbookContext.Provider>
+    )
+}
 
 export type LogbookEntry = {
   aircraftId: number
@@ -11,41 +46,27 @@ export type LogbookEntry = {
   simImc: number
   actImc: number
   night: number
+  solo: number
   dayLandings: number
   nightLandings: number
   totalLandings: number
-  holding: number
+  holding: boolean
   approaches: number
+  approachNames: string
+  intercepting: boolean
   dualGiven: number
   dualRecieved: number
   route: string
   ipc: boolean
   checkride: boolean
   flightReview: boolean
+  to: string
+  from: string
+  remarks: string
 }
 
-/*
-total_time
-  pic                  Decimal  @default(0.00) @db.Decimal(4, 2)
-  sic                  Decimal  @default(0.00) @db.Decimal(4, 2)
-  cross_country        Decimal  @default(0.00) @db.Decimal(4, 2)
-  sim_imc              Decimal  @default(0.00) @db.Decimal(4, 2)
-  actual_imc           Decimal  @default(0.00) @db.Decimal(4, 2)
-  night                Decimal  @default(0.00) @db.Decimal(4, 2)
-  day_takeoffs         Int      @default(0) @db.UnsignedInt
-  day_landings         Int      @default(0) @db.UnsignedInt
-  night_takeoffs       Int      @default(0) @db.UnsignedInt
-  night_landings       Int      @default(0) @db.UnsignedInt
-  holding              Int      @default(0) @db.TinyInt
-  approaches           Int      @default(0) @db.UnsignedInt
-  dual_given           Decimal  @default(0.00) @db.Decimal(4, 2)
-  dual_recieved        Decimal  @default(0.00) @db.Decimal(4, 2)
-  route                String   @db.VarChar(300)
-  ipc                  Int      @default(0) @db.TinyInt
-  checkride            Int      @default(0) @db.TinyInt
-  flight_review        Int      @default(0) @db.TinyInt
-  user_id              Int      @db.UnsignedInt
-  instructor_signature Bytes?   @db.Blob
-  instructor_id        Int?     @db.UnsignedInt
-  date                 DateTime @db.Date
-  */
+interface LogbookActions {
+  getLogbookEntries: () => Promise<LogbookEntry[]>
+  submitEntry: (data: LogbookEntry) => Promise<number>
+}
+export default useLogbook

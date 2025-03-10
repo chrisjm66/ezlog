@@ -6,7 +6,7 @@ const AuthContext = createContext({})
 const useAuth = (): any => useContext(AuthContext)
 
 // logic for the context provider
-const useAuthActions = () => {
+const useAuthActions = (): AuthActions => {
     const navigate: NavigateFunction = useNavigate()
     const [loading, setLoading] = useState(true)
     const defaultUser: UserModel = {
@@ -77,7 +77,7 @@ const useAuthActions = () => {
 
 // creates a wrapper for the rest of the app
 export const ProvideAuth = ({children}): ReactElement => {
-    const auth = useAuthActions()
+    const auth: AuthActions = useAuthActions()
 
     useEffect(() => {
         auth.validate()

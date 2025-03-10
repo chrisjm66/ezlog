@@ -1,11 +1,14 @@
+// @ts-expect-error
 import { ReactElement, useState } from "react"
 import type { LogbookEntry } from "../hooks/logbook"
-import axios from 'axios'
+import { AxiosResponse } from 'axios'
 import Modal from "../components/Modal"
 import NumberInputComponent from "../components/NumberInputComponent"
 import TextInputComponent from "../components/TextInputComponent"
 import CheckboxComponent from "../components/CheckboxInputComponent"
-import obama from '../../public/obama.jpg'
+import { useNavigate } from "react-router-dom"
+import useLogbook from "../hooks/logbook"
+
 const INPUT_CLASSNAME = 'px-2 py-1 w-full bg-white rounded-sm border-1 font-bold text-xl text-ezblue'
 const LABEL_CLASSNAME = 'text-xl mb-2'
 const INITIAL_STATE: LogbookEntry = {
@@ -14,6 +17,7 @@ const INITIAL_STATE: LogbookEntry = {
             totalTime: 0,
             pic: 0,
             sic: 0,
+            solo: 0,
             crossCountry: 0,
             simImc: 0,
             actImc: 0,
@@ -21,26 +25,53 @@ const INITIAL_STATE: LogbookEntry = {
             dayLandings: 0,
             nightLandings: 0,
             totalLandings: 0,
-            holding: 0,
+            holding: false,
             approaches: 0,
             dualGiven: 0,
             dualRecieved: 0,
             route: '',
+            to: "",
+            from: "",
+            remarks: "",
+            approachNames: "",
+            intercepting: false,
             ipc: false,
             checkride: false,
             flightReview: false
 }
 
 const CreateLogbookEntry = (): ReactElement => {
+    const logbook = useLogbook()
+    const navigate = useNavigate()
     const [values, setValues] = useState(INITIAL_STATE)
     const [submitActive, setSubmitActive] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
 
     // onChange
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValues({ ...values, [event.target.name]: 
-        event.target.value });
-        console.log(values)
+    
+    const handleChange = (event): void => {
+        let eventValue: unknown = event.target.value
+        try {
+            switch (typeof(INITIAL_STATE[event.target.name])) {
+                case "number":
+                    // @ts-expect-error event state
+                    eventValue = (eventValue == undefined || eventValue === '') ? 0 : parseFloat(eventValue) 
+                    break
+                case "boolean":
+                    eventValue = eventValue === 'on' ? true : false
+                    break
+                default:
+                    break
+            }
+
+            const newValues = { ...values, [event.target.name]: eventValue }
+            setValues(newValues);
+            console.log(newValues)
+        } catch (error) {
+            console.error(error)
+        }
+        
+        
     };
 
     const closeModal = (): void => {
@@ -48,18 +79,13 @@ const CreateLogbookEntry = (): ReactElement => {
     }
 
     const submitForm = async(form) => {
-        try {
-            if (!submitActive) {
-                setSubmitActive(true)
-                form.preventDefault()
-    
-                await axios.post('/api/logbook', values)
-                setSubmitActive(false)
-            }
-        } catch(error: any) {
-            console.error(error)
+        form.preventDefault()
+        setSubmitActive(true)
+        const response: number = await logbook.submitEntries(values)
+        setSubmitActive(false)
 
-            
+        if (response == 200) {
+            navigate('/dashboard/logbook')
         }
     }
 
@@ -96,7 +122,7 @@ const CreateLogbookEntry = (): ReactElement => {
                         <TextInputComponent extended title='Route' formName='route'/>
 
                         <div className="w-full my-1"/>
-                        
+
                         <NumberInputComponent title='PIC' formName='pic' fillValue={values.totalTime}/>
                         <NumberInputComponent title='SIC' formName='sic' fillValue={values.totalTime}/>
                         <NumberInputComponent title='Night' formName='night' fillValue={values.totalTime}/>
