@@ -1,7 +1,7 @@
 import { FC, ReactElement } from "react"
 import { LogbookEntry, Aircraft } from "../hooks/logbook"
 
-const LogbookDisplay: FC<{data: LogbookEntry, aircraft: Aircraft, onClick: void}> = ({data, aircraft, onClick}): ReactElement => {
+const LogbookDisplay: FC<{data: LogbookEntry, aircraft: Aircraft, onClick}> = ({data, aircraft, onClick}): ReactElement => {
     return (
             <button onClick={() => {onClick(data, aircraft)}} className="flex flex-col w-full h-24 bg-gray-100 justify-start items-center px-2 py-1 transition hover:bg-gray-200">
                 <div className='flex flex-row justify-between w-full'>

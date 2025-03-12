@@ -1,15 +1,16 @@
-import { createContext, useContext, ReactElement } from "react"
+import { createContext, useContext, ReactElement, useEffect, useState} from "react"
 import axios, { AxiosResponse } from "axios"
 
-const LogbookContext = createContext({})
-const useLogbook = (): any => useContext(LogbookContext)
+const LogbookContext = createContext<LogbookActions>({} as LogbookActions)
+const useLogbook = (): LogbookActions => useContext<LogbookActions>(LogbookContext)
 
 
-const useLogbookActions = (): LogbookActions => {
-  
-  const getLogbookEntries = async(): Promise<LogbookEntry[]> => {
+const useLogbookActions = (): LogbookActions  => {
+  const [logbookData, setLogbookData] = useState({} as LogbookEntry[])
+
+  const populateLogbookEntries = async(): Promise<LogbookEntry[]> => {
     const {data} = await axios.get<LogbookEntry[]>('/api/logbook')
-
+    console.log(data)
     return data
   }
 
@@ -19,16 +20,18 @@ const useLogbookActions = (): LogbookActions => {
     return response.status
   }
 
-  return {getLogbookEntries, submitEntry}
+  return {populateLogbookEntries, submitEntry, logbookData, setLogbookData}
 }
 
 export const ProvideLogbook = ({children}): ReactElement => {
-    const logbook = useLogbookActions()
+    const logbook: LogbookActions = useLogbookActions()
 
-    /*useEffect(() => {
-        // get the logbook info here?
-    }, [])*/
-    
+    useEffect(() => {
+      logbook.populateLogbookEntries().then((e: LogbookEntry[]) =>
+        logbook.setLogbookData(e)
+      )
+    }, [])
+
     return (
         <LogbookContext.Provider value={logbook}>
             {children}
@@ -76,8 +79,10 @@ export type Aircraft = {
   numberOfEngines: number
 }
 
-interface LogbookActions {
-  getLogbookEntries: () => Promise<LogbookEntry[]>
+export interface LogbookActions {
+  populateLogbookEntries: () => Promise<LogbookEntry[]>
   submitEntry: (data: LogbookEntry) => Promise<number>
+  logbookData: LogbookEntry[]
+  setLogbookData: (data: LogbookEntry[]) => void
 }
 export default useLogbook

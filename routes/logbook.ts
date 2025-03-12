@@ -24,7 +24,7 @@ router.get('/', async(req: Request, res: Response) => {
     })
     
     // set into client version
-    const userEntry: ClientLogbookEntry[] = {} as ClientLogbookEntry[]
+    const userEntry: ClientLogbookEntry[] = [] as ClientLogbookEntry[]
 
     for (let i = 0; i < query.length; i++) {
         userEntry.push({

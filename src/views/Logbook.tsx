@@ -1,9 +1,9 @@
-import { ReactElement, useState } from "react"
+import { ReactElement, useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
-import { LogbookEntry } from "../hooks/logbook"
+import useLogbook, { LogbookActions, LogbookEntry } from "../hooks/logbook"
 import LogbookCard from "../components/LogbookCard"
 import LogbookDisplay from "../components/LogbookDisplay"
-import { Aircraft } from "@prisma/client"
+import { Aircraft } from "../hooks/logbook"
 
 const INITIAL_STATE: LogbookEntry = {
             date: new Date().toISOString(),
@@ -37,6 +37,7 @@ const INITIAL_STATE: LogbookEntry = {
 }
 
 const Logbook = (): ReactElement => {
+    const logbook: LogbookActions = useLogbook()
     const [displayData, setDisplayData] = useState(undefined)
 
     const handleClick = (data: LogbookEntry, aircraft: Aircraft): void => {
@@ -52,13 +53,7 @@ const Logbook = (): ReactElement => {
 
                 <div className='flex flex-row h-rvh'>
                     <div className='flex flex-col w-60 overflow-x-hidden overflow-y-auto gap-y-1 h-svh'>
-                        <LogbookCard onClick={handleClick} data={INITIAL_STATE} aircraft={{tailNumber: 'N41JA', make: 'Piper', model: 'Archer II', type: 'P28A', numberOfEngines: 1, engineType: 'piston'}}/>
-                        <LogbookCard onClick={handleClick} data={INITIAL_STATE} aircraft={{tailNumber: 'N41JA', make: 'Piper', model: 'Archer II', type: 'P28A', numberOfEngines: 1, engineType: 'piston'}}/>
-                        <LogbookCard onClick={handleClick} data={INITIAL_STATE} aircraft={{tailNumber: 'N41JA', make: 'Piper', model: 'Archer II', type: 'P28A', numberOfEngines: 1, engineType: 'piston'}}/>
-                        <LogbookCard onClick={handleClick} data={INITIAL_STATE} aircraft={{tailNumber: 'N41JA', make: 'Piper', model: 'Archer II', type: 'P28A', numberOfEngines: 1, engineType: 'piston'}}/>
-                        <LogbookCard onClick={handleClick} data={INITIAL_STATE} aircraft={{tailNumber: 'N41JA', make: 'Piper', model: 'Archer II', type: 'P28A', numberOfEngines: 1, engineType: 'piston'}}/>
-                        <LogbookCard onClick={handleClick} data={INITIAL_STATE} aircraft={{tailNumber: 'N41JA', make: 'Piper', model: 'Archer II', type: 'P28A', numberOfEngines: 1, engineType: 'piston'}}/>
-                        <LogbookCard onClick={handleClick} data={INITIAL_STATE} aircraft={{tailNumber: 'N41JA', make: 'Piper', model: 'Archer II', type: 'P28A', numberOfEngines: 1, engineType: 'piston'}}/>
+                        {logbook.logbookData ? logbook.logbookData.map((object: LogbookEntry) => <LogbookCard data={object} aircraft={{} as Aircraft} onClick={handleClick}/>) : ''}
                     </div>
 
                     <div className='w-screen h-fit mx-1 px-2'>
