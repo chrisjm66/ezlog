@@ -1,4 +1,4 @@
-import { ReactElement, RefObject, useEffect, useRef, useState, useReducer } from "react"
+import { ReactElement, useState } from "react"
 
 const INPUT_CLASSNAME = 'py-1 px-2 w-full bg-white rounded-sm border-1 font-bold text-xl text-ezblue'
 const LABEL_CLASSNAME = 'text-xl mb-1'

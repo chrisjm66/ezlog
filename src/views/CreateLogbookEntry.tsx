@@ -1,7 +1,6 @@
 // @ts-expect-error
 import { ReactElement, useState } from "react"
 import type { LogbookEntry } from "../hooks/logbook"
-import { AxiosResponse } from 'axios'
 import Modal from "../components/Modal"
 import NumberInputComponent from "../components/NumberInputComponent"
 import TextInputComponent from "../components/TextInputComponent"
@@ -78,7 +77,7 @@ const CreateLogbookEntry = (): ReactElement => {
         setModalOpen(false)
     }
 
-    const submitForm = async(form) => {
+    const submitForm = async(form): Promise<void> => {
         form.preventDefault()
         setSubmitActive(true)
         const response: number = await logbook.submitEntries(values)

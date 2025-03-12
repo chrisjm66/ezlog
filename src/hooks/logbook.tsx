@@ -63,6 +63,17 @@ export type LogbookEntry = {
   to: string
   from: string
   remarks: string
+  instructorSignature?: Blob
+  instructorId?: number
+}
+
+export type Aircraft = {
+  tailNumber: string
+  type: string
+  make: string
+  model: string
+  engineType: string
+  numberOfEngines: number
 }
 
 interface LogbookActions {
