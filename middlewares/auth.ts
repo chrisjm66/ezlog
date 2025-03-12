@@ -2,10 +2,13 @@ import { Request, Response, NextFunction } from 'express'
 import { Session } from "@prisma/client"
 import { validateSession } from '../models/session'
 
-export const populateUserInfo = async(req: Request, res: Response, next: NextFunction) => {
+export const populateUserInfo = async(req: Request, res: Response, next: NextFunction): Promise<any> => {
     const token = req.cookies.auth
     const {session, user} = await validateSession(token)
     
+    if (!user) {
+        return res.status(401).send().end()
+    }
     res.locals.session = session
     res.locals.user = user
 

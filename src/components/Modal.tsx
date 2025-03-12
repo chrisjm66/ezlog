@@ -34,9 +34,10 @@ const Modal = ({children, open, title, onClose}: ModalComponent): ReactElement =
             <div className='w-full flex relative h-8 align-middle p-1 mb-2'>
                 <h1 className='font-bold text-2xl h-full text-right mr-20'>{title}</h1>
 
-                <button className='h-full absolute right-2 top-2' onClick={handleClick}>
+
+                {onClose ? <button className='h-full absolute right-2 top-2' onClick={handleClick}>
                     <Icon icon='mdi:close' className="w-full h-full"/>
-                </button>
+                </button> : ''}
             </div>
             
             <div className='p-2'>
@@ -51,7 +52,7 @@ interface ModalComponent {
     title: string
     open: boolean
     children: React.ReactNode
-    onClose: () => void
+    onClose?: () => void
   };
 
 export default Modal

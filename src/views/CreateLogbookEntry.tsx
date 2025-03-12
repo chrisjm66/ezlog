@@ -12,6 +12,7 @@ const INPUT_CLASSNAME = 'px-2 py-1 w-full bg-white rounded-sm border-1 font-bold
 const LABEL_CLASSNAME = 'text-xl mb-2'
 const INITIAL_STATE: LogbookEntry = {
             date: new Date().toISOString(),
+            entryId: undefined,
             aircraftId: -1,
             totalTime: 0,
             pic: 0,
@@ -80,10 +81,12 @@ const CreateLogbookEntry = (): ReactElement => {
     const submitForm = async(form): Promise<void> => {
         form.preventDefault()
         setSubmitActive(true)
-        const response: number = await logbook.submitEntries(values)
+        form.onchange()
+        const response: number = await logbook.submitEntry(values)
         setSubmitActive(false)
 
         if (response == 200) {
+            logbook.populateLogbookEntries()
             navigate('/dashboard/logbook')
         }
     }
@@ -93,16 +96,18 @@ const CreateLogbookEntry = (): ReactElement => {
                 <Modal title='Error Occured' open={modalOpen} onClose={closeModal}>
                     <h1>Unexpected Error Occured</h1>
                 </Modal>
+
+                {submitActive ? <Modal title='Status' open={true}><h1>Submitting...</h1></Modal>: ''}
                 <h1 className="text-2xl font-bold w-full mb-5">Create Logbook Entry</h1>
 
-                <form className="w-screen flex flex-wrap gap-y-10 justify-center mb-10" onChange={handleChange} onSubmit={submitForm}>
+                <form className="w-screen flex flex-wrap gap-y-10 justify-center mb-10" onChange={handleChange} onSubmit={submitForm} id='create'>
                     <div className="flex flex-wrap justify-left border-2 border-ezgray bg-gray-200 p-5 rounded-xl gap-x-5 gap-y-1 w-3/4 h-3/4">
                         {/* general info page */}
                         <h1 className="text-xl font-bold w-full mb-5">GENERAL INFO</h1>
 
                         <div className="flex flex-col w-40">
                             <label className={LABEL_CLASSNAME}>Date</label>
-                            <input name='date' type="date" defaultValue={values.date} className={INPUT_CLASSNAME}/>
+                            <input required name='date' type="date" defaultValue={values.date} className={INPUT_CLASSNAME}/>
                         </div>
 
                         <div className="flex flex-col w-64">
@@ -143,9 +148,9 @@ const CreateLogbookEntry = (): ReactElement => {
                     <div className="flex flex-wrap justify-left border-2 border-ezgray bg-gray-200 p-5 rounded-xl gap-x-5 gap-y-2 w-3/4 h-3/4">
                         <h1 className="text-xl font-bold w-full mb-2">INSTRUMENT</h1>
             
-                        <NumberInputComponent title='Simulated IMC' formName='simImc'/>
-                        <NumberInputComponent title='Actual IMC' formName='actImc'/>
-                        <NumberInputComponent int buttonHidden title='Approaches' formName='numApproaches'/>
+                        <NumberInputComponent title='Simulated IMC' buttonHidden formName='simImc'/>
+                        <NumberInputComponent title='Actual IMC' buttonHidden formName='actImc'/>
+                        <NumberInputComponent int buttonHidden title='Approaches' formName='approaches'/>
                         <TextInputComponent extended title='Approach Names' formName='approachNames'/>
 
                         <div className="w-full my-1"/>

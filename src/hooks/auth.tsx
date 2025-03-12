@@ -56,6 +56,7 @@ const useAuthActions = (): AuthActions => {
         }
 
     }
+    
     const validate = async(): Promise<any> => {
         axios.get("/api/auth/validate").then((response: AxiosResponse) => {
             setLoading(false)

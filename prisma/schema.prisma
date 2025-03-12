@@ -57,7 +57,7 @@ model LogbookEntry {
   total_time           Decimal  @default(0.00) @db.Decimal(4, 2)
   pic                  Decimal  @default(0.00) @db.Decimal(4, 2)
   sic                  Decimal  @default(0.00) @db.Decimal(4, 2)
-  solo                 Decimal? @default(0.00) @db.Decimal(4, 2)
+  solo                 Decimal  @default(0.00) @db.Decimal(4, 2)
   cross_country        Decimal  @default(0.00) @db.Decimal(4, 2)
   sim_imc              Decimal  @default(0.00) @db.Decimal(4, 2)
   actual_imc           Decimal  @default(0.00) @db.Decimal(4, 2)

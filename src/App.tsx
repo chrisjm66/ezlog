@@ -10,6 +10,8 @@ import Signup from './views/Signup'
 import Dashboard from './views/Dashboard'
 import CreateLogbookEntry from './views/CreateLogbookEntry'
 import Logbook from './views/Logbook'
+import { ProvideLogbook } from './hooks/logbook'
+
 
 const App = (): ReactElement => {
   return (
@@ -21,17 +23,17 @@ const App = (): ReactElement => {
             <Route index element={<Homepage/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/signup' element={<Signup/>}/>
-
-            <Route path='/dashboard' element={<ProtectedRoute/>}>
-              <Route index element={<Dashboard/>}/>
-              <Route path='/dashboard/logbook'>
-                <Route index element={<Logbook/>}/>
-                <Route path='/dashboard/logbook/create' element={<CreateLogbookEntry/>}/>
+              <Route path='/dashboard' element={<ProtectedRoute/>}>
+                  <Route element={<ProvideLogbook/>}>
+                    <Route index element={<Dashboard/>}/>
+                    <Route path='/dashboard/logbook'>
+                      <Route index element={<Logbook/>}/>
+                      <Route path='/dashboard/logbook/create' element={<CreateLogbookEntry/>}/>
+                    </Route>
+                  </Route>
+                  
                 
-            </Route>
-            </Route>
-
-            
+              </Route>
           </Route>
           <Route path="*" element={<NotFound/>}/>
         </Routes>

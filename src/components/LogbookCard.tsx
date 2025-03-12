@@ -7,7 +7,7 @@ const LogbookDisplay: FC<{data: LogbookEntry, aircraft: Aircraft, onClick}> = ({
                 <div className='flex flex-row justify-between w-full'>
                     <div className='flex flex-col h-full items-start'>
                         <h2 className='text-ezblue font-bold text-md'>{new Date(data.date).toLocaleDateString('en-US')}</h2>
-                        <h2 className='text-md'>{data.from}test - test{data.to}</h2>
+                        <h2 className='text-md'>{data.from.toUpperCase()} - {data.to.toUpperCase()}</h2>
                         <h2 className='text-sm'>
                             {data.totalLandings} 
                             <p className='font-bold inline'> Landings</p>

@@ -1,17 +1,22 @@
-import { createContext, useContext, ReactElement, useEffect, useState} from "react"
+import { createContext, useContext, ReactElement, useEffect, useState, useMemo} from "react"
 import axios, { AxiosResponse } from "axios"
+import { Outlet } from "react-router-dom"
 
 const LogbookContext = createContext<LogbookActions>({} as LogbookActions)
 const useLogbook = (): LogbookActions => useContext<LogbookActions>(LogbookContext)
 
 
 const useLogbookActions = (): LogbookActions  => {
-  const [logbookData, setLogbookData] = useState({} as LogbookEntry[])
+  const [logbookData, setLogbookData] = useState<LogbookEntry[] | undefined>([] as LogbookEntry[])
 
-  const populateLogbookEntries = async(): Promise<LogbookEntry[]> => {
-    const {data} = await axios.get<LogbookEntry[]>('/api/logbook')
-    console.log(data)
-    return data
+  const populateLogbookEntries = (): void => {
+    axios.get<LogbookEntry[]>('/api/logbook').then((fetchData: AxiosResponse<LogbookEntry[] | undefined>) => {
+      setLogbookData(fetchData.data)
+      console.log(logbookData)
+    }).catch((err) => {
+      console.error(err)
+    })
+
   }
 
   const submitEntry = async(data: LogbookEntry): Promise<number> => {
@@ -20,26 +25,25 @@ const useLogbookActions = (): LogbookActions  => {
     return response.status
   }
 
-  return {populateLogbookEntries, submitEntry, logbookData, setLogbookData}
+  return {populateLogbookEntries, submitEntry, logbookData}
 }
 
-export const ProvideLogbook = ({children}): ReactElement => {
+export const ProvideLogbook = (): ReactElement => {
     const logbook: LogbookActions = useLogbookActions()
 
     useEffect(() => {
-      logbook.populateLogbookEntries().then((e: LogbookEntry[]) =>
-        logbook.setLogbookData(e)
-      )
+      logbook.populateLogbookEntries()
     }, [])
 
     return (
         <LogbookContext.Provider value={logbook}>
-            {children}
+            <Outlet/>
         </LogbookContext.Provider>
     )
 }
 
 export type LogbookEntry = {
+  entryId: number | undefined
   aircraftId: number
   date: string
   totalTime: number
@@ -80,9 +84,8 @@ export type Aircraft = {
 }
 
 export interface LogbookActions {
-  populateLogbookEntries: () => Promise<LogbookEntry[]>
+  populateLogbookEntries: () => void
   submitEntry: (data: LogbookEntry) => Promise<number>
-  logbookData: LogbookEntry[]
-  setLogbookData: (data: LogbookEntry[]) => void
+  logbookData: LogbookEntry[] | undefined
 }
 export default useLogbook
