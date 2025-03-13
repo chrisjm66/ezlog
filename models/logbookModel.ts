@@ -85,6 +85,8 @@ export const deleteEntryFromDatabase = async(user: UserModel, entryId: number): 
                 logbook_entry_id: entryId
             }
         })
+
+        return true
     } catch(e) {
         console.error(e)
     }

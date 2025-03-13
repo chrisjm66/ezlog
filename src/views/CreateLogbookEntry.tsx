@@ -81,7 +81,6 @@ const CreateLogbookEntry = (): ReactElement => {
     const submitForm = async(form): Promise<void> => {
         form.preventDefault()
         setSubmitActive(true)
-        form.onchange()
         const response: number = await logbook.submitEntry(values)
         setSubmitActive(false)
 

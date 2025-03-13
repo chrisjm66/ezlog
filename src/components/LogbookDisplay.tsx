@@ -1,12 +1,36 @@
-import { FC, ReactElement } from "react"
+import { FC, ReactElement, useState } from "react"
 import { LogbookEntry, Aircraft } from "../hooks/logbook"
 import CheckboxComponent from "../components/CheckboxInputComponent"
 import DisplayComponent from "./DisplayComponent"
+import Modal from "./Modal"
+import axios from "axios"
 
 const LABEL_CLASSNAME = 'text-xl mb-2'
 const LogbookDisplay: FC<{data: LogbookEntry, aircraft: Aircraft}> = ({data, aircraft}): ReactElement => {
+    const [modalVisible, setModalVisible] = useState<boolean>(false)
+    const [modalBody, setModalBody] = useState<string>('')
+
+    const requestDelete = () => {
+        setModalVisible(true)
+        setModalBody('Delete logbook entry?')        
+    }
+
+    const sendDeleteRequest = async() => {
+        const response = await axios.delete('/api/logbook', {data: {entryId: data.entryId}}) 
+        if (response.status == 200) {
+            window.location.reload()
+        }
+    }
+
     return (
         <div className='flex gap-y-5 flex-col overflow-y-scroll max-h-screen'>
+            <Modal open={modalVisible} title='Confirm Action' onClose={() => setModalVisible(false)}>
+                <h2>{modalBody}</h2>
+
+                <button onClick={() => setModalVisible(false)} className='border-2 border-ezgray bg-ezgray text-white font-bold text-xl p-2 rounded-md transition-all hover:border-gray-800'>Cancel</button>
+                <button onClick={sendDeleteRequest} className='border-2 border-ezgray bg-ezred text-white font-bold text-xl p-2 rounded-md transition-all hover:border-gray-800'>Confirm</button>
+            </Modal>
+
             <div className="flex flex-wrap justify-left border-2 border-ezgray bg-gray-200 p-5 rounded-xl gap-x-5 gap-y-1 w-3/4 h-3/4">
                 {/* general info page */}
                 <h1 className="text-xl font-bold w-full mb-5">GENERAL INFO</h1>
@@ -75,6 +99,11 @@ const LogbookDisplay: FC<{data: LogbookEntry, aircraft: Aircraft}> = ({data, air
                     <label htmlFor='remarks' className={LABEL_CLASSNAME}>Remarks</label>
 
                     <textarea name='remarks' readOnly value={data.remarks} className='mt-2 px-2 py-1 w-120 h-56 bg-white rounded-sm border-1 text-md text-ezblue resiz'></textarea>
+                </div>
+
+                <div className='absolute right-5 bottom-5 flex flex-col gap-y-2'>
+                    <button className='border-2 border-ezgray bg-ezgray text-white font-bold text-xl p-2 rounded-md transition-all hover:border-gray-800'>Edit</button>
+                    <button onClick={requestDelete} className='border-2 border-ezgray bg-ezred text-white font-bold text-xl p-2 rounded-md transition-all hover:border-gray-800'>Delete Entry</button>
                 </div>
             </div>
         </div>
