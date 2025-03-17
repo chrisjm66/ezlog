@@ -94,6 +94,7 @@ export const deleteEntryFromDatabase = async(user: UserModel, entryId: number): 
 }
 
 export const updateLogbookEntry = async(user: UserModel, body: ClientLogbookEntry): Promise<LogbookEntry | null> => {
+    console.log(body)
     const entry = await prisma.logbookEntry.update({
         data: {
             date: new Date(body.date),

@@ -9,9 +9,22 @@ const useLogbook = (): LogbookActions => useContext<LogbookActions>(LogbookConte
 const useLogbookActions = (): LogbookActions  => {
   const [logbookData, setLogbookData] = useState<LogbookEntry[] | undefined>([] as LogbookEntry[])
 
+  const getLogbookEntry = (entryId: number): LogbookEntry | undefined => {
+    let returnEntry: LogbookEntry | undefined = undefined
+
+    logbookData?.map((entry: LogbookEntry) => {
+      if (entry.entryId == entryId) {
+        returnEntry = entry
+        return
+      }
+    })
+
+    return returnEntry
+  }
+
   const populateLogbookEntries = (): void => {
     axios.get<LogbookEntry[]>('/api/logbook').then((fetchData: AxiosResponse<LogbookEntry[] | undefined>) => {
-      setLogbookData(fetchData.data)
+      setLogbookData(fetchData.data?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
       console.log(logbookData)
     }).catch((err) => {
       console.error(err)
@@ -25,7 +38,13 @@ const useLogbookActions = (): LogbookActions  => {
     return response.status
   }
 
-  return {populateLogbookEntries, submitEntry, logbookData}
+  const updateEntry = async(data: LogbookEntry): Promise<number> => {
+    const response: AxiosResponse = await axios.put('/api/logbook', data)
+
+    return response.status
+  }
+
+  return {populateLogbookEntries, getLogbookEntry, submitEntry, updateEntry, logbookData}
 }
 
 export const ProvideLogbook = (): ReactElement => {
@@ -85,7 +104,9 @@ export type Aircraft = {
 
 export interface LogbookActions {
   populateLogbookEntries: () => void
+  getLogbookEntry: (entryId: number) => LogbookEntry | undefined
   submitEntry: (data: LogbookEntry) => Promise<number>
+  updateEntry: (data: LogbookEntry) => Promise<number>
   logbookData: LogbookEntry[] | undefined
 }
 export default useLogbook

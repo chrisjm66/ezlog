@@ -9,6 +9,7 @@ import Login from './views/Login'
 import Signup from './views/Signup'
 import Dashboard from './views/Dashboard'
 import CreateLogbookEntry from './views/CreateLogbookEntry'
+import EditLogbookEntry from './views/EditLogbookEntry'
 import Logbook from './views/Logbook'
 import { ProvideLogbook } from './hooks/logbook'
 
@@ -29,6 +30,7 @@ const App = (): ReactElement => {
                     <Route path='/dashboard/logbook'>
                       <Route index element={<Logbook/>}/>
                       <Route path='/dashboard/logbook/create' element={<CreateLogbookEntry/>}/>
+                      <Route path='/dashboard/logbook/edit/:entryId' element={<EditLogbookEntry/>}/>
                     </Route>
                   </Route>
                   

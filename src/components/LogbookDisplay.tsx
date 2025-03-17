@@ -4,6 +4,7 @@ import CheckboxComponent from "../components/CheckboxInputComponent"
 import DisplayComponent from "./DisplayComponent"
 import Modal from "./Modal"
 import axios from "axios"
+import { Link, NavLink } from "react-router-dom"
 
 const LABEL_CLASSNAME = 'text-xl mb-2'
 const LogbookDisplay: FC<{data: LogbookEntry, aircraft: Aircraft}> = ({data, aircraft}): ReactElement => {
@@ -102,7 +103,7 @@ const LogbookDisplay: FC<{data: LogbookEntry, aircraft: Aircraft}> = ({data, air
                 </div>
 
                 <div className='absolute right-5 bottom-5 flex flex-col gap-y-2'>
-                    <button className='border-2 border-ezgray bg-ezgray text-white font-bold text-xl p-2 rounded-md transition-all hover:border-gray-800'>Edit</button>
+                    <NavLink to={`/dashboard/logbook/edit/${data.entryId}`} className='border-2 border-ezgray bg-ezgray text-white font-bold text-xl p-2 rounded-md transition-all hover:border-gray-800'>Edit</NavLink>
                     <button onClick={requestDelete} className='border-2 border-ezgray bg-ezred text-white font-bold text-xl p-2 rounded-md transition-all hover:border-gray-800'>Delete Entry</button>
                 </div>
             </div>
