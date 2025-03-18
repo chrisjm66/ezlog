@@ -1,6 +1,5 @@
-import { createContext, useContext, ReactElement, useEffect, useState, useMemo} from "react"
+import { createContext, useContext, ReactElement, useEffect, useState} from "react"
 import axios, { AxiosResponse } from "axios"
-import { Outlet } from "react-router-dom"
 
 const LogbookContext = createContext<LogbookActions>({} as LogbookActions)
 const useLogbook = (): LogbookActions => useContext<LogbookActions>(LogbookContext)
@@ -29,7 +28,6 @@ const useLogbookActions = (): LogbookActions  => {
     }).catch((err) => {
       console.error(err)
     })
-
   }
 
   const submitEntry = async(data: LogbookEntry): Promise<number> => {
@@ -47,7 +45,7 @@ const useLogbookActions = (): LogbookActions  => {
   return {populateLogbookEntries, getLogbookEntry, submitEntry, updateEntry, logbookData}
 }
 
-export const ProvideLogbook = (): ReactElement => {
+export const ProvideLogbook = ({children}): ReactElement => {
     const logbook: LogbookActions = useLogbookActions()
 
     useEffect(() => {
@@ -56,7 +54,7 @@ export const ProvideLogbook = (): ReactElement => {
 
     return (
         <LogbookContext.Provider value={logbook}>
-            <Outlet/>
+            {children}
         </LogbookContext.Provider>
     )
 }
@@ -93,20 +91,11 @@ export type LogbookEntry = {
   instructorId?: number
 }
 
-export type Aircraft = {
-  tailNumber: string
-  type: string
-  make: string
-  model: string
-  engineType: string
-  numberOfEngines: number
-}
-
 export interface LogbookActions {
+  logbookData: LogbookEntry[] | undefined
   populateLogbookEntries: () => void
   getLogbookEntry: (entryId: number) => LogbookEntry | undefined
   submitEntry: (data: LogbookEntry) => Promise<number>
-  updateEntry: (data: LogbookEntry) => Promise<number>
-  logbookData: LogbookEntry[] | undefined
+  updateEntry: (data: LogbookEntry) => Promise<number>  
 }
 export default useLogbook

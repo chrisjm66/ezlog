@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 import useLogbook, { LogbookActions, LogbookEntry } from "../hooks/logbook"
 import LogbookCard from "../components/LogbookCard"
 import LogbookDisplay from "../components/LogbookDisplay"
-import { Aircraft } from "../hooks/logbook"
+import { Aircraft } from "../hooks/aircraft"
 
 const Logbook = (): ReactElement => {
     const {logbookData}: LogbookActions = useLogbook()

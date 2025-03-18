@@ -1,14 +1,13 @@
 import { FC, ReactElement, useState } from "react"
-import { LogbookEntry } from "../hooks/logbook"
 import { Aircraft } from "../hooks/aircraft"
-import CheckboxComponent from "../components/CheckboxInputComponent"
+import CheckboxComponent from "./CheckboxInputComponent"
 import DisplayComponent from "./DisplayComponent"
 import Modal from "./Modal"
 import axios from "axios"
-import { Link, NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 const LABEL_CLASSNAME = 'text-xl mb-2'
-const LogbookDisplay: FC<{data: LogbookEntry, aircraft: Aircraft}> = ({data, aircraft}): ReactElement => {
+const LogbookDisplay: FC<{data: Aircraft}> = ({data}): ReactElement => {
     const [modalVisible, setModalVisible] = useState<boolean>(false)
     const [modalBody, setModalBody] = useState<string>('')
 
