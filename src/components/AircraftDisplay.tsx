@@ -48,7 +48,7 @@ const AircraftDisplay: FC<{data: Aircraft}> = ({data}): ReactElement => {
                 <h2>{modalBody}</h2>
 
                 <button onClick={() => setModalVisible(false)} className='border-2 border-ezgray bg-ezgray text-white font-bold text-xl p-2 rounded-md transition-all hover:border-gray-800'>Cancel</button>
-                <button onClick={sendDeleteRequest} className='border-2 border-ezgray bg-ezred text-white font-bold text-xl p-2 rounded-md transition-all hover:border-gray-800'>Confirm</button>
+                <button onClick={sendDeleteRequest} className='ml-2 border-2 border-ezgray bg-ezred text-white font-bold text-xl p-2 rounded-md transition-all hover:border-gray-800'>Confirm</button>
             </Modal>
 
             <div className="flex flex-wrap justify-left border-2 border-ezgray bg-gray-200 p-5 rounded-xl gap-x-5 gap-y-1 w-3/4 h-3/4">
