@@ -133,6 +133,8 @@ export type UserModel = {
 
 export type AuthActions = {
     user: UserModel
+    loading: boolean
+    setLoading: (data: boolean) => void
     signup: (userData: RegisterRequest) => void
     login: (userData: LoginRequest) => void
     validate: () => void

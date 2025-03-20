@@ -1,4 +1,3 @@
-// @ts-expect-error
 import { ReactElement, useState } from "react"
 import type { LogbookEntry } from "../hooks/logbook"
 import Modal from "../components/Modal"
@@ -7,6 +6,7 @@ import TextInputComponent from "../components/TextInputComponent"
 import CheckboxComponent from "../components/CheckboxInputComponent"
 import { useNavigate } from "react-router-dom"
 import useLogbook from "../hooks/logbook"
+import AircraftOptions from "../components/AircraftOptions"
 
 const INPUT_CLASSNAME = 'px-2 py-1 w-full bg-white rounded-sm border-1 font-bold text-xl text-ezblue'
 const LABEL_CLASSNAME = 'text-xl mb-2'
@@ -87,6 +87,8 @@ const CreateLogbookEntry = (): ReactElement => {
         if (response == 200) {
             logbook.populateLogbookEntries()
             navigate('/dashboard/logbook')
+        } else {
+            setModalOpen(true)
         }
     }
 
@@ -111,11 +113,7 @@ const CreateLogbookEntry = (): ReactElement => {
 
                         <div className="flex flex-col w-64">
                             <label className={LABEL_CLASSNAME}>Aircraft</label>
-                            <select required name='aircraftId' className='bg-white px-2 py-1 font-bold text-ezblue rounded-sm w-full border-1 border-ezblue'>
-                                <option value={1}>
-                                    N41JA (P28A)
-                                </option>
-                            </select>
+                            <AircraftOptions/>
                         </div>
                         
                         

@@ -20,10 +20,14 @@ const AircraftView = (): ReactElement => {
     }, [aircraftData])
 
     const List = () => {
+        if (aircraftData?.length == 0) {
+            return <h1>No aircraft available</h1>
+        }
+        
         return (
             <div className='flex flex-row h-rvh'>
                 <div className='flex flex-col w-60 overflow-x-hidden overflow-y-auto gap-y-1 h-svh'>
-                    {aircraftData.map((object: Aircraft) => <AircraftCard data={object} aircraft={{} as Aircraft} onClick={handleClick} key={object.aircraftId}/>)}
+                    {aircraftData ? aircraftData.map((object: Aircraft) => <AircraftCard data={object} onClick={handleClick} key={object.aircraftId}/>) : ''}
                 </div>
     
                 <div className='w-screen h-fit mx-1 px-2'>
@@ -41,7 +45,7 @@ const AircraftView = (): ReactElement => {
                     <NavLink className='bg-ezblue justify-self-stretch inline-block p-2 rounded-md ml-5' to='/dashboard/aircraft/create'>Create New Aircraft</NavLink>
                 </div>
 
-                {aircraftData?.length > 0 ? <List/> : <h1 className='p-5'>No Aircraft Added</h1>}
+                {aircraftData ? <List/> : <h1 className='p-5'>No Aircraft Added</h1>}
             </div>
         
     )

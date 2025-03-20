@@ -18,7 +18,7 @@ const Modal = ({children, open, title, onClose}: ModalComponent): ReactElement =
     const handleClick = () => {
         if (onClose) {
             onClose()
-        } else {
+        } else if (ref.current) {
             ref.current.close()
         }
     }

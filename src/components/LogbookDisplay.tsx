@@ -8,7 +8,7 @@ import axios from "axios"
 import { Link, NavLink } from "react-router-dom"
 
 const LABEL_CLASSNAME = 'text-xl mb-2'
-const LogbookDisplay: FC<{data: LogbookEntry, aircraft: Aircraft}> = ({data, aircraft}): ReactElement => {
+const LogbookDisplay: FC<{data: LogbookEntry, aircraft?: Aircraft}> = ({data, aircraft}): ReactElement => {
     const [modalVisible, setModalVisible] = useState<boolean>(false)
     const [modalBody, setModalBody] = useState<string>('')
 
@@ -39,7 +39,7 @@ const LogbookDisplay: FC<{data: LogbookEntry, aircraft: Aircraft}> = ({data, air
 
                 <DisplayComponent title='Date' value={data.date.slice(0,10)}/>
 
-                <DisplayComponent extended title='Aircraft' value={`${aircraft.tailNumber} (${aircraft.type})`}/>
+                <DisplayComponent extended title='Aircraft' value={aircraft ? `${aircraft.tailNumber} (${aircraft.typeCode})` : 'Undefined'}/>
                 
                 
                 

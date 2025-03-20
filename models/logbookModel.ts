@@ -2,14 +2,18 @@ import prisma from '../middlewares/db'
 import {UserModel} from './authModel'
 import { LogbookEntry as ClientLogbookEntry } from '../src/hooks/logbook'
 import { LogbookEntry, Prisma } from '@prisma/client'
+import { userOwnsAircraft } from './aircraftModel'
 
 export const addEntryToDatabase = async(user: UserModel, body: ClientLogbookEntry): Promise<LogbookEntry | null> => {
     try {
+        if (!await userOwnsAircraft) {
+            return null
+        }
         const insert: LogbookEntry = await prisma.logbookEntry.create({
             data: {
                 date: new Date(body.date),
                 user_id: user.userId,
-                aircraft_id: 1,
+                aircraft_id: body.aircraftId,
                 total_time: body.totalTime,
                 pic: body.pic,
                 sic: body.sic,
@@ -69,6 +73,10 @@ export const addEntryToDatabase = async(user: UserModel, body: ClientLogbookEntr
 
 export const deleteEntryFromDatabase = async(user: UserModel, entryId: number): Promise<boolean | null> => {
     try {
+        if (!await userOwnsAircraft) {
+            return null
+        }
+
         const data: LogbookEntry | null = await prisma.logbookEntry.findFirst({
             where: {
                 user_id: user.userId, // so some prankster doesnt delete other peoples queries
@@ -94,7 +102,10 @@ export const deleteEntryFromDatabase = async(user: UserModel, entryId: number): 
 }
 
 export const updateLogbookEntry = async(user: UserModel, body: ClientLogbookEntry): Promise<LogbookEntry | null> => {
-    console.log(body)
+    if (!await userOwnsAircraft) {
+        return null
+    }
+    
     const entry = await prisma.logbookEntry.update({
         data: {
             date: new Date(body.date),

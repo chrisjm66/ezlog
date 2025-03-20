@@ -3,9 +3,10 @@ import { NavLink } from "react-router-dom"
 import useLogbook, { LogbookActions, LogbookEntry } from "../hooks/logbook"
 import LogbookCard from "../components/LogbookCard"
 import LogbookDisplay from "../components/LogbookDisplay"
-import { Aircraft } from "../hooks/aircraft"
+import useAircraft, { Aircraft, AircraftActions } from "../hooks/aircraft"
 
 const Logbook = (): ReactElement => {
+    const {getAircraft}: AircraftActions = useAircraft()
     const {logbookData}: LogbookActions = useLogbook()
     const [displayData, setDisplayData] = useState<LogbookEntry | undefined>(undefined)
     const [displayAircraft, setDisplayAircraft] = useState<Aircraft | undefined>(undefined)
@@ -32,12 +33,12 @@ const Logbook = (): ReactElement => {
 
                 <div className='flex flex-row h-rvh'>
                     <div className='flex flex-col w-60 overflow-x-hidden overflow-y-auto gap-y-1 h-svh'>
-                        {logbookData?.map((object: LogbookEntry) => <LogbookCard data={object} aircraft={{} as Aircraft} onClick={handleClick} key={object.entryId}/>)}
+                        {logbookData?.map((object: LogbookEntry) => <LogbookCard data={object} aircraft={getAircraft(object.aircraftId)} onClick={handleClick} key={object.entryId}/>)}
                     </div>
 
                     <div className='w-screen h-fit mx-1 px-2'>
                 
-                        {displayData ? <LogbookDisplay data={displayData} aircraft={{tailNumber: 'N41JA', make: 'Piper', model: 'Archer II', type: 'P28A', numberOfEngines: 1, engineType: 'piston'}} />: ''}
+                        {displayData ? <LogbookDisplay data={displayData} aircraft={getAircraft(displayData.aircraftId)} />: ''}
                     </div>
                 </div>
             </div>

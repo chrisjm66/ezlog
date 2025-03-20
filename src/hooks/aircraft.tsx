@@ -18,18 +18,37 @@ const useAircraftActions = (): AircraftActions => {
     }
 
     const addAircraft = async(data: Aircraft): Promise<number> => {
-        return 501 // not implemented
+        const response = await axios.post('/api/aircraft', data)
+
+        return response.status
     }
 
-    const deleteAircraft = async(data: Aircraft): Promise<number> => {
-        return 501 // not implemented
+    const deleteAircraft = async(aircraftId: number): Promise<number> => {
+        const response = await axios.delete('/api/aircraft', {data: aircraftId})
+
+        return response.status
+    }
+
+    const getAircraft = (aircraftId: number): Aircraft | undefined => {
+        let returnEntry: Aircraft | undefined = undefined
+
+        aircraftData?.map((aircraft: Aircraft) => {
+        if (aircraft.aircraftId == aircraftId) {
+            returnEntry = aircraft
+            return
+        }
+        })
+
+        return returnEntry
     }
 
     const updateAircraft = async(data: Aircraft): Promise<number> => {
-        return 501 // not implemented
+        const response = await axios.put('/api/aircraft', data)
+
+        return response.status
     }
 
-    return {aircraftData, addAircraft, deleteAircraft, updateAircraft, populateAircraftEntries}
+    return {aircraftData, addAircraft, deleteAircraft, getAircraft, updateAircraft, populateAircraftEntries}
 }
 
 // creates a wrapper for the rest of the app
@@ -51,21 +70,23 @@ export interface AircraftActions {
     aircraftData: Aircraft[] | undefined
     populateAircraftEntries: () => void
     addAircraft: (data: Aircraft) => Promise<number>
-    deleteAircraft: (data: Aircraft) => Promise<number>
+    deleteAircraft: (aircraftId: number) => Promise<number>
+    getAircraft: (aircraftId: number) => Aircraft | undefined
     updateAircraft: (data: Aircraft) => Promise<number>
 }
 
 export type Aircraft = {
-    aircraft_id: number;
-    tail_number: string;
+    aircraftId: number;
+    tailNumber: string;
     description: string | null;
+    numberOfEngines: number;
     make: string | null;
-    type_code: string;
+    typeCode: string;
     model: string | null;
-    engine_type: string;
+    engineType: string;
     taa: boolean;
     complex: boolean;
-    high_performance: boolean;
+    highPerformance: boolean;
 }
 
 export default useAircraft

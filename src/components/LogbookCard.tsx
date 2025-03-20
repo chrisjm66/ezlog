@@ -1,7 +1,8 @@
 import { FC, ReactElement } from "react"
-import { LogbookEntry, Aircraft } from "../hooks/logbook"
+import { LogbookEntry } from "../hooks/logbook"
+import { Aircraft } from "../hooks/aircraft"
 
-const LogbookDisplay: FC<{data: LogbookEntry, aircraft: Aircraft, onClick}> = ({data, aircraft, onClick}): ReactElement => {
+const LogbookDisplay: FC<{data: LogbookEntry, aircraft: Aircraft | undefined, onClick}> = ({data, aircraft, onClick}): ReactElement => {
     return (
             <button onClick={() => {onClick(data, aircraft)}} className="flex flex-col w-full h-24 bg-gray-100 justify-start items-center px-2 py-1 transition hover:bg-gray-200">
                 <div className='flex flex-row justify-between w-full'>
@@ -20,8 +21,8 @@ const LogbookDisplay: FC<{data: LogbookEntry, aircraft: Aircraft, onClick}> = ({
 
                     
                     <div className='flex flex-col items-end h-full'>
-                        <h2 className='text-ezblue font-bold text-md'>{aircraft.tailNumber}</h2>
-                        <h2 className='text-sm italic align-sub'>{aircraft.type}</h2>
+                        <h2 className='text-ezblue font-bold text-md'>{aircraft ? aircraft.tailNumber : ''}</h2>
+                        <h2 className='text-sm italic align-sub'>{aircraft ? aircraft.typeCode : ''}</h2>
                         <h2 className='text-sm'>
                             {data.totalTime} 
                             <p className='font-bold inline'> Total</p>

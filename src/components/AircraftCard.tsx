@@ -2,18 +2,18 @@ import { FC, ReactElement } from "react"
 import { Aircraft } from "../hooks/aircraft"
 
 const AircraftCard: FC<{data: Aircraft, onClick: (data: Aircraft) => void}> = ({data, onClick}): ReactElement => {
+    
     return (
             <button onClick={() => {onClick(data)}} className="flex flex-col w-full h-24 bg-gray-100 justify-start items-center px-2 py-1 transition hover:bg-gray-200">
                 <div className='flex flex-row justify-between w-full'>
                     <div className='flex flex-col h-full items-start'>
-                        <h2 className='text-ezblue font-bold text-md'>{new Date(data.tailNumber).toLocaleDateString('en-US')}</h2>
-                        <h2 className='text-md'>{data.type}</h2>
+                        <h2 className='text-ezblue font-bold text-md'>{data.tailNumber}</h2>
+                        <h2 className='text-md'>{data.typeCode}</h2>
                         <h2 className='text-sm'>
                             {data.make} 
                         </h2>
                         <h2 className='text-sm'>
                             {data.model} 
-
                         </h2>
                     </div>
 

@@ -13,6 +13,8 @@ import EditLogbookEntry from './views/EditLogbookEntry'
 import Logbook from './views/Logbook'
 import ContextProvider from './components/ContextProvider'
 import AircraftView from './views/AircraftView'
+import CreateAircraftEntry from './views/CreateAircraftEntry'
+import EditAircraftEntry from './views/EditAircraftEntry'
 
 
 const App = (): ReactElement => {
@@ -35,6 +37,8 @@ const App = (): ReactElement => {
                     </Route>
                     <Route path='/dashboard/aircraft'>
                       <Route index element={<AircraftView/>}/>
+                      <Route path='/dashboard/aircraft/create' element={<CreateAircraftEntry/>}/>
+                      <Route path='/dashboard/aircraft/edit/:aircraftId' element={<EditAircraftEntry/>}/>
                     </Route>
                   </Route>
                   
