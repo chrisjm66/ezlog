@@ -1,14 +1,12 @@
 import { FC, ReactElement, useState } from "react"
-import { Aircraft } from "../hooks/aircraft"
+import useAircraft, { Aircraft, AircraftActions } from "../hooks/aircraft"
 import CheckboxComponent from "./CheckboxInputComponent"
 import DisplayComponent from "./DisplayComponent"
 import Modal from "./Modal"
-import axios from "axios"
 import { NavLink } from "react-router-dom"
 
-const INPUT_CLASSNAME = 'px-2 py-1 w-full bg-white rounded-sm border-1 font-bold text-xl text-ezblue'
-const LABEL_CLASSNAME = 'text-xl mb-2'
-const LogbookDisplay: FC<{data: Aircraft}> = ({data}): ReactElement => {
+const AircraftDisplay: FC<{data: Aircraft}> = ({data}): ReactElement => {
+    const {deleteAircraft}: AircraftActions = useAircraft()
     const [modalVisible, setModalVisible] = useState<boolean>(false)
     const [modalBody, setModalBody] = useState<string>('')
 
@@ -34,12 +32,12 @@ const LogbookDisplay: FC<{data: Aircraft}> = ({data}): ReactElement => {
 
     const requestDelete = () => {
         setModalVisible(true)
-        setModalBody('Delete aircraf entry?')        
+        setModalBody('Delete aircraft entry?')        
     }
 
     const sendDeleteRequest = async() => {
-        const response = await axios.delete('/api/logbook', {data: {aircraftId: data.aircraftId}}) 
-        if (response.status == 200) {
+        const response = await deleteAircraft(data.aircraftId)
+        if (response == 200) {
             window.location.reload()
         }
     }
@@ -81,4 +79,4 @@ const LogbookDisplay: FC<{data: Aircraft}> = ({data}): ReactElement => {
     )
 }
 
-export default LogbookDisplay
+export default AircraftDisplay
