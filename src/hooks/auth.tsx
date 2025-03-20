@@ -1,4 +1,4 @@
-import { createContext, ReactElement, useContext, useEffect, useMemo, useState } from "react"
+import { createContext, ReactElement, useContext, useEffect, useState } from "react"
 import { NavigateFunction, Outlet, useNavigate } from "react-router-dom"
 import axios, { AxiosResponse } from "axios"
 
@@ -6,7 +6,7 @@ const AuthContext = createContext({})
 const useAuth = (): any => useContext(AuthContext)
 
 // logic for the context provider
-const useAuthActions = () => {
+const useAuthActions = (): AuthActions => {
     const navigate: NavigateFunction = useNavigate()
     const [loading, setLoading] = useState(true)
     const defaultUser: UserModel = {
@@ -56,6 +56,7 @@ const useAuthActions = () => {
         }
 
     }
+    
     const validate = async(): Promise<any> => {
         axios.get("/api/auth/validate").then((response: AxiosResponse) => {
             setLoading(false)
@@ -77,7 +78,7 @@ const useAuthActions = () => {
 
 // creates a wrapper for the rest of the app
 export const ProvideAuth = ({children}): ReactElement => {
-    const auth = useAuthActions()
+    const auth: AuthActions = useAuthActions()
 
     useEffect(() => {
         auth.validate()
@@ -99,6 +100,10 @@ export const ProtectedRoute = (): ReactElement => {
             navigate('/login')
         }
     }, [auth.loading, auth.user.userId, navigate])
+    
+    if (auth.loading) {
+        return <></>
+    }
     
     return (
         <Outlet/>
@@ -128,6 +133,8 @@ export type UserModel = {
 
 export type AuthActions = {
     user: UserModel
+    loading: boolean
+    setLoading: (data: boolean) => void
     signup: (userData: RegisterRequest) => void
     login: (userData: LoginRequest) => void
     validate: () => void

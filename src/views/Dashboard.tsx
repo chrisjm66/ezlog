@@ -8,7 +8,6 @@ const Dashboard = (): ReactElement => {
 
                 <CurrencySummary/>
             </div>
-        
     )
 }
 

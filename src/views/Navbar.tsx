@@ -23,6 +23,10 @@ const AccountDropdown = (): ReactElement => {
                     Logbook
             </NavLink>
 
+            <NavLink to='/dashboard/aircraft' className={styleNavLink}>
+                    Aircraft
+            </NavLink>
+
             <div className='flex flex-row items-center gap-x-4'>
                 <Icon icon="mdi:person" width={40} className="text-white text-2xl"/>
                 <h1 className="text-white font-semibold text-2xl">{`${user.firstName} ${user.lastName}`}</h1>

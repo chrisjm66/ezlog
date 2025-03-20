@@ -23,7 +23,7 @@ const __dirname = dirname(__filename);
 app.use(cors(corsOptions))
 app.use(cookieParser())
 app.use(express.json())
-app.use(express.urlencoded())
+app.use(express.urlencoded({extended: true}))
 app.use(express.static(path.join(__dirname, 'dist')))
 
 app.use('/api', apiRouter)
@@ -39,8 +39,6 @@ if (process.env.NODE_ENV == 'development') {
         res.sendFile(path.join(__dirname, 'dist', 'index.html'));
     })
 }
-
-
 
 const server = app.listen(port, () => {
     console.log("listening on port " + port)

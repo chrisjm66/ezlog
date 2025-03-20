@@ -9,17 +9,18 @@ datasource db {
 }
 
 model Aircraft {
-  aircraft_id      Int     @id @db.UnsignedInt
-  tail_number      String? @db.VarChar(20)
-  description      String? @db.VarChar(500)
-  make             String? @db.VarChar(50)
-  type_code        String? @db.VarChar(5)
-  model            String? @db.VarChar(50)
-  engine_type      String? @db.VarChar(20)
-  taa              Int?    @db.TinyInt
-  complex          Int?    @db.TinyInt
-  high_performance Int?    @db.TinyInt
-  user_id          Int     @db.UnsignedInt
+  aircraft_id       Int      @id @default(autoincrement()) @db.UnsignedInt
+  tail_number       String   @db.VarChar(20)
+  description       String?  @db.VarChar(500)
+  make              String?  @db.VarChar(50)
+  type_code         String   @db.VarChar(5)
+  model             String?  @db.VarChar(50)
+  engine_type       String   @db.VarChar(20)
+  number_of_engines Int
+  taa               Boolean?
+  complex           Boolean?
+  high_performance  Boolean?
+  user_id           Int      @db.UnsignedInt
 
   @@index([user_id], map: "aircraft_users_user_id_fk")
   @@map("aircraft")
@@ -57,26 +58,31 @@ model LogbookEntry {
   total_time           Decimal  @default(0.00) @db.Decimal(4, 2)
   pic                  Decimal  @default(0.00) @db.Decimal(4, 2)
   sic                  Decimal  @default(0.00) @db.Decimal(4, 2)
+  solo                 Decimal  @default(0.00) @db.Decimal(4, 2)
   cross_country        Decimal  @default(0.00) @db.Decimal(4, 2)
   sim_imc              Decimal  @default(0.00) @db.Decimal(4, 2)
   actual_imc           Decimal  @default(0.00) @db.Decimal(4, 2)
   night                Decimal  @default(0.00) @db.Decimal(4, 2)
-  day_takeoffs         Int      @default(0) @db.UnsignedInt
   day_landings         Int      @default(0) @db.UnsignedInt
-  night_takeoffs       Int      @default(0) @db.UnsignedInt
+  total_landings       Int      @default(0) @db.UnsignedInt
   night_landings       Int      @default(0) @db.UnsignedInt
-  holding              Int      @default(0) @db.TinyInt
+  holding              Boolean  @default(false)
+  intercepting         Boolean  @default(false)
+  remarks              String   @default("") @db.VarChar(500)
   approaches           Int      @default(0) @db.UnsignedInt
   dual_given           Decimal  @default(0.00) @db.Decimal(4, 2)
   dual_recieved        Decimal  @default(0.00) @db.Decimal(4, 2)
   route                String   @db.VarChar(300)
-  ipc                  Int      @default(0) @db.TinyInt
-  checkride            Int      @default(0) @db.TinyInt
-  flight_review        Int      @default(0) @db.TinyInt
+  ipc                  Boolean  @default(false)
+  checkride            Boolean  @default(false)
+  flight_review        Boolean  @default(false)
   user_id              Int      @db.UnsignedInt
   instructor_signature Bytes?   @db.Blob
   instructor_id        Int?     @db.UnsignedInt
   date                 DateTime @db.Date
+  to                   String   @default("") @db.VarChar(4)
+  from                 String   @db.VarChar(4)
+  approach_names       String   @default("") @db.VarChar(300)
 
   @@index([aircraft_id], map: "logbook_entries_aircraft_aircraft_id_fk")
   @@index([date, user_id], map: "logbook_entries_date")
@@ -102,25 +108,4 @@ model User {
   email      String @db.VarChar(100)
 
   @@map("users")
-}
-
-model mytable {
-  id                Int     @id
-  ident             String  @db.VarChar(7)
-  type              String  @db.VarChar(14)
-  name              String  @db.VarChar(108)
-  latitude_deg      Decimal @db.Decimal(21, 18)
-  longitude_deg     Decimal @db.Decimal(22, 18)
-  elevation_ft      Int?
-  continent         String  @db.VarChar(2)
-  iso_country       String  @db.VarChar(2)
-  iso_region        String  @db.VarChar(7)
-  municipality      String? @db.VarChar(61)
-  scheduled_service String  @db.VarChar(3)
-  gps_code          String? @db.VarChar(4)
-  iata_code         String? @db.VarChar(3)
-  local_code        String? @db.VarChar(7)
-  home_link         String? @db.VarChar(128)
-  wikipedia_link    String? @db.VarChar(128)
-  keywords          String? @db.VarChar(256)
 }
