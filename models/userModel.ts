@@ -1,5 +1,4 @@
 import prisma from "../middlewares/db";
-import { UserModel } from "./authModel";
 
 export const updateInstructorStatus = async (data: InstructorSettings, userId: number): Promise<number> => {
     await prisma.user.update({
@@ -8,7 +7,7 @@ export const updateInstructorStatus = async (data: InstructorSettings, userId: n
         },
         data: {
             is_instructor: data.isInstructor,
-            instructor_cid: data.instructorId as number,
+            instructor_cid: data.instructorId,
             instructor_expiry_date: data.expirationDate
         }
     })
@@ -18,6 +17,6 @@ export const updateInstructorStatus = async (data: InstructorSettings, userId: n
 
 export type InstructorSettings = {
     isInstructor: boolean
-    instructorId: number
+    instructorId: string
     expirationDate: string
 }

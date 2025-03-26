@@ -25,7 +25,7 @@ const Login = (): ReactElement => {
 
     return (
             <form className="flex flex-col place-self-center self-center gap-y-5 w-84 border-2 border-black p-5 m-10 rounded-xl" onSubmit={handleSubmit}>
-            <h1 className="font-bold text-3xl">Log In</h1>
+                <h1 className="font-bold text-3xl p-0">Log In</h1>
                 <div>
                     <label htmlFor='email' className='text-lg'>Email</label><br/>
                     <input required title="email" name="email" type='text' className='w-full rounded-sm'/><br/>

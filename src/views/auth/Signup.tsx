@@ -29,7 +29,7 @@ const Signup = (): ReactElement => {
             className="flex flex-col place-self-center self-center gap-y-5 w-84 border-2 border-black p-5 m-10 rounded-xl"
             onSubmit={handleSubmit}
             >
-            <h1 className="font-bold text-3xl">Sign Up</h1>
+            <h1 className="font-bold text-3xl p-0">Sign Up</h1>
                 <div>
                     <label htmlFor='firstName' className='text-lg'>First Name</label><br/>
                     <input required title="firstName" name="firstName" type='text' className='w-full rounded-sm'/><br/>

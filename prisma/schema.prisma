@@ -5,7 +5,7 @@ generator client {
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  relationMode = "foreignKeys"
 }
 
 model Aircraft {
@@ -21,6 +21,7 @@ model Aircraft {
   complex           Boolean?
   high_performance  Boolean?
   user_id           Int      @db.UnsignedInt
+  logbook_entries   LogbookEntry[]
 
   @@index([user_id], map: "aircraft_users_user_id_fk")
   @@map("aircraft")
@@ -42,47 +43,53 @@ model Certificate {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model LogbookEntry {
-  logbook_entry_id     Int      @id @default(autoincrement()) @db.UnsignedInt
-  aircraft_id          Int      @db.UnsignedInt
-  total_time           Decimal  @default(0.00) @db.Decimal(4, 2)
-  pic                  Decimal  @default(0.00) @db.Decimal(4, 2)
-  sic                  Decimal  @default(0.00) @db.Decimal(4, 2)
-  solo                 Decimal  @default(0.00) @db.Decimal(4, 2)
-  cross_country        Decimal  @default(0.00) @db.Decimal(4, 2)
-  sim_imc              Decimal  @default(0.00) @db.Decimal(4, 2)
-  actual_imc           Decimal  @default(0.00) @db.Decimal(4, 2)
-  night                Decimal  @default(0.00) @db.Decimal(4, 2)
-  day_landings         Int      @default(0) @db.UnsignedInt
-  total_landings       Int      @default(0) @db.UnsignedInt
-  night_landings       Int      @default(0) @db.UnsignedInt
-  holding              Boolean  @default(false)
-  intercepting         Boolean  @default(false)
-  remarks              String   @default("") @db.VarChar(500)
-  approaches           Int      @default(0) @db.UnsignedInt
-  dual_given           Decimal  @default(0.00) @db.Decimal(4, 2)
-  dual_recieved        Decimal  @default(0.00) @db.Decimal(4, 2)
-  route                String   @db.VarChar(300)
-  ipc                  Boolean  @default(false)
-  checkride            Boolean  @default(false)
-  flight_review        Boolean  @default(false)
-  user_id              Int      @db.UnsignedInt
-  instructor_signature Bytes?   @db.Blob
-  instructor_id        Int?     @db.UnsignedInt
-  date                 DateTime @db.Date
-  to                   String   @default("") @db.VarChar(4)
-  from                 String   @db.VarChar(4)
-  approach_names       String   @default("") @db.VarChar(300)
+  logbook_entry_id       Int      @id @default(autoincrement()) @db.UnsignedInt
+  aircraft_id            Int?     @db.UnsignedInt
+  aircraft               Aircraft?  @relation(fields: [aircraft_id], references: [aircraft_id])
+  total_time             Decimal  @default(0.00) @db.Decimal(5, 2)
+  pic                    Decimal  @default(0.00) @db.Decimal(5, 2)
+  sic                    Decimal  @default(0.00) @db.Decimal(5, 2)
+  solo                   Decimal  @default(0.00) @db.Decimal(5, 2)
+  cross_country          Decimal  @default(0.00) @db.Decimal(5, 2)
+  sim_imc                Decimal  @default(0.00) @db.Decimal(5, 2)
+  actual_imc             Decimal  @default(0.00) @db.Decimal(5, 2)
+  night                  Decimal  @default(0.00) @db.Decimal(5, 2)
+  day_landings           Int      @default(0) @db.UnsignedInt
+  total_landings         Int      @default(0) @db.UnsignedInt
+  night_landings         Int      @default(0) @db.UnsignedInt
+  holding                Boolean  @default(false)
+  intercepting           Boolean  @default(false)
+  remarks                String   @default("") @db.VarChar(500)
+  approaches             Int      @default(0) @db.UnsignedInt
+  dual_given             Decimal  @default(0.00) @db.Decimal(5, 2)
+  dual_recieved          Decimal  @default(0.00) @db.Decimal(5, 2)
+  route                  String   @db.VarChar(300)
+  ipc                    Boolean  @default(false)
+  checkride              Boolean  @default(false)
+  flight_review          Boolean  @default(false)
+  user_id                Int      @db.UnsignedInt
+  user                   User     @relation(name: "User", fields: [user_id], references: [user_id])
+  instructor             User?     @relation(name: "Instructor", fields: [instructor_user_id], references: [user_id])
+  instructor_signature   Bytes?   @db.Blob // these three columns not stored from user id (only populated) b/c user can change their instructor info after signing
+  instructor_cid         String?  @db.VarChar(15)
+  instructor_expiry_date String?  @db.VarChar(10) 
+  instructor_user_id     Int?     @db.UnsignedInt
+  date                   DateTime @db.Date
+  to                     String   @default("") @db.VarChar(4)
+  from                   String   @db.VarChar(4)
+  approach_names         String   @default("") @db.VarChar(300)
 
   @@index([aircraft_id], map: "logbook_entries_aircraft_aircraft_id_fk")
   @@index([date, user_id], map: "logbook_entries_date")
-  @@index([instructor_id], map: "logbook_entries_instructors_instructor_id_fk")
   @@index([user_id], map: "logbook_entries_users_user_id_fk")
+  @@index([instructor_user_id], map: "logbook_entries_users_user_id_fk_2")
   @@map("logbook_entries")
 }
 
 model Session {
   session_id String   @id @db.VarChar(255)
   user_id    Int      @db.UnsignedInt
+  user       User     @relation(fields: [user_id], references: [user_id])
   expires    DateTime @db.DateTime(0)
 
   @@index([user_id], map: "sessions_users_user_id_fk")
@@ -90,14 +97,16 @@ model Session {
 }
 
 model User {
-  user_id              Int     @id @default(autoincrement()) @db.UnsignedInt
-  first_name           String  @db.VarChar(45)
-  last_name            String  @db.VarChar(45)
-  password             String  @db.VarChar(256)
-  email                String  @db.VarChar(100)
-  is_instructor         Boolean @default(false)
-  instructor_cid        String?
+  user_id                Int     @id @default(autoincrement()) @db.UnsignedInt
+  first_name             String  @db.VarChar(45)
+  last_name              String  @db.VarChar(45)
+  password               String  @db.VarChar(256)
+  email                  String  @db.VarChar(100)
+  instructor_cid         String?
   instructor_expiry_date String? @db.VarChar(15)
-
+  is_instructor          Boolean @default(false)
+  logbook_entries        LogbookEntry[] @relation("User")
+  signed_entries        LogbookEntry[] @relation("Instructor")
+  sessions               Session[]    
   @@map("users")
 }

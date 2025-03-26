@@ -110,7 +110,7 @@ export type UserModel = {
     email: string
     userId: number
     isInstructor: boolean
-    instructorCid: number | null
+    instructorCid: string | null
     instructorExpiryDate: string | null
 }
 

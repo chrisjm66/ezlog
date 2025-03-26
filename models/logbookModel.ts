@@ -9,6 +9,8 @@ export const addEntryToDatabase = async(user: UserModel, body: ClientLogbookEntr
         if (!await userOwnsAircraft) {
             return null
         }
+
+        console.log(body)
         const insert: LogbookEntry = await prisma.logbookEntry.create({
             data: {
                 date: new Date(body.date),

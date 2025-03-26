@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react"
+import { ReactElement, useEffect, useState } from "react"
 import type { LogbookEntry } from "../../hooks/logbook"
 import Modal from "../../components/Modal"
 import NumberInputComponent from "../../components/NumberInputComponent"
@@ -7,13 +7,12 @@ import CheckboxComponent from "../../components/CheckboxInputComponent"
 import { useNavigate } from "react-router-dom"
 import useLogbook from "../../hooks/logbook"
 import AircraftOptions from "../../components/AircraftOptions"
+import useAircraft from "../../hooks/aircraft"
 
-const INPUT_CLASSNAME = 'px-2 py-1 w-full bg-white rounded-sm border-1 font-bold text-xl text-ezblue'
-const LABEL_CLASSNAME = 'text-xl mb-2'
 const INITIAL_STATE: LogbookEntry = {
             date: new Date().toISOString(),
             entryId: undefined,
-            aircraftId: -1,
+            aircraftId: undefined,
             totalTime: 0,
             pic: 0,
             sic: 0,
@@ -42,6 +41,7 @@ const INITIAL_STATE: LogbookEntry = {
 
 const CreateLogbookEntry = (): ReactElement => {
     const logbook = useLogbook()
+    const aircraft = useAircraft()
     const navigate = useNavigate()
     const [values, setValues] = useState(INITIAL_STATE)
     const [submitActive, setSubmitActive] = useState(false)
@@ -74,6 +74,12 @@ const CreateLogbookEntry = (): ReactElement => {
         
     };
 
+    useEffect(() => {
+        if (values.aircraftId == undefined && aircraft.aircraftData[0]) {
+            setValues({...values, aircraftId: aircraft.aircraftData[0].aircraftId})
+        }
+    }, [aircraft.aircraftData, setValues, values])
+    
     const closeModal = (): void => {
         setModalOpen(false)
     }
@@ -107,12 +113,12 @@ const CreateLogbookEntry = (): ReactElement => {
                         <h1 className="text-xl font-bold w-full mb-5">GENERAL INFO</h1>
 
                         <div className="flex flex-col w-40">
-                            <label className={LABEL_CLASSNAME}>Date</label>
-                            <input required name='date' type="date" defaultValue={values.date} className={INPUT_CLASSNAME}/>
+                            <label>Date</label>
+                            <input required name='date' type="date" defaultValue={values.date}/>
                         </div>
 
                         <div className="flex flex-col w-64">
-                            <label className={LABEL_CLASSNAME}>Aircraft</label>
+                            <label>Aircraft</label>
                             <AircraftOptions/>
                         </div>
                         
@@ -190,7 +196,7 @@ const CreateLogbookEntry = (): ReactElement => {
 
                         <div className="w-full my-2"/>
                         <div className="w-1/3 ml-10">
-                            <label htmlFor='remarks' className={LABEL_CLASSNAME}>Remarks</label>
+                            <label htmlFor='remarks'>Remarks</label>
                             <textarea name='remarks' placeholder="Enter remarks here" className='mt-2 px-2 py-1 w-120 h-56 bg-white rounded-sm border-1 text-md text-ezblue resiz'></textarea>
                         </div>
                         

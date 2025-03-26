@@ -61,7 +61,7 @@ export const ProvideLogbook = ({children}): ReactElement => {
 
 export type LogbookEntry = {
   entryId: number | undefined
-  aircraftId: number
+  aircraftId?: number
   date: string
   totalTime: number
   pic: number

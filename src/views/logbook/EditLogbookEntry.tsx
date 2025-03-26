@@ -7,6 +7,8 @@ import CheckboxComponent from "../../components/CheckboxInputComponent"
 import { useNavigate, useParams } from "react-router-dom"
 import useLogbook from "../../hooks/logbook"
 import { NavLink } from "react-router-dom"
+import DisplayComponent from "../../components/DisplayComponent"
+import useAircraft, { AircraftActions } from "../../hooks/aircraft"
 
 const INPUT_CLASSNAME = 'px-2 py-1 w-full bg-white rounded-sm border-1 font-bold text-xl text-ezblue'
 const LABEL_CLASSNAME = 'text-xl mb-2'
@@ -47,7 +49,7 @@ const EditLogbookEntry = (): ReactElement => {
     const [values, setValues] = useState<LogbookEntry>(INITIAL_STATE)
     const [submitActive, setSubmitActive] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
-
+    const aircraft: AircraftActions = useAircraft()
     // onChange
     
     const handleChange = (event): void => {
@@ -128,14 +130,7 @@ const EditLogbookEntry = (): ReactElement => {
                             <input required name='date' type="date" defaultValue={values.date.slice(0,10)} className={INPUT_CLASSNAME}/>
                         </div>
 
-                        <div className="flex flex-col w-64">
-                            <label className={LABEL_CLASSNAME}>Aircraft</label>
-                            <select required name='aircraftId' className='bg-white px-2 py-1 font-bold text-ezblue rounded-sm w-full border-1 border-ezblue'>
-                                <option value={1}>
-                                    N41JA (P28A)
-                                </option>
-                            </select>
-                        </div>
+                        <DisplayComponent title='Aircraft' value={aircraft.getAircraft(values.aircraftId)?.tailNumber}/>
                         
                         
                         
