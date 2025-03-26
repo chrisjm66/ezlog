@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { ReactElement, useState } from "react"
-import { Link, redirect } from "react-router-dom"
-import useAuth, { LoginRequest } from "../hooks/auth"
+import { Link } from "react-router-dom"
+import useAuth, { LoginRequest } from "../../hooks/auth"
 
 const Login = (): ReactElement => {
     const auth = useAuth()

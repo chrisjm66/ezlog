@@ -24,8 +24,12 @@ const useAircraftActions = (): AircraftActions => {
     }
 
     const deleteAircraft = async(aircraftId: number): Promise<number> => {
-        const response = await axios.delete('/api/aircraft', {data: aircraftId})
-
+        const response = await axios.delete('/api/aircraft', {
+            data: {
+                aircraftId: aircraftId
+            }
+        })
+        console.log(response)
         return response.status
     }
 

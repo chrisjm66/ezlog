@@ -1,8 +1,8 @@
 import { ReactElement, useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
-import AircraftCard from "../components/AircraftCard"
-import AircraftDisplay from "../components/AircraftDisplay"
-import useAircraft, { Aircraft, AircraftActions } from "../hooks/aircraft"
+import AircraftCard from "../../components/AircraftCard"
+import AircraftDisplay from "../../components/AircraftDisplay"
+import useAircraft, { Aircraft, AircraftActions } from "../../hooks/aircraft"
 
 const AircraftView = (): ReactElement => {
     const {aircraftData}: AircraftActions = useAircraft()

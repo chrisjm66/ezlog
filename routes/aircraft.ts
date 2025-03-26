@@ -67,8 +67,9 @@ router.put('/', async(req: Request, res: Response): Promise<any> => {
 
 router.delete('/', async(req: Request, res: Response): Promise<any> => {
     const user: UserModel = res.locals.user
+    const {aircraftId} = req.body
 
-    const queryData = await deleteAircraft(req.body, user.userId)
+    const queryData = await deleteAircraft(aircraftId, user.userId)
 
     if (queryData) {
         return res.sendStatus(queryData)

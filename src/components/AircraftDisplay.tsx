@@ -37,6 +37,7 @@ const AircraftDisplay: FC<{data: Aircraft}> = ({data}): ReactElement => {
 
     const sendDeleteRequest = async() => {
         const response = await deleteAircraft(data.aircraftId)
+        console.log(response)
         if (response == 200) {
             window.location.reload()
         }

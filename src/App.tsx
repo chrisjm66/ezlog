@@ -2,19 +2,21 @@ import './App.css'
 import { ReactElement } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ProtectedRoute, ProvideAuth } from './hooks/auth'
-import Layout from './views/Layout'
+import Layout from './layouts/Layout'
 import Homepage from './views/Homepage'
 import NotFound from './views/NotFound'
-import Login from './views/Login'
-import Signup from './views/Signup'
-import Dashboard from './views/Dashboard'
-import CreateLogbookEntry from './views/CreateLogbookEntry'
-import EditLogbookEntry from './views/EditLogbookEntry'
+import Login from './views/auth/Login'
+import Signup from './views/auth/Signup'
+import Dashboard from './views/dashboard/Dashboard'
+import CreateLogbookEntry from './views/logbook/CreateLogbookEntry'
+import EditLogbookEntry from './views/logbook/EditLogbookEntry'
 import Logbook from './views/Logbook'
 import ContextProvider from './components/ContextProvider'
-import AircraftView from './views/AircraftView'
-import CreateAircraftEntry from './views/CreateAircraftEntry'
-import EditAircraftEntry from './views/EditAircraftEntry'
+import AircraftView from './views/aircraft/AircraftView'
+import CreateAircraftEntry from './views/aircraft/CreateAircraftEntry'
+import EditAircraftEntry from './views/aircraft/EditAircraftEntry'
+import UserSettings from './views/user/UserSettings'
+import InstructorPanel from './views/instructor/InstructorPanel'
 
 
 const App = (): ReactElement => {
@@ -40,9 +42,13 @@ const App = (): ReactElement => {
                       <Route path='/dashboard/aircraft/create' element={<CreateAircraftEntry/>}/>
                       <Route path='/dashboard/aircraft/edit/:aircraftId' element={<EditAircraftEntry/>}/>
                     </Route>
+                    <Route path='/dashboard/instructor'>
+                      <Route index element={<InstructorPanel/>}/>
+                    </Route>
                   </Route>
-                  
-                
+              </Route>
+              <Route path='/settings' element={<ProtectedRoute/>}>
+                  <Route index element={<UserSettings/>}/>
               </Route>
           </Route>
           <Route path="*" element={<NotFound/>}/>

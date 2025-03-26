@@ -11,6 +11,13 @@ const styleNavLink = ({isActive}: any): string => {
 const AccountDropdown = (): ReactElement => {
     const {user, logout} = useAuth()
 
+    const instructorNavLink = (): ReactElement => {
+        return (
+            <NavLink to='dashboard/instructor' className={styleNavLink}>
+                Instructor
+            </NavLink>
+        )
+    }
     return (
         <div className="flex-row flex items-center gap-x-10 absolute right-10">
             
@@ -27,9 +34,10 @@ const AccountDropdown = (): ReactElement => {
                     Aircraft
             </NavLink>
 
+            {user.isInstructor ? instructorNavLink() : null}
             <div className='flex flex-row items-center gap-x-4'>
                 <Icon icon="mdi:person" width={40} className="text-white text-2xl"/>
-                <h1 className="text-white font-semibold text-2xl">{`${user.firstName} ${user.lastName}`}</h1>
+                <NavLink to='/settings' className="text-white font-semibold text-2xl">{`${user.firstName} ${user.lastName}`}</NavLink>
             </div>
             
             <NavLink to='/' className="text-white text-2xl" onClick={logout}>

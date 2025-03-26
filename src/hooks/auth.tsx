@@ -129,6 +129,9 @@ export type UserModel = {
     lastName: string
     email: string
     userId: number
+    instructorCid: string
+    isInstructor: boolean
+    instructorExpiryDate: string
 }
 
 export type AuthActions = {

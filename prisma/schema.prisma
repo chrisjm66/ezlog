@@ -40,17 +40,6 @@ model Certificate {
   @@map("certificates")
 }
 
-model Instructor {
-  instructor_id  Int       @id @default(autoincrement()) @db.UnsignedInt
-  certificate_id String    @db.VarChar(11)
-  user_id        Int       @db.UnsignedInt
-  date_issued    DateTime? @db.Date
-  date_expires   DateTime? @db.Date
-
-  @@index([user_id], map: "instructors_users_user_id_fk")
-  @@map("instructors")
-}
-
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model LogbookEntry {
   logbook_entry_id     Int      @id @default(autoincrement()) @db.UnsignedInt
@@ -101,11 +90,14 @@ model Session {
 }
 
 model User {
-  user_id    Int    @id @default(autoincrement()) @db.UnsignedInt
-  first_name String @db.VarChar(45)
-  last_name  String @db.VarChar(45)
-  password   String @db.VarChar(256)
-  email      String @db.VarChar(100)
+  user_id              Int     @id @default(autoincrement()) @db.UnsignedInt
+  first_name           String  @db.VarChar(45)
+  last_name            String  @db.VarChar(45)
+  password             String  @db.VarChar(256)
+  email                String  @db.VarChar(100)
+  is_instructor         Boolean @default(false)
+  instructor_cid        String?
+  instructor_expiry_date String? @db.VarChar(15)
 
   @@map("users")
 }

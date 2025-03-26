@@ -42,7 +42,10 @@ export const createUser = async(userData: RegisterRequest): Promise<UserModel> =
         firstName: newUser.first_name,
         lastName: newUser.last_name,
         email: newUser.email,
-        userId: newUser.user_id
+        userId: newUser.user_id,
+        isInstructor: newUser?.is_instructor,
+        instructorCid: newUser.instructor_cid,
+        instructorExpiryDate: newUser.instructor_expiry_date
     }
 
     if (!newUser) { throw new Error('Error generating new user.') }
@@ -61,7 +64,10 @@ export const getUser = async(userId: number): Promise<UserModel | null> => {
         firstName: result?.first_name,
         lastName: result?.last_name,
         email: result?.email,
-        userId: result?.user_id
+        userId: result?.user_id,
+        isInstructor: result?.is_instructor,
+        instructorCid: result.instructor_cid,
+        instructorExpiryDate: result.instructor_expiry_date
     }
 
     return user
@@ -78,7 +84,10 @@ export const getUserByEmail = async(email: string): Promise<UserModel | null> =>
         firstName: result?.first_name,
         lastName: result?.last_name,
         email: result?.email,
-        userId: result?.user_id
+        userId: result?.user_id,
+        isInstructor: result?.is_instructor,
+        instructorCid: result.instructor_cid,
+        instructorExpiryDate: result.instructor_expiry_date
     }
 
     return user
@@ -100,6 +109,9 @@ export type UserModel = {
     lastName: string
     email: string
     userId: number
+    isInstructor: boolean
+    instructorCid: number | null
+    instructorExpiryDate: string | null
 }
 
 export type RegisterRequest = {

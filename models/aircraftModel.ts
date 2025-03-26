@@ -75,8 +75,9 @@ export const updateAircraft = async(data: ClientAircraft, userId: number): Promi
 }
 
 export const deleteAircraft = async(aircraftId: number, userId: number): Promise<number | null> => {
+    console.log(aircraftId, userId)
     if (!aircraftId || !userId) {
-        return null
+        return 400
     }
 
     await prisma.aircraft.delete({

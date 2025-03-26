@@ -2,7 +2,7 @@
 import { ReactElement, useState } from "react"
 import { Link } from "react-router-dom"
 import { useFormStatus } from "react-dom"
-import useAuth, { RegisterRequest } from "../hooks/auth"
+import useAuth, { RegisterRequest } from "../../hooks/auth"
 
 const Signup = (): ReactElement => {
     const auth = useAuth()

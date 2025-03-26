@@ -1,0 +1,58 @@
+import React, { ReactNode, useState } from "react";
+import CheckboxComponent from "../CheckboxInputComponent";
+import TextInputComponent from "../TextInputComponent";
+import axios from "axios";
+import Modal from "../Modal";
+import { redirect } from "react-router-dom";
+import useAuth, {AuthActions} from "../../hooks/auth";
+
+const InstructorSettings: React.FC = (): ReactNode => {
+    const auth: AuthActions = useAuth()
+    const [submitting, setSubmitting] = useState(false)
+
+    const submitForm = async(e) => {
+        if (submitting) return
+        setSubmitting(true)
+        e.preventDefault()
+
+        const formData = new FormData(e.target)
+
+        const response = await axios.put('/api/user/instructor', {
+            isInstructor: formData.get('isInstructor') == 'on' ? true : false,
+            instructorId: formData.get('instructorId'),
+            expirationDate: formData.get('expirationDate'),
+        })
+
+        setSubmitting(false)
+
+        if (response.status == 200) {
+            auth.validate()
+            redirect('/dashboard')
+        }
+    }
+    return (
+        <div className="gray-container gap-y-5">
+            <Modal title='Form Status' open={submitting}>
+                <h3>Submitting</h3>
+            </Modal>
+
+            <h3>Instructor Settings</h3>
+
+            <form onSubmit={submitForm}>
+                <div className='flex flex-row gap-x-5'>      
+                    <CheckboxComponent title='Instructor Mode' formName='isInstructor' value={auth.user.isInstructor}/>
+                    <TextInputComponent title='Instructor ID' formName='instructorId' defaultValue={auth.user.instructorCid}/>
+                    <TextInputComponent title='Expiration' formName='expirationDate' defaultValue={auth.user.instructorExpiryDate}/>
+                </div>
+
+                <button className='mt-5' type='submit'>
+                    Save
+                </button>
+            </form>
+            
+            
+        </div>
+    )
+}
+
+export default InstructorSettings
