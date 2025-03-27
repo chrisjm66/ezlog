@@ -33,7 +33,8 @@ const useAircraftActions = (): AircraftActions => {
         return response.status
     }
 
-    const getAircraft = (aircraftId: number): Aircraft | undefined => {
+    const getAircraft = (aircraftId: number | undefined): Aircraft | undefined => {
+        if (aircraftId == undefined) return undefined
         let returnEntry: Aircraft | undefined = undefined
 
         aircraftData?.map((aircraft: Aircraft) => {
@@ -75,7 +76,7 @@ export interface AircraftActions {
     populateAircraftEntries: () => void
     addAircraft: (data: Aircraft) => Promise<number>
     deleteAircraft: (aircraftId: number) => Promise<number>
-    getAircraft: (aircraftId: number) => Aircraft | undefined
+    getAircraft: (aircraftId: number | undefined) => Aircraft | undefined
     updateAircraft: (data: Aircraft) => Promise<number>
 }
 

@@ -1,0 +1,35 @@
+import { ReactElement, useEffect, useState } from "react"
+import useLogbook, { LogbookActions, LogbookEntry } from "../../hooks/logbook"
+import LogbookCard from "../../components/LogbookCard"
+import LogbookDisplay from "../../components/LogbookDisplay"
+import useAircraft, { Aircraft, AircraftActions } from "../../hooks/aircraft"
+import CardLayout from '../../layouts/CardLayout.tsx'
+
+const Logbook = (): ReactElement => {
+    const {getAircraft}: AircraftActions = useAircraft()
+    const {logbookData}: LogbookActions = useLogbook()
+    const [displayData, setDisplayData] = useState<LogbookEntry | undefined>(undefined)
+    const [displayAircraft, setDisplayAircraft] = useState<Aircraft | undefined>(undefined)
+
+    const handleClick = (data: LogbookEntry, aircraft: Aircraft): void => {
+        setDisplayData(data)
+        setDisplayAircraft(aircraft)
+    }
+
+    const LogbookCards: React.FC = () => {
+        return logbookData?.map((object: LogbookEntry) => <LogbookCard data={object} aircraft={getAircraft(object.aircraftId)} onClick={handleClick} key={object.entryId}/>)
+    }
+
+    useEffect(() => {
+        console.log('ran' + typeof(logbookData))
+
+        if (logbookData) {
+            console.log(logbookData)
+        }
+        
+    }, [logbookData])
+    
+    return <CardLayout title='My Logbook' buttonText='Create New Entry' buttonHref='/dashboard/logbook/create' ListObjects={<LogbookCards/>} WindowDisplay={displayData ? <LogbookDisplay data={displayData} aircraft={displayAircraft}/> : null}/>
+}
+
+export default Logbook

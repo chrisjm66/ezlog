@@ -7,7 +7,7 @@
   "proxy": "https://ezlog.chrismangan.net",
   "scripts": {
     "dev": "vite",
-    "dev-server": "tsx watch ./index.ts",
+    "server": "tsx watch ./index.ts",
     "prod": "tsx ./index.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",

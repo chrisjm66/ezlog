@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom"
 import AircraftCard from "../../components/AircraftCard"
 import AircraftDisplay from "../../components/AircraftDisplay"
 import useAircraft, { Aircraft, AircraftActions } from "../../hooks/aircraft"
+import CardLayout from "../../layouts/CardLayout"
 
 const AircraftView = (): ReactElement => {
     const {aircraftData}: AircraftActions = useAircraft()
@@ -19,35 +20,18 @@ const AircraftView = (): ReactElement => {
         
     }, [aircraftData])
 
-    const List = () => {
-        if (aircraftData?.length == 0) {
+    const AircraftList = () => {
+        if (!aircraftData || aircraftData.length == 0) {
             return <h1>No aircraft available</h1>
         }
         
         return (
-            <div className='flex flex-row h-rvh'>
-                <div className='flex flex-col w-60 overflow-x-hidden overflow-y-auto gap-y-1 h-svh'>
-                    {aircraftData ? aircraftData.map((object: Aircraft) => <AircraftCard data={object} onClick={handleClick} key={object.aircraftId}/>) : ''}
-                </div>
-    
-                <div className='w-screen h-fit mx-1 px-2'>
-            
-                    {displayData ? <AircraftDisplay data={displayData} />: ''}
-                </div>
-            </div>
+            aircraftData.map((object: Aircraft) => <AircraftCard data={object} onClick={handleClick} key={object.aircraftId}/>)
         )
     }
 
     return (
-            <div className="flex flex-col h-full">
-                <div className="w-full p-2 m-2">
-                    <h1 className="text-3xl font-bold justify-self-start inline-block">My Aircraft</h1>
-                    <NavLink className='bg-ezblue justify-self-stretch inline-block p-2 rounded-md ml-5' to='/dashboard/aircraft/create'>Create New Aircraft</NavLink>
-                </div>
-
-                {aircraftData ? <List/> : <h1 className='p-5'>No Aircraft Added</h1>}
-            </div>
-        
+            <CardLayout title='My Aircraft' buttonText='Create New Aircraft' buttonHref='/dashboard/aircraft/create' ListObjects={<AircraftList/>} WindowDisplay={displayData ? <AircraftDisplay data={displayData}/> : null}/>
     )
 }
 export default AircraftView
