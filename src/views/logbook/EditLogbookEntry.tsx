@@ -196,9 +196,9 @@ const EditLogbookEntry = (): ReactElement => {
                         <div className="w-1/3 ml-10">
                             <h2 className='text-lg font-bold mb-2'>Flight Tags</h2>
                             <div className='flex justify-left gap-x-12 w-full items-end'>
-                                <CheckboxComponent title="Checkride" formName='checkride' defaultValue={values.checkride}/>
-                                <CheckboxComponent title="IPC" formName='ipc' defaultValue={values.ipc}/>
-                                <CheckboxComponent title="Flight Review" formName='flightReview' defaultValue={values.flightReview}/>
+                                <CheckboxComponent title="Checkride" formName='checkride' value={values.checkride}/>
+                                <CheckboxComponent title="IPC" formName='ipc' value={values.ipc}/>
+                                <CheckboxComponent title="Flight Review" formName='flightReview' value={values.flightReview}/>
                             </div>
                         </div>
                        

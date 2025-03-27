@@ -1,5 +1,5 @@
 import { createContext, ReactElement, useContext, useEffect, useState } from "react"
-import { NavigateFunction, Outlet, useNavigate } from "react-router-dom"
+import { NavigateFunction, Outlet, redirect, useNavigate } from "react-router-dom"
 import axios, { AxiosResponse } from "axios"
 
 const AuthContext = createContext({})
@@ -13,7 +13,8 @@ const useAuthActions = (): AuthActions => {
         firstName: "",
         lastName: "",
         email: "",
-        userId: -1
+        userId: -1,
+        isInstructor: false
     }
 
     const [user, setUser] = useState(defaultUser)
@@ -49,10 +50,10 @@ const useAuthActions = (): AuthActions => {
     const logout = async(): Promise<void> => {
         const response = await axios.post("/api/auth/logout", user)
         
-        
         if (response.status == 200) {
             setUser(defaultUser)
-            return navigate('/')
+            redirect('/')
+            
         }
 
     }
@@ -129,9 +130,9 @@ export type UserModel = {
     lastName: string
     email: string
     userId: number
-    instructorCid: string
+    instructorCid?: string
     isInstructor: boolean
-    instructorExpiryDate: string
+    instructorExpiryDate?: string
 }
 
 export type AuthActions = {

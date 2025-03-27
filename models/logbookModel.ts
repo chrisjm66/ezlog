@@ -150,7 +150,10 @@ export const getLogbookEntries = async(user: UserModel): Promise<ClientLogbookEn
     // get user data
     const query: LogbookEntry[] = await prisma.logbookEntry.findMany({
         where: {
-            user_id: user.userId
+            OR: [
+                { user_id: user.userId },
+                { instructor_user_id: user.userId }
+            ]
         }
     })
     
@@ -160,7 +163,7 @@ export const getLogbookEntries = async(user: UserModel): Promise<ClientLogbookEn
     for (let i = 0; i < query.length; i++) {
         userEntry.push({
             entryId: query[i].logbook_entry_id,
-            aircraftId: query[i].aircraft_id,
+            aircraftId: query[i].aircraft_id || -1,
             date: query[i].date.toISOString(),
             totalTime: Prisma.Decimal(query[i].total_time).toNumber(),
             pic: Prisma.Decimal(query[i].pic).toNumber(),

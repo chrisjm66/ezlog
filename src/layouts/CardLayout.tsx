@@ -1,7 +1,10 @@
-import { JSX } from 'react'
+import { JSX, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 
 const CardLayout: React.FC<Props> = ({title, buttonText, buttonHref, ListObjects, WindowDisplay}) => {
+    useEffect(() => {
+        console.log(ListObjects)
+    }, [ListObjects])
     return (
         <div className="flex flex-col h-full">
             <div className="w-full m-2">

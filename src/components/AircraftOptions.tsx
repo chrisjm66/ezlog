@@ -11,7 +11,7 @@ const AircraftOptions = () => {
     })
 
     return (
-        <select required name='aircraftId' title='aircraft' className='bg-white px-2 py-1 font-bold text-ezblue rounded-sm w-full border-1 border-ezblue'>
+        <select name='aircraftId' title='aircraft' className='bg-white px-2 py-1 font-bold text-ezblue rounded-sm w-full border-1 border-ezblue'>
             {rows}
         </select>
     )

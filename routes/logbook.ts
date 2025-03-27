@@ -12,9 +12,9 @@ router.use(populateUserInfo)
 router.get('/', async(req: Request, res: Response): Promise<any> => {
     const user: UserModel = res.locals.user
 
-    const userEntry = await getLogbookEntries(user)
+    const logbookEntries = await getLogbookEntries(user)
 
-    res.json(userEntry)
+    res.json(logbookEntries)
 })
 
 router.post('/', async(req: Request, res: Response): Promise<any> => {

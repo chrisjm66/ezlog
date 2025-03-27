@@ -125,9 +125,9 @@ const EditLogbookEntry = (): ReactElement => {
 
                         <div className="w-full my-1"/>
 
-                        <CheckboxComponent defaultValue={values.taa} title="TAA" formName="taa"/>
-                        <CheckboxComponent defaultValue={values.complex} title="Complex" formName="complex"/>
-                        <CheckboxComponent defaultValue={values.highPerformance} title="High Performance" formName="highPerformance"/>
+                        <CheckboxComponent value={values.taa} title="TAA" formName="taa"/>
+                        <CheckboxComponent value={values.complex} title="Complex" formName="complex"/>
+                        <CheckboxComponent value={values.highPerformance} title="High Performance" formName="highPerformance"/>
 
                         <div className="w-full my-1"/>
 

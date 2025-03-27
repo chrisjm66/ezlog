@@ -30,15 +30,15 @@ export const setAuthSesionCookie = async(req: Request, res: Response): Promise<a
     return res.json(res.locals.user)
 }
 
-export const clearAuthSessionCookie = (req: Request, res: Response, next: NextFunction) => {
+export const clearAuthSessionCookie = (req: Request, res: Response, next: NextFunction): Promise<any> => {
     if (process.env.NODE_ENV === 'production') {
         // When deployed over HTTPS
-        res.clearCookie('auth', {httpOnly: true, sameSite: "lax", expires: new Date(Date.now() + 300000), path: '/', secure: true})
+        res.clearCookie('auth', {httpOnly: true, sameSite: "lax", secure: true})
     } else {
         // When deployed over HTTP (localhost)
-        res.clearCookie('auth', {httpOnly: true, sameSite: "lax", expires: new Date(Date.now() + 300000), path: '/', secure: false})
+        res.clearCookie('auth', {httpOnly: true, sameSite: "lax", secure: false})
 
     }
 
-    next()
+    return res.sendStatus(200)
 }

@@ -22,7 +22,7 @@ const useLogbookActions = (): LogbookActions  => {
   }
 
   const populateLogbookEntries = (): void => {
-    axios.get<LogbookEntry[]>('/api/logbook').then((fetchData: AxiosResponse<LogbookEntry[] | undefined>) => {
+    axios.get('/api/logbook').then((fetchData: AxiosResponse) => {
       setLogbookData(fetchData.data?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
       console.log(logbookData)
     }).catch((err) => {
