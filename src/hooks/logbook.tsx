@@ -94,6 +94,7 @@ export type LogbookEntry = {
   remarks: string
   instructorSignature?: Uint8Array<ArrayBufferLike>
   instructorExpiryDate?: string
+  instructorSignedDate?: string
   instructorCid?: string
 
 }

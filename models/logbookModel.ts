@@ -157,6 +157,7 @@ export const getLogbookEntries = async(user: UserModel): Promise<ClientLogbookEn
             instructor: true,
             instructor_signature: true,
             instructor_cid: true,
+            instructor_signed_date: true,
             instructor_expiry_date: true,
             user_id: true,
             date: true,
@@ -231,6 +232,7 @@ export const getLogbookEntries = async(user: UserModel): Promise<ClientLogbookEn
             remarks: query[i].remarks,
             instructorCid: query[i].instructor_cid || undefined,
             instructorSignature: query[i].instructor_signature || undefined,
+            instructorSignedDate: query[i].instructor_signed_date?.toISOString() || undefined,
             instructorExpiry: query[i].instructor_expiry_date || undefined,
             instructor: toClientUserModel(query[i].instructor || undefined) || undefined
         })
