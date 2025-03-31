@@ -83,11 +83,11 @@ export interface AircraftActions {
 export type Aircraft = {
     aircraftId: number;
     tailNumber: string;
-    description: string | null;
+    description?: string;
     numberOfEngines: number;
-    make: string | null;
+    make?: string;
     typeCode: string;
-    model: string | null;
+    model?: string;
     engineType: string;
     taa: boolean;
     complex: boolean;

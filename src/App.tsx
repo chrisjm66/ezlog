@@ -44,6 +44,7 @@ const App = (): ReactElement => {
                     </Route>
                     <Route path='/dashboard/instructor'>
                       <Route index element={<InstructorPanel/>}/>
+                      <Route path='/dashboard/instructor/:entryId' element={<InstructorPanel/>}/>
                     </Route>
                   </Route>
               </Route>

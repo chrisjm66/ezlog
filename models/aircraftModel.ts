@@ -89,3 +89,24 @@ export const deleteAircraft = async(aircraftId: number, userId: number): Promise
 
     return 200
 }
+
+export const toClientAircraft = (aircraft: Aircraft | undefined): ClientAircraft | undefined => {
+    if (! aircraft) {
+        return undefined
+    }
+    const clientAircraft: ClientAircraft = {
+        tailNumber: aircraft.tail_number,
+        description: aircraft.description || undefined,
+        make: aircraft.make || undefined,
+        typeCode: aircraft.type_code,
+        model: aircraft.model || undefined,
+        engineType: aircraft.engine_type,
+        numberOfEngines: aircraft.number_of_engines,
+        taa: aircraft.taa || false,
+        complex: aircraft.complex || false,
+        highPerformance: aircraft.high_performance || false,
+        aircraftId: aircraft.aircraft_id
+    }
+
+    return clientAircraft
+}

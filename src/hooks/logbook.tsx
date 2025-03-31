@@ -1,5 +1,7 @@
 import { createContext, useContext, ReactElement, useEffect, useState} from "react"
 import axios, { AxiosResponse } from "axios"
+import { UserModel } from "./auth"
+import { Aircraft } from "./aircraft"
 
 const LogbookContext = createContext<LogbookActions>({} as LogbookActions)
 const useLogbook = (): LogbookActions => useContext<LogbookActions>(LogbookContext)
@@ -60,6 +62,9 @@ export const ProvideLogbook = ({children}): ReactElement => {
 }
 
 export type LogbookEntry = {
+  user: UserModel
+  aircraft: Aircraft | undefined
+  instructor: UserModel | undefined
   entryId: number | undefined
   aircraftId?: number
   date: string
@@ -87,8 +92,10 @@ export type LogbookEntry = {
   to: string
   from: string
   remarks: string
-  instructorSignature?: Blob
-  instructorId?: number
+  instructorSignature?: Uint8Array<ArrayBufferLike>
+  instructorExpiryDate?: string
+  instructorCid?: string
+
 }
 
 export interface LogbookActions {

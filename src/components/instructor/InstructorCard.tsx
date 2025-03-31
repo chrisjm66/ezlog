@@ -2,16 +2,15 @@ import { FC, ReactElement } from "react"
 import { LogbookEntry } from "../../hooks/logbook"
 import { Aircraft } from "../../hooks/aircraft"
 
-const InstructorCard: FC<{data: LogbookEntry, aircraft: Aircraft | undefined, onClick}> = ({data, aircraft, onClick}): ReactElement => {
+const InstructorCard: FC<{data: LogbookEntry, aircraft: Aircraft | undefined, onClick: () => void}> = ({data, aircraft, onClick}): ReactElement => {
     return (
-            <button onClick={() => {onClick(data, aircraft)}} className="flex flex-col w-full h-24 bg-gray-100 justify-start items-center px-2 py-1 transition hover:bg-gray-200">
+            <button onClick={onClick} className="flex flex-col w-full h-24 bg-gray-100 justify-start items-center px-2 py-1 transition hover:bg-gray-200">
                 <div className='flex flex-row justify-between w-full'>
                     <div className='flex flex-col h-full items-start'>
                         <h2 className='text-ezblue font-bold text-md'>{new Date(data.date).toLocaleDateString('en-US')}</h2>
                         <h2 className='text-md'>{data.from.toUpperCase()} - {data.to.toUpperCase()}</h2>
                         <h2 className='text-sm'>
-                            {data.totalLandings} 
-                            <p className='font-bold inline'> Landings</p>
+                            {data.user.firstName + ' ' + data.user.lastName} 
                         </h2>
                         <h2 className='text-sm'>
                             {data.approaches} 

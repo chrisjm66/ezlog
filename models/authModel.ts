@@ -1,6 +1,8 @@
 import { User } from "@prisma/client"
 import prisma from "../middlewares/db"
 import bcrypt from 'bcrypt'
+import { type UserModel as ClientUserModel } from "../src/hooks/auth";
+
 
 const SALT_ROUNDS = 12
 
@@ -101,6 +103,24 @@ export const validateUser = async(loginRequest: LoginRequest): Promise<boolean> 
     }
 
     return bcrypt.compare(loginRequest.password, user.password)
+}
+
+export const toClientUserModel = (data: User | undefined): ClientUserModel | undefined => {
+    if (!data) {
+        return undefined
+    }
+    
+    const newModel: ClientUserModel = {
+        firstName: data.first_name,
+        lastName: data.last_name,
+        email: data.email,
+        userId: data.user_id,
+        isInstructor: data.is_instructor,
+        instructorCid: data.instructor_cid || undefined,
+        instructorExpiryDate: data.instructor_expiry_date || undefined
+    }
+
+    return newModel
 }
 
 // this exists to we arent sending a password around everywhere

@@ -1,10 +1,9 @@
 import { FC, ReactElement } from "react"
 import { LogbookEntry } from "../hooks/logbook"
-import { Aircraft } from "../hooks/aircraft"
 
-const LogbookCard: FC<{data: LogbookEntry, aircraft: Aircraft | undefined, onClick}> = ({data, aircraft, onClick}): ReactElement => {
+const LogbookCard: FC<{data: LogbookEntry, onClick}> = ({data, onClick}): ReactElement => {
     return (
-            <button onClick={() => {onClick(data, aircraft)}} className="flex flex-col w-full h-24 bg-gray-100 justify-start items-center px-2 py-1 transition hover:bg-gray-200">
+            <button onClick={() => {onClick(data)}} className="flex flex-col w-full h-24 bg-gray-100 justify-start items-center px-2 py-1 transition hover:bg-gray-200">
                 <div className='flex flex-row justify-between w-full'>
                     <div className='flex flex-col h-full items-start'>
                         <h2 className='text-ezblue font-bold text-md'>{new Date(data.date).toLocaleDateString('en-US')}</h2>
@@ -21,8 +20,8 @@ const LogbookCard: FC<{data: LogbookEntry, aircraft: Aircraft | undefined, onCli
 
                     
                     <div className='flex flex-col items-end h-full'>
-                        <h2 className='text-ezblue font-bold text-md'>{aircraft ? aircraft.tailNumber : ''}</h2>
-                        <h2 className='text-sm italic align-sub'>{aircraft ? aircraft.typeCode : ''}</h2>
+                        <h2 className='text-ezblue font-bold text-md'>{data.aircraft ? data.aircraft.tailNumber : ''}</h2>
+                        <h2 className='text-sm italic align-sub'>{data.aircraft ? data.aircraft.typeCode : ''}</h2>
                         <h2 className='text-sm'>
                             {data.totalTime} 
                             <p className='font-bold inline'> Total</p>

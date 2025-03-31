@@ -2,7 +2,8 @@ import prisma from '../middlewares/db'
 import {UserModel} from './authModel'
 import { LogbookEntry as ClientLogbookEntry } from '../src/hooks/logbook'
 import { LogbookEntry, Prisma } from '@prisma/client'
-import { userOwnsAircraft } from './aircraftModel'
+import { toClientAircraft, userOwnsAircraft } from './aircraftModel'
+import { toClientUserModel } from './authModel'
 
 export const addEntryToDatabase = async(user: UserModel, body: ClientLogbookEntry): Promise<LogbookEntry | null> => {
     try {
@@ -148,7 +149,43 @@ export const updateLogbookEntry = async(user: UserModel, body: ClientLogbookEntr
 
 export const getLogbookEntries = async(user: UserModel): Promise<ClientLogbookEntry[]> => {
     // get user data
-    const query: LogbookEntry[] = await prisma.logbookEntry.findMany({
+    const query = await prisma.logbookEntry.findMany({
+        select: {
+            logbook_entry_id: true,
+            aircraft: true,
+            user: true,
+            instructor: true,
+            instructor_signature: true,
+            instructor_cid: true,
+            instructor_expiry_date: true,
+            user_id: true,
+            date: true,
+            aircraft_id: true,
+            total_time: true,
+            pic: true,
+            sic: true,
+            solo: true,
+            cross_country: true,
+            sim_imc: true,
+            actual_imc: true,
+            night: true,
+            day_landings: true,
+            night_landings: true,
+            total_landings: true,
+            holding: true,
+            intercepting: true,
+            approaches: true,
+            approach_names: true,
+            dual_given: true,
+            dual_recieved: true,
+            to: true,
+            from: true,
+            route: true,
+            ipc: true,
+            checkride: true,
+            flight_review: true,
+            remarks: true
+        },
         where: {
             OR: [
                 { user_id: user.userId },
@@ -162,7 +199,10 @@ export const getLogbookEntries = async(user: UserModel): Promise<ClientLogbookEn
 
     for (let i = 0; i < query.length; i++) {
         userEntry.push({
+            //@ts-expect-error user is known to exist
+            user: toClientUserModel(query[i].user),
             entryId: query[i].logbook_entry_id,
+            aircraft: toClientAircraft(query[i].aircraft || undefined) || undefined,
             aircraftId: query[i].aircraft_id || -1,
             date: query[i].date.toISOString(),
             totalTime: Prisma.Decimal(query[i].total_time).toNumber(),
@@ -189,6 +229,10 @@ export const getLogbookEntries = async(user: UserModel): Promise<ClientLogbookEn
             to: query[i].to,
             from: query[i].from,
             remarks: query[i].remarks,
+            instructorCid: query[i].instructor_cid || undefined,
+            instructorSignature: query[i].instructor_signature || undefined,
+            instructorExpiry: query[i].instructor_expiry_date || undefined,
+            instructor: toClientUserModel(query[i].instructor || undefined) || undefined
         })
     }
 
