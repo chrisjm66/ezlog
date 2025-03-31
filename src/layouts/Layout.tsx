@@ -2,6 +2,7 @@ import { ReactElement } from "react"
 import { Outlet } from "react-router-dom"
 import Navbar from "../components/Navbar"
 import Footer from "../views/Footer"
+import { ToastContainer } from "react-toastify"
 
 const Layout = (): ReactElement => {
     return (
@@ -11,6 +12,11 @@ const Layout = (): ReactElement => {
             <Outlet/>
 
             {/*<Footer/>*/}
+            <ToastContainer
+                position='bottom-right'
+                autoClose={5000}
+                theme={'light'}
+            />
         </div>
     )
 }

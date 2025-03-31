@@ -1,7 +1,9 @@
 //@ts-nocheck
 import { ReactElement, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, redirect } from "react-router-dom"
 import useAuth, { LoginRequest } from "../../hooks/auth"
+import ErrorCard from "../../components/error/ErrorCard"
+import { toast } from "react-toastify"
 
 const Login = (): ReactElement => {
     const auth = useAuth()
@@ -18,12 +20,24 @@ const Login = (): ReactElement => {
             password: formData.get('password')
         }
 
-        if (auth.user.userId === -1) {
-            auth.login(userData)
+        console.log(auth.user)
+        if (auth.user.userId == -1) {
+            const status = await auth.login(userData)
+            console.log('ran')
+            console.log(status)
+            if (status == 200) {
+                toast.success('Welcome!')
+                redirect('/dashboard')
+            } else if (status == 401) {
+                toast.error('Invalid credentials')
+            } else {
+                toast.error('Unknown error - status ' + status)
+            }
         }  
     }
 
     return (
+        <>
             <form className="flex flex-col place-self-center self-center gap-y-5 w-84 border-2 border-black p-5 m-10 rounded-xl" onSubmit={handleSubmit}>
                 <h1 className="font-bold text-3xl p-0">Log In</h1>
                 <div>
@@ -46,6 +60,7 @@ const Login = (): ReactElement => {
                 </div>
                 
             </form>
+        </>
     )
 }
 

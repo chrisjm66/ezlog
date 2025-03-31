@@ -1,11 +1,19 @@
 import React, { ReactNode } from 'react'
-import { NavLink } from 'react-router-dom'
 import CardLayout from '../../layouts/CardLayout'
-const InstructorPanel: React.FC = (): ReactNode => {
-    
 
+const InstructorCards: React.FC = () => {
     return (
-        <CardLayout title='Instructor Panel'/>
+        <>e</>
+    )
+}
+
+const InstructorPanel: React.FC = (): ReactNode => {
+    return (
+        <CardLayout 
+        title='Instructor Panel'
+        ListObjects={<InstructorCards/>}
+        WindowDisplay={<></>}
+        />
     )
 }
 

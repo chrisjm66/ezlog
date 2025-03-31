@@ -18,12 +18,12 @@ import EditAircraftEntry from './views/aircraft/EditAircraftEntry'
 import UserSettings from './views/user/UserSettings'
 import InstructorPanel from './views/instructor/InstructorPanel'
 
-
 const App = (): ReactElement => {
+  
   return (
     <BrowserRouter>
       <title>ezlog</title>
-      <ProvideAuth>
+      <ProvideAuth>  
         <Routes>
           <Route path='/' element={<Layout/>}>
             <Route index element={<Homepage/>}/>
@@ -53,6 +53,7 @@ const App = (): ReactElement => {
           </Route>
           <Route path="*" element={<NotFound/>}/>
         </Routes>
+
       </ProvideAuth>
       
     </BrowserRouter>

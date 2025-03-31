@@ -33,18 +33,22 @@ const useAuthActions = (): AuthActions => {
         }
     }
 
-    const login = async(userData: LoginRequest): Promise<void> => {
-        const response = await axios.post("/api/auth/login", 
+    const login = async(userData: LoginRequest): Promise<number> => {
+        return axios.post("/api/auth/login", 
             userData,
             {headers: {
                 'Content-Type': 'application/json'
             }
-        })
+        }).then((response) => {
+            if (response.status == 200) {
+                setUser(response.data)
+            }
 
-        if (response.status == 200) {
-            setUser(response.data)
-            return navigate('/dashboard')
-        }
+            return response.status
+        }).catch((error) => {
+
+            return error.status
+        })
     }
 
     const logout = async(): Promise<void> => {
@@ -140,7 +144,7 @@ export type AuthActions = {
     loading: boolean
     setLoading: (data: boolean) => void
     signup: (userData: RegisterRequest) => void
-    login: (userData: LoginRequest) => void
+    login: (userData: LoginRequest) => Promise<number>
     validate: () => void
     logout: () => void
 }

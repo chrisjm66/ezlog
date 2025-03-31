@@ -5,6 +5,7 @@ import axios from "axios";
 import Modal from "../Modal";
 import { redirect } from "react-router-dom";
 import useAuth, {AuthActions} from "../../hooks/auth";
+import { toast } from "react-toastify";
 
 const InstructorSettings: React.FC = (): ReactNode => {
     const auth: AuthActions = useAuth()
@@ -17,18 +18,19 @@ const InstructorSettings: React.FC = (): ReactNode => {
 
         const formData = new FormData(e.target)
 
-        const response = await axios.put('/api/user/instructor', {
+        axios.put('/api/user/instructor', {
             isInstructor: formData.get('isInstructor') == 'on' ? true : false,
             instructorId: formData.get('instructorId'),
             expirationDate: formData.get('expirationDate'),
+        }).then(() => {
+            auth.validate()
+            toast.success('Updated!')
+        }).catch((error) => {
+            console.error(error)
+            toast.error('Unknown error - status ' + error.status)
         })
 
         setSubmitting(false)
-
-        if (response.status == 200) {
-            auth.validate()
-            redirect('/dashboard')
-        }
     }
     return (
         <div className="gray-container gap-y-5">

@@ -1,8 +1,8 @@
 import { FC, ReactElement } from "react"
-import { LogbookEntry } from "../hooks/logbook"
-import { Aircraft } from "../hooks/aircraft"
+import { LogbookEntry } from "../../hooks/logbook"
+import { Aircraft } from "../../hooks/aircraft"
 
-const LogbookCard: FC<{data: LogbookEntry, aircraft: Aircraft | undefined, onClick}> = ({data, aircraft, onClick}): ReactElement => {
+const InstructorCard: FC<{data: LogbookEntry, aircraft: Aircraft | undefined, onClick}> = ({data, aircraft, onClick}): ReactElement => {
     return (
             <button onClick={() => {onClick(data, aircraft)}} className="flex flex-col w-full h-24 bg-gray-100 justify-start items-center px-2 py-1 transition hover:bg-gray-200">
                 <div className='flex flex-row justify-between w-full'>
@@ -34,4 +34,4 @@ const LogbookCard: FC<{data: LogbookEntry, aircraft: Aircraft | undefined, onCli
     )
 }
 
-export default LogbookCard
+export default InstructorCard
