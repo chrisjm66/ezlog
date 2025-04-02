@@ -1,8 +1,8 @@
 import { FC, ReactElement, useState } from "react"
 import { LogbookEntry } from "../../hooks/logbook"
-import GeneralInfo from "../../views/logbook/GeneralInfo"
-import InstrumentInfo from "../../views/logbook/InstrumentInfo"
-import Remarks from "../../views/logbook/Remarks"
+import GeneralInfo from "../../components/logbook/GeneralInfo"
+import InstrumentInfo from "../../components/logbook/InstrumentInfo"
+import Remarks from "../../components/logbook/Remarks"
 import SignLogbook from "./SignLogbook"
 import SignatureDetails from "./SignatureDetails"
 

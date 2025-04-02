@@ -109,43 +109,48 @@ export const updateLogbookEntry = async(user: UserModel, body: ClientLogbookEntr
         return null
     }
     
-    const entry = await prisma.logbookEntry.update({
-        data: {
-            date: new Date(body.date),
-            aircraft_id: 1,
-            total_time: body.totalTime,
-            pic: body.pic,
-            sic: body.sic,
-            solo: body.solo,
-            cross_country: body.crossCountry,
-            sim_imc: body.simImc,
-            actual_imc: body.actImc,
-            night: body.night,
-            day_landings: body.dayLandings,
-            night_landings: body.nightLandings,
-            total_landings: body.totalLandings,
-            holding: body.holding,
-            intercepting: body.intercepting,
-            approaches: body.approaches,
-            approach_names: body.approachNames,
-            dual_given: body.dualGiven,
-            dual_recieved: body.dualRecieved,
-            to: body.to,
-            from: body.from,
-            route: body.route,
-            ipc: body.ipc, // convert boolean to tinyint
-            checkride: body.checkride,
-            flight_review: body.flightReview,
-            remarks: body.remarks
-        },
-        where: {
-            user_id: user.userId,
-            logbook_entry_id: body.entryId,
-            instructor_signature: undefined // force locks entries that are signed
-        }
-    })
+    try {
+        const entry = await prisma.logbookEntry.update({
+            data: {
+                date: new Date(body.date),
+                aircraft_id: 1,
+                total_time: body.totalTime,
+                pic: body.pic,
+                sic: body.sic,
+                solo: body.solo,
+                cross_country: body.crossCountry,
+                sim_imc: body.simImc,
+                actual_imc: body.actImc,
+                night: body.night,
+                day_landings: body.dayLandings,
+                night_landings: body.nightLandings,
+                total_landings: body.totalLandings,
+                holding: body.holding,
+                intercepting: body.intercepting,
+                approaches: body.approaches,
+                approach_names: body.approachNames,
+                dual_given: body.dualGiven,
+                dual_recieved: body.dualRecieved,
+                to: body.to,
+                from: body.from,
+                route: body.route,
+                ipc: body.ipc, // convert boolean to tinyint
+                checkride: body.checkride,
+                flight_review: body.flightReview,
+                remarks: body.remarks
+            },
+            where: {
+                user_id: user.userId,
+                logbook_entry_id: body.entryId,
+                instructor_signature: undefined // force locks entries that are signed
+            }
+        })
 
-    return entry
+        return entry
+    } catch {
+        console.error('Error updating logbook entry')
+        return null
+    }
 }
 
 export const getLogbookEntries = async(user: UserModel): Promise<ClientLogbookEntry[]> => {

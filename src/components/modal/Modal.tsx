@@ -30,9 +30,9 @@ const Modal = ({children, open, title, onClose}: ModalComponent): ReactElement =
     }
 
     return (
-        <dialog ref={ref} className='p-2 min-w-50 border-ezblue border-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' onKeyDown={handleKeyDown}>
+        <dialog ref={ref} className='min-w-50 border-ezblue border-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' onKeyDown={handleKeyDown}>
             <div className='w-full flex relative h-8 align-middle p-1 mb-2'>
-                <h1 className='font-bold text-2xl h-full text-right mr-20'>{title}</h1>
+                <h1 className='p-2 font-bold text-2xl h-full text-right mr-10'>{title}</h1>
 
 
                 {onClose ? <button className='h-full absolute right-2 top-2' onClick={handleClick}>

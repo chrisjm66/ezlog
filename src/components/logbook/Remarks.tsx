@@ -21,7 +21,7 @@ const Remarks: React.FC<Props> = ({data, readOnly} : Props) => {
             <div className="w-full my-2"/>
             <div className="w-1/3 ml-10">
                 <label htmlFor='remarks'>Remarks</label>
-                <textarea name='remarks' readOnly={readOnly} defaultValue={data.remarks} className='mt-2 px-2 py-1 w-120 h-56 bg-white rounded-sm border-1 text-md text-ezblue resize-none'></textarea>
+                <textarea title='remarks' name='remarks' readOnly={readOnly} defaultValue={data.remarks} className='mt-2 px-2 py-1 w-120 h-56 bg-white rounded-sm border-1 text-md text-ezblue resize-none'></textarea>
             </div>
 
             

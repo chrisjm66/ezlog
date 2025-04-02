@@ -7,43 +7,13 @@ import CheckboxComponent from "../../components/input/CheckboxInputComponent"
 import { useNavigate } from "react-router-dom"
 import useLogbook from "../../hooks/logbook"
 import useAircraft from "../../hooks/aircraft"
-import GeneralInfo from "./GeneralInfo"
-
-const INITIAL_STATE: LogbookEntry = {
-            date: new Date().toISOString(),
-            entryId: undefined,
-            aircraftId: undefined,
-            totalTime: 0,
-            pic: 0,
-            sic: 0,
-            solo: 0,
-            crossCountry: 0,
-            simImc: 0,
-            actImc: 0,
-            night: 0,
-            dayLandings: 0,
-            nightLandings: 0,
-            totalLandings: 0,
-            holding: false,
-            approaches: 0,
-            dualGiven: 0,
-            dualRecieved: 0,
-            route: '',
-            to: "",
-            from: "",
-            remarks: "",
-            approachNames: "",
-            intercepting: false,
-            ipc: false,
-            checkride: false,
-            flightReview: false
-}
+import GeneralInfo from "../../components/logbook/GeneralInfo"
 
 const CreateLogbookEntry = (): ReactElement => {
     const logbook = useLogbook()
     const aircraft = useAircraft()
     const navigate = useNavigate()
-    const [values, setValues] = useState(INITIAL_STATE)
+    const [values, setValues] = useState<LogbookEntry>(logbook.getDefaultLogbookEntry())
     const [submitActive, setSubmitActive] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
 
@@ -52,7 +22,7 @@ const CreateLogbookEntry = (): ReactElement => {
     const handleChange = (event): void => {
         let eventValue: unknown = event.target.value
         try {
-            switch (typeof(INITIAL_STATE[event.target.name])) {
+            switch (typeof(logbook.getDefaultLogbookEntry()[event.target.name])) {
                 case "number":
                     // @ts-expect-error event state
                     eventValue = (eventValue == undefined || eventValue === '') ? 0 : parseFloat(eventValue) 

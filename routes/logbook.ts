@@ -32,7 +32,7 @@ router.post('/', async(req: Request, res: Response): Promise<any> => {
 router.put('/', async(req: Request, res: Response): Promise<any> => {
     const body: ClientLogbookEntry = req.body
     const user: UserModel = res.locals.user
-
+    console.log(body)
     const updateQuery = await updateLogbookEntry(user, body)
 
     if (updateQuery) {

@@ -1,6 +1,6 @@
 import { createContext, useContext, ReactElement, useEffect, useState} from "react"
 import axios, { AxiosResponse } from "axios"
-import { UserModel } from "./auth"
+import useAuth, { AuthActions, UserModel } from "./auth"
 import { Aircraft } from "./aircraft"
 
 const LogbookContext = createContext<LogbookActions>({} as LogbookActions)
@@ -9,6 +9,7 @@ const useLogbook = (): LogbookActions => useContext<LogbookActions>(LogbookConte
 
 const useLogbookActions = (): LogbookActions  => {
   const [logbookData, setLogbookData] = useState<LogbookEntry[] | undefined>([] as LogbookEntry[])
+  const auth: AuthActions = useAuth()
 
   const getLogbookEntry = (entryId: number): LogbookEntry | undefined => {
     let returnEntry: LogbookEntry | undefined = undefined
@@ -44,7 +45,41 @@ const useLogbookActions = (): LogbookActions  => {
     return response.status
   }
 
-  return {populateLogbookEntries, getLogbookEntry, submitEntry, updateEntry, logbookData}
+  const getDefaultLogbookEntry = (): LogbookEntry => {
+    return  {
+      date: new Date().toISOString(),
+      entryId: undefined,
+      aircraftId: undefined,
+      totalTime: 0,
+      pic: 0,
+      sic: 0,
+      solo: 0,
+      crossCountry: 0,
+      simImc: 0,
+      actImc: 0,
+      night: 0,
+      dayLandings: 0,
+      nightLandings: 0,
+      totalLandings: 0,
+      holding: false,
+      approaches: 0,
+      dualGiven: 0,
+      dualRecieved: 0,
+      route: '',
+      to: "",
+      from: "",
+      remarks: "",
+      approachNames: "",
+      intercepting: false,
+      ipc: false,
+      checkride: false,
+      flightReview: false,
+      user: auth.user,
+      instructor: undefined,
+      aircraft: undefined
+}
+  }
+  return {populateLogbookEntries, getLogbookEntry, submitEntry, updateEntry, logbookData, getDefaultLogbookEntry}
 }
 
 export const ProvideLogbook = ({children}): ReactElement => {
@@ -105,5 +140,6 @@ export interface LogbookActions {
   getLogbookEntry: (entryId: number) => LogbookEntry | undefined
   submitEntry: (data: LogbookEntry) => Promise<number>
   updateEntry: (data: LogbookEntry) => Promise<number>  
+  getDefaultLogbookEntry: () => LogbookEntry
 }
 export default useLogbook

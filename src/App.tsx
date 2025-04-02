@@ -34,6 +34,7 @@ const App = (): ReactElement => {
                     <Route index element={<Dashboard/>}/>
                     <Route path='/dashboard/logbook'>
                       <Route index element={<Logbook/>}/>
+                      <Route path='/dashboard/logbook/:entryId' index element={<Logbook/>}/>
                       <Route path='/dashboard/logbook/create' element={<CreateLogbookEntry/>}/>
                       <Route path='/dashboard/logbook/edit/:entryId' element={<EditLogbookEntry/>}/>
                     </Route>
@@ -42,7 +43,7 @@ const App = (): ReactElement => {
                       <Route path='/dashboard/aircraft/create' element={<CreateAircraftEntry/>}/>
                       <Route path='/dashboard/aircraft/edit/:aircraftId' element={<EditAircraftEntry/>}/>
                     </Route>
-                    <Route path='/dashboard/instructor'>
+                    <Route path='/dashboard/instructor/'>
                       <Route index element={<InstructorPanel/>}/>
                       <Route path='/dashboard/instructor/:entryId' element={<InstructorPanel/>}/>
                     </Route>

@@ -3,14 +3,12 @@ import { LogbookEntry } from "../../hooks/logbook";
 import TextInputComponent from "../input/TextInputComponent";
 import CanvasDraw from 'react-canvas-draw'
 
-
-
 const SignatureDetails: React.FC<Props> = ({data}) => {
     const canvas = useRef<React.JSX.Element | null>(null)
     const instructor  = data.instructor
 
     useEffect(() => {
-        if (canvas.current) {
+        if (canvas.current && data.instructorSignature) {
             //@ts-expect-error no datatype for canvas
             canvas.current.loadSaveData(data.instructorSignature)
         }
