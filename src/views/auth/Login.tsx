@@ -1,14 +1,12 @@
-//@ts-nocheck
-import { ReactElement, useState } from "react"
+import { ReactElement } from "react"
 import { Link, redirect } from "react-router-dom"
 import useAuth, { LoginRequest } from "../../hooks/auth"
-import ErrorCard from "../../components/error/ErrorCard"
 import { toast } from "react-toastify"
 
 const Login = (): ReactElement => {
     const auth = useAuth()
-    const [formValid, setFormValid] = useState(true)
-    const handleChange = (e) => {
+    //const [formValid, setFormValid] = useState(true)
+    const handleChange = () => {
         
     }
 
@@ -16,8 +14,8 @@ const Login = (): ReactElement => {
         e.preventDefault()
         const formData: FormData = new FormData(e.target)
         const userData: LoginRequest = {
-            email: formData.get('email'),
-            password: formData.get('password')
+            email: formData.get('email')?.toString() || '',
+            password: formData.get('password')?.toString() || ''
         }
 
         console.log(auth.user)
@@ -38,7 +36,7 @@ const Login = (): ReactElement => {
 
     return (
         <>
-            <form className="flex flex-col place-self-center self-center gap-y-5 w-84 border-2 border-black p-5 m-10 rounded-xl" onSubmit={handleSubmit}>
+            <form onChange={handleChange} className="flex flex-col place-self-center self-center gap-y-5 w-84 border-2 border-black p-5 m-10 rounded-xl" onSubmit={handleSubmit}>
                 <h1 className="font-bold text-3xl p-0">Log In</h1>
                 <div>
                     <label htmlFor='email' className='text-lg'>Email</label><br/>

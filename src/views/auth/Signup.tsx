@@ -1,26 +1,25 @@
-//@ts-nocheck
-import { ReactElement, useState } from "react"
+import { ReactElement } from "react"
 import { Link } from "react-router-dom"
 import { useFormStatus } from "react-dom"
-import useAuth, { RegisterRequest } from "../../hooks/auth"
+import useAuth, { RegisterRequest, AuthActions } from "../../hooks/auth"
 
 const Signup = (): ReactElement => {
-    const auth = useAuth()
+    const auth: AuthActions = useAuth()
     const status = useFormStatus()
-    const [formValid, setFormValid] = useState(true)
+    //const [formValid, setFormValid] = useState(true)
 
     const handleSubmit = async(e) => {
         e.preventDefault()
         const formData: FormData = new FormData(e.target)
         const userData: RegisterRequest = {
-            firstName: formData.get('firstName'),
-            lastName: formData.get('lastName'),
-            email: formData.get('email'),
-            password: formData.get('password'),
-            confirmPassword: formData.get('confirmPassword')
+            firstName: formData.get('firstName')?.toString() || '',
+            lastName: formData.get('lastName')?.toString() || '',
+            email: formData.get('email')?.toString() || '',
+            password: formData.get('password')?.toString() || '',
+            confirmPassword: formData.get('confirmPassword')?.toString() || ''
         }
         
-        if (!auth.userId !== -1) {
+        if (auth.user.userId !== -1) {
             auth.signup(userData)
         }  
     }
@@ -57,7 +56,7 @@ const Signup = (): ReactElement => {
                 </div>
 
                 <div className='flex flex-col items-center mt-5'>
-                    <button type='submit' disabled={status.pending || !formValid} className='bg-ezblue text-white text-xl w-max px-8 py-1 rounded-sm hover:bg-blue-500 transition-all'>
+                    <button type='submit' disabled={status.pending /*|| !formValid*/} className='bg-ezblue text-white text-xl w-max px-8 py-1 rounded-sm hover:bg-blue-500 transition-all'>
                         Sign Up
                     </button>
 

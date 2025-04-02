@@ -3,7 +3,6 @@ import CheckboxComponent from "../input/CheckboxInputComponent";
 import TextInputComponent from "../input/TextInputComponent";
 import axios from "axios";
 import Modal from "../modal/Modal";
-import { redirect } from "react-router-dom";
 import useAuth, {AuthActions} from "../../hooks/auth";
 import { toast } from "react-toastify";
 
@@ -43,8 +42,8 @@ const InstructorSettings: React.FC = (): ReactNode => {
             <form onSubmit={submitForm}>
                 <div className='flex flex-row gap-x-5'>      
                     <CheckboxComponent title='Instructor Mode' formName='isInstructor' value={auth.user.isInstructor}/>
-                    <TextInputComponent title='Instructor ID' formName='instructorId' defaultValue={auth.user.instructorCid}/>
-                    <TextInputComponent title='Expiration' formName='expirationDate' defaultValue={auth.user.instructorExpiryDate}/>
+                    <TextInputComponent title='Instructor ID' formName='instructorId' value={auth.user.instructorCid}/>
+                    <TextInputComponent title='Expiration' formName='expirationDate' value={auth.user.instructorExpiryDate}/>
                 </div>
 
                 <button className='mt-5' type='submit'>

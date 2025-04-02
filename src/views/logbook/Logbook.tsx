@@ -1,4 +1,4 @@
-import { JSX, ReactElement, useState } from "react"
+import { ReactElement, useState } from "react"
 import useLogbook, { LogbookActions, LogbookEntry } from "../../hooks/logbook"
 import LogbookCard from "../../components/logbook/LogbookCard.tsx"
 import LogbookDisplay from "../../components/logbook/LogbookDisplay.tsx"

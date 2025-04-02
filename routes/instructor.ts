@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express'
+import express, { Request, Response } from 'express'
 import { populateUserInfo } from '../middlewares/auth'
 import { UserModel } from '../models/authModel'
 import { LogbookEntry as ClientLogbookEntry } from '../src/hooks/logbook'
