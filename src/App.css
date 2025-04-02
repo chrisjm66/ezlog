@@ -55,6 +55,10 @@
 }
 
 @layer components {
+  .form-header {
+    @apply text-xl font-bold w-full mb-2 p-0
+  }
+  
   .gray-container {
     @apply flex flex-wrap justify-start border-2 border-ezgray bg-gray-200 p-5 rounded-xl gap-x-5 gap-y-1 w-3/4 h-3/4
   }

@@ -1,5 +1,5 @@
 import { FC, ReactElement } from "react"
-import { Aircraft } from "../hooks/aircraft"
+import { Aircraft } from "../../hooks/aircraft"
 
 const AircraftCard: FC<{data: Aircraft, onClick: (data: Aircraft) => void}> = ({data, onClick}): ReactElement => {
     

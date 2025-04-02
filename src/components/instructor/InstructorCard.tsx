@@ -9,9 +9,9 @@ const EntryStatusText: React.FC<{instructorSignedDate: string | undefined}> = ({
     }
 }
 
-const InstructorCard: FC<{data: LogbookEntry}> = ({data}): ReactElement => {
+const InstructorCard: FC<{data: LogbookEntry, onClick: () => void}> = ({data, onClick}): ReactElement => {
     return (
-            <button className="flex flex-col w-full h-max bg-gray-100 justify-start items-center px-2 py-1 transition hover:bg-gray-200">
+            <button onClick={onClick} className="flex flex-col w-full h-max bg-gray-100 justify-start items-center px-2 py-1 transition hover:bg-gray-200">
                 <div className='flex flex-row justify-between w-full'>
                     <div className='flex flex-col h-full items-start'>
                         <h2 className='text-ezblue font-bold text-md'>{new Date(data.date).toLocaleDateString('en-US')}</h2>

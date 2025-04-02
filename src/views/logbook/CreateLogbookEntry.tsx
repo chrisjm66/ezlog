@@ -1,13 +1,13 @@
 import { ReactElement, useEffect, useState } from "react"
 import type { LogbookEntry } from "../../hooks/logbook"
-import Modal from "../../components/Modal"
-import NumberInputComponent from "../../components/NumberInputComponent"
-import TextInputComponent from "../../components/TextInputComponent"
-import CheckboxComponent from "../../components/CheckboxInputComponent"
+import Modal from "../../components/modal/Modal"
+import NumberInputComponent from "../../components/input/NumberInputComponent"
+import TextInputComponent from "../../components/input/TextInputComponent"
+import CheckboxComponent from "../../components/input/CheckboxInputComponent"
 import { useNavigate } from "react-router-dom"
 import useLogbook from "../../hooks/logbook"
-import AircraftOptions from "../../components/AircraftOptions"
 import useAircraft from "../../hooks/aircraft"
+import GeneralInfo from "./GeneralInfo"
 
 const INITIAL_STATE: LogbookEntry = {
             date: new Date().toISOString(),
@@ -108,43 +108,7 @@ const CreateLogbookEntry = (): ReactElement => {
                 <h1 className="text-2xl font-bold w-full mb-5">Create Logbook Entry</h1>
 
                 <form className="w-screen flex flex-wrap gap-y-10 justify-center mb-10" onChange={handleChange} onSubmit={submitForm} id='create'>
-                    <div className="flex flex-wrap justify-left border-2 border-ezgray bg-gray-200 p-5 rounded-xl gap-x-5 gap-y-1 w-3/4 h-3/4">
-                        {/* general info page */}
-                        <h1 className="text-xl font-bold w-full mb-5">GENERAL INFO</h1>
-
-                        <div className="flex flex-col w-40">
-                            <label>Date</label>
-                            <input required name='date' type="date" defaultValue={values.date}/>
-                        </div>
-
-                        <div className="flex flex-col w-64">
-                            <label>Aircraft</label>
-                            <AircraftOptions/>
-                        </div>
-                        
-                        
-                        
-                        <TextInputComponent bold forceUpperCase title='From' formName='from' maxLength={4}/>
-                        <TextInputComponent bold forceUpperCase title='To' formName='to' maxLength={4}/>
-                        <TextInputComponent extended title='Route' formName='route'/>
-
-                        <div className="w-full my-1"/>
-
-                        <NumberInputComponent title='PIC' formName='pic' fillValue={values.totalTime}/>
-                        <NumberInputComponent title='SIC' formName='sic' fillValue={values.totalTime}/>
-                        <NumberInputComponent title='Night' formName='night' fillValue={values.totalTime}/>
-                        <NumberInputComponent title='Solo' formName='solo' fillValue={values.totalTime}/>
-                        <NumberInputComponent title='Cross Country' formName='crossCountry' fillValue={values.totalTime}/>
-                        <NumberInputComponent title='Dual Recieved' formName='dualRecieved' fillValue={values.totalTime}/>
-                        <NumberInputComponent title='Dual Given' formName='dualGiven' fillValue={values.totalTime}/>
-                        <NumberInputComponent int title='Day Landings' formName='dayLandings'  fillValue={values.totalLandings}/>
-                        <NumberInputComponent int title='Night Landings' formName='nightLandings' fillValue={values.totalLandings}/>
-                        <NumberInputComponent int title='Total Landings' formName='totalLandings' fillValue={values.dayLandings + values.nightLandings}/>
-
-                        <div className="w-full my-1"/>
-
-                        <NumberInputComponent buttonHidden title='Total Time' formName='totalTime'/>
-                    </div>
+                    <GeneralInfo data={values}/>
 
 
                     {/* instrument info page */}

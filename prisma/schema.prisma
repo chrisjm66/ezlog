@@ -70,10 +70,10 @@ model LogbookEntry {
   user_id                Int      @db.UnsignedInt
   user                   User     @relation(name: "User", fields: [user_id], references: [user_id])
   instructor             User?     @relation(name: "Instructor", fields: [instructor_user_id], references: [user_id])
-  instructor_signature   Bytes?   @db.Blob // these three columns not stored from user id (only populated) b/c user can change their instructor info after signing
+  instructor_signature   Json?   @db.Json // these three columns not stored from user id (only populated) b/c user can change their instructor info after signing
   instructor_cid         String?  @db.VarChar(15)
   instructor_expiry_date String?  @db.VarChar(10) 
-  instructor_signed_date DateTime? @db.DateTime(0)
+  instructor_signed_date DateTime?
   instructor_user_id     Int?     @db.UnsignedInt
   date                   DateTime @db.Date
   to                     String   @default("") @db.VarChar(4)

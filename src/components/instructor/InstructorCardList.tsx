@@ -13,7 +13,7 @@ const InstructorCardList: React.FC = () => {
 
     return logbookData.map((entry: LogbookEntry) => {
         if (entry.instructor?.userId == user.userId) {
-            return <InstructorCard data={entry} aircraft={undefined} key={entry.entryId} onClick={() => {navigate(`/dashboard/instructor/${entry.entryId}`)}}/>
+            return <InstructorCard data={entry} key={entry.entryId} onClick={() => {navigate(`/dashboard/instructor/${entry.entryId}`)}}/>
         }
     })
 }

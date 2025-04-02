@@ -1,8 +1,8 @@
 import { FC, ReactElement, useState } from "react"
-import useAircraft, { Aircraft, AircraftActions } from "../hooks/aircraft"
-import CheckboxComponent from "./CheckboxInputComponent"
-import DisplayComponent from "./DisplayComponent"
-import Modal from "./Modal"
+import useAircraft, { Aircraft, AircraftActions } from "../../hooks/aircraft"
+import CheckboxComponent from "../input/CheckboxInputComponent"
+import DisplayComponent from "../input/FormDisplayComponent"
+import Modal from "../modal/Modal"
 import { NavLink } from "react-router-dom"
 
 const AircraftDisplay: FC<{data: Aircraft}> = ({data}): ReactElement => {

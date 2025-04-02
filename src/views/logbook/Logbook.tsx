@@ -1,7 +1,7 @@
 import { JSX, ReactElement, useState } from "react"
 import useLogbook, { LogbookActions, LogbookEntry } from "../../hooks/logbook"
-import LogbookCard from "../../components/LogbookCard"
-import LogbookDisplay from "../../components/LogbookDisplay"
+import LogbookCard from "../../components/logbook/LogbookCard.tsx"
+import LogbookDisplay from "../../components/logbook/LogbookDisplay.tsx"
 import CardLayout from '../../layouts/CardLayout.tsx'
 
 const Logbook = (): ReactElement => {

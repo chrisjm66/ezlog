@@ -92,7 +92,7 @@ export type LogbookEntry = {
   to: string
   from: string
   remarks: string
-  instructorSignature?: Uint8Array<ArrayBufferLike>
+  instructorSignature?: {lines: string[], width: number, height: number}
   instructorExpiryDate?: string
   instructorSignedDate?: string
   instructorCid?: string

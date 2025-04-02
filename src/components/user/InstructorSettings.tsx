@@ -1,8 +1,8 @@
 import React, { ReactNode, useState } from "react";
-import CheckboxComponent from "../CheckboxInputComponent";
-import TextInputComponent from "../TextInputComponent";
+import CheckboxComponent from "../input/CheckboxInputComponent";
+import TextInputComponent from "../input/TextInputComponent";
 import axios from "axios";
-import Modal from "../Modal";
+import Modal from "../modal/Modal";
 import { redirect } from "react-router-dom";
 import useAuth, {AuthActions} from "../../hooks/auth";
 import { toast } from "react-toastify";

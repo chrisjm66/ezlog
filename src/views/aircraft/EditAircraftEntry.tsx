@@ -1,9 +1,9 @@
 import { ReactElement, useEffect, useState } from "react"
 import type { Aircraft, AircraftActions } from "../../hooks/aircraft"
-import Modal from "../../components/Modal"
-import NumberInputComponent from "../../components/NumberInputComponent"
-import TextInputComponent from "../../components/TextInputComponent"
-import CheckboxComponent from "../../components/CheckboxInputComponent"
+import Modal from "../../components/modal/Modal"
+import NumberInputComponent from "../../components/input/NumberInputComponent"
+import TextInputComponent from "../../components/input/TextInputComponent"
+import CheckboxComponent from "../../components/input/CheckboxInputComponent"
 import { useNavigate, useParams } from "react-router-dom"
 import useAircraft from "../../hooks/aircraft"
 import { NavLink } from "react-router-dom"
@@ -107,21 +107,21 @@ const EditLogbookEntry = (): ReactElement => {
                         {/* general info page */}
                         <h1 className="text-xl font-bold w-full mb-5">GENERAL INFO</h1>
 
-                        <TextInputComponent defaultValue={values.tailNumber} title='Tail Number' formName='tailNumber' required/>
-                        <TextInputComponent defaultValue={values.typeCode} title='Type Code' formName='typeCode' required/>
-                        <TextInputComponent defaultValue={values.make ? values.make : ''} title='Make' formName='make'/>
-                        <TextInputComponent defaultValue={values.model ? values.model : ''} title='Model' formName='model'/>
-                        <NumberInputComponent setValue={values.numberOfEngines} title='Engine Count' formName='numberOfEngines' buttonHidden int/>
+                        <TextInputComponent value={values.tailNumber} title='Tail Number' formName='tailNumber' required/>
+                        <TextInputComponent value={values.typeCode} title='Type Code' formName='typeCode' required/>
+                        <TextInputComponent value={values.make ? values.make : ''} title='Make' formName='make'/>
+                        <TextInputComponent value={values.model ? values.model : ''} title='Model' formName='model'/>
+                        <NumberInputComponent value={values.numberOfEngines} title='Engine Count' formName='numberOfEngines' buttonHidden int/>
                         
                         <div className='flex flex-col w-64'>
                             <label htmlFor='engineType' className={LABEL_CLASSNAME}>Engine Type</label>
-                            <select name='engineType' defaultValue={values.engineType} className={INPUT_CLASSNAME}>
+                            <select title='engineType' name='engineType' defaultValue={values.engineType} className={INPUT_CLASSNAME}>
                                 <option value='P'>Piston</option>
                                 <option value='T'>Turboprop</option>
                                 <option value='J'>Jet</option>
                             </select>
                         </div>
-                        <TextInputComponent defaultValue={values.description ? values.description : ''} title='Description' formName='description' extended/>
+                        <TextInputComponent value={values.description ? values.description : ''} title='Description' formName='description' extended/>
 
                         <div className="w-full my-1"/>
 

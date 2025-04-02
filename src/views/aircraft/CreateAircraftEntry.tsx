@@ -1,8 +1,8 @@
 import { ReactElement, useState } from "react"
-import Modal from "../../components/Modal"
-import NumberInputComponent from "../../components/NumberInputComponent"
-import CheckboxComponent from "../../components/CheckboxInputComponent"
-import TextInputComponent from "../../components/TextInputComponent"
+import Modal from "../../components/modal/Modal"
+import NumberInputComponent from "../../components/input/NumberInputComponent"
+import CheckboxComponent from "../../components/input/CheckboxInputComponent"
+import TextInputComponent from "../../components/input/TextInputComponent"
 import { useNavigate } from "react-router-dom"
 import useAircraft, { Aircraft, AircraftActions } from "../../hooks/aircraft"
 

@@ -1,5 +1,5 @@
 import { FC, ReactElement } from "react"
-import { LogbookEntry } from "../hooks/logbook"
+import { LogbookEntry } from "../../hooks/logbook"
 
 const LogbookCard: FC<{data: LogbookEntry, onClick}> = ({data, onClick}): ReactElement => {
     return (

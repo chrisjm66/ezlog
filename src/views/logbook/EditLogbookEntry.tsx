@@ -1,13 +1,13 @@
 import { ReactElement, useEffect, useState } from "react"
 import type { LogbookEntry } from "../../hooks/logbook"
-import Modal from "../../components/Modal"
-import NumberInputComponent from "../../components/NumberInputComponent"
-import TextInputComponent from "../../components/TextInputComponent"
-import CheckboxComponent from "../../components/CheckboxInputComponent"
+import Modal from "../../components/modal/Modal"
+import NumberInputComponent from "../../components/input/NumberInputComponent"
+import TextInputComponent from "../../components/input/TextInputComponent"
+import CheckboxComponent from "../../components/input/CheckboxInputComponent"
 import { useNavigate, useParams } from "react-router-dom"
 import useLogbook from "../../hooks/logbook"
 import { NavLink } from "react-router-dom"
-import DisplayComponent from "../../components/DisplayComponent"
+import DisplayComponent from "../../components/input/FormDisplayComponent"
 import useAircraft, { AircraftActions } from "../../hooks/aircraft"
 
 const INPUT_CLASSNAME = 'px-2 py-1 w-full bg-white rounded-sm border-1 font-bold text-xl text-ezblue'

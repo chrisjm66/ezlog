@@ -1,10 +1,10 @@
 import { ReactElement } from "react"
 
-const TextInputComponent = ({formName, title, maxLength, forceUpperCase, extended, bold, defaultValue, required}: Props): ReactElement => {
+const TextInputComponent = ({formName, title, maxLength, forceUpperCase, extended, bold, value, required, readOnly}: Props): ReactElement => {
     return (
         <div className={"flex flex-col" + (extended ? ' w-64' : ' w-40')}>
             <label htmlFor={formName?.toLowerCase()}>{title}</label>
-            <input name={formName} defaultValue={defaultValue} type="text" required={required ? true : false} className={(forceUpperCase ? 'uppercase' : ' ') + (bold ? ' font-bold' : '')} maxLength={maxLength}/>
+            <input title={formName} name={formName} readOnly={readOnly} defaultValue={value} type="text" required={required ? true : false} className={(forceUpperCase ? 'uppercase' : ' ') + (bold ? ' font-bold' : '')} maxLength={maxLength}/>
         </div>
     )
 }
@@ -17,7 +17,8 @@ type Props = {
     forceUpperCase?: boolean
     extended?: boolean
     bold?: boolean
-    defaultValue? :string
+    value? :string
     required?: boolean
+    readOnly?: boolean
 }
 export default TextInputComponent

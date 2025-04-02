@@ -1,7 +1,6 @@
 import { ReactElement, useEffect, useState } from "react"
-import { NavLink } from "react-router-dom"
-import AircraftCard from "../../components/AircraftCard"
-import AircraftDisplay from "../../components/AircraftDisplay"
+import AircraftCard from "../../components/aircraft/AircraftCard"
+import AircraftDisplay from "../../components/aircraft/AircraftDisplay"
 import useAircraft, { Aircraft, AircraftActions } from "../../hooks/aircraft"
 import CardLayout from "../../layouts/CardLayout"
 

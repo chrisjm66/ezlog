@@ -46,8 +46,8 @@ export const createUser = async(userData: RegisterRequest): Promise<UserModel> =
         email: newUser.email,
         userId: newUser.user_id,
         isInstructor: newUser?.is_instructor,
-        instructorCid: newUser.instructor_cid,
-        instructorExpiryDate: newUser.instructor_expiry_date
+        instructorCid: newUser.instructor_cid || undefined,
+        instructorExpiryDate: newUser.instructor_expiry_date || undefined
     }
 
     if (!newUser) { throw new Error('Error generating new user.') }
@@ -68,8 +68,8 @@ export const getUser = async(userId: number): Promise<UserModel | null> => {
         email: result?.email,
         userId: result?.user_id,
         isInstructor: result?.is_instructor,
-        instructorCid: result.instructor_cid,
-        instructorExpiryDate: result.instructor_expiry_date
+        instructorCid: result.instructor_cid || undefined,
+        instructorExpiryDate: result.instructor_expiry_date || undefined
     }
 
     return user
@@ -88,8 +88,8 @@ export const getUserByEmail = async(email: string): Promise<UserModel | null> =>
         email: result?.email,
         userId: result?.user_id,
         isInstructor: result?.is_instructor,
-        instructorCid: result.instructor_cid,
-        instructorExpiryDate: result.instructor_expiry_date
+        instructorCid: result.instructor_cid || undefined,
+        instructorExpiryDate: result.instructor_expiry_date || undefined
     }
 
     return user
@@ -130,8 +130,8 @@ export type UserModel = {
     email: string
     userId: number
     isInstructor: boolean
-    instructorCid: string | null
-    instructorExpiryDate: string | null
+    instructorCid?: string
+    instructorExpiryDate?: string
 }
 
 export type RegisterRequest = {

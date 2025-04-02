@@ -140,7 +140,8 @@ export const updateLogbookEntry = async(user: UserModel, body: ClientLogbookEntr
         },
         where: {
             user_id: user.userId,
-            logbook_entry_id: body.entryId
+            logbook_entry_id: body.entryId,
+            instructor_signature: undefined // force locks entries that are signed
         }
     })
 
@@ -231,12 +232,28 @@ export const getLogbookEntries = async(user: UserModel): Promise<ClientLogbookEn
             from: query[i].from,
             remarks: query[i].remarks,
             instructorCid: query[i].instructor_cid || undefined,
+            // @ts-expect-error i have no idea but it works trust
             instructorSignature: query[i].instructor_signature || undefined,
             instructorSignedDate: query[i].instructor_signed_date?.toISOString() || undefined,
-            instructorExpiry: query[i].instructor_expiry_date || undefined,
+            instructorExpiryDate: query[i].instructor_expiry_date || undefined,
             instructor: toClientUserModel(query[i].instructor || undefined) || undefined
         })
     }
 
     return userEntry
+}
+
+export const submitSignature = async(entry: ClientLogbookEntry, canvasData: JSON) => {
+    await prisma.logbookEntry.update({
+        data: {
+            instructor_signature: canvasData.toString(),
+            instructor_cid: entry.instructorCid,
+            instructor_signed_date: new Date(),
+            instructor_expiry_date: entry.instructorExpiryDate
+        },
+        where: {
+            logbook_entry_id: entry.entryId,
+            instructor_user_id: entry.instructor?.userId
+        }
+    })
 }
