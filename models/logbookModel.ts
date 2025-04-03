@@ -154,6 +154,10 @@ export const updateLogbookEntry = async(user: UserModel, body: ClientLogbookEntr
 }
 
 export const getLogbookEntries = async(user: UserModel): Promise<ClientLogbookEntry[]> => {
+    if (!user) {
+        return []
+    }
+
     // get user data
     const query = await prisma.logbookEntry.findMany({
         select: {
@@ -249,6 +253,10 @@ export const getLogbookEntries = async(user: UserModel): Promise<ClientLogbookEn
 }
 
 export const submitSignature = async(entry: ClientLogbookEntry, canvasData: JSON) => {
+    if (!entry || !canvasData) {
+        return false
+    }
+
     await prisma.logbookEntry.update({
         data: {
             instructor_signature: canvasData.toString(),
@@ -264,6 +272,10 @@ export const submitSignature = async(entry: ClientLogbookEntry, canvasData: JSON
 }
 
 export const addInstructorRequest = async(entryId: number, user: UserModel, instructorId: number): Promise<boolean> => {
+    if (!entryId || !user || !instructorId) {
+        return false
+    }
+
     const query = await prisma.logbookEntry.update({
         data: {
             instructor_user_id: instructorId,
@@ -281,7 +293,7 @@ export const addInstructorRequest = async(entryId: number, user: UserModel, inst
 }
 
 export const clearInstructorAndSignature = async(entryId: number, user: UserModel): Promise<boolean> => {
-    if (!entryId) {
+    if (!entryId || !user) {
         return false
     }
 
