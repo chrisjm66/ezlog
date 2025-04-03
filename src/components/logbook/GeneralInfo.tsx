@@ -3,8 +3,11 @@ import { LogbookEntry } from "../../hooks/logbook";
 import TextInputComponent from "../../components/input/TextInputComponent";
 import NumberInputComponent from "../../components/input/NumberInputComponent";
 import AircraftOptions from "../../components/aircraft/AircraftOptions";
+import useAuth, { AuthActions } from "../../hooks/auth";
 
 const GeneralInfo: React.FC<Props> = ({data, readOnly} : Props) => {
+    const user: AuthActions = useAuth()
+
     return (
         <div className="gray-container">
                 {/* general info page */}
@@ -15,11 +18,12 @@ const GeneralInfo: React.FC<Props> = ({data, readOnly} : Props) => {
                     <input title='date' required name='date' type="date" readOnly={readOnly} defaultValue={data.date.slice(0,10)}/>
                 </div>
 
-                <AircraftOptions readOnly data={data}/>
+                <AircraftOptions readOnly={readOnly} data={data}/>
 
-                <TextInputComponent readOnly={readOnly} title='From' value={data.from.toUpperCase()}/>
-                <TextInputComponent readOnly={readOnly} title='To' value={data.to.toUpperCase()}/>
-                <TextInputComponent readOnly={readOnly} title='Route' value={data.route}/>
+                {data.user.userId != user.user.userId ? <TextInputComponent readOnly title='Pilot' value={data.user.firstName + ' ' + data.user.lastName}/> : ''}
+                <TextInputComponent readOnly={readOnly} formName='from' title='From' value={data.from.toUpperCase()}/>
+                <TextInputComponent readOnly={readOnly} formName='to' title='To' value={data.to.toUpperCase()}/>
+                <TextInputComponent readOnly={readOnly} formName='route' title='Route' value={data.route}/>
 
                 <div className="w-full my-1"/>
 

@@ -2,6 +2,7 @@ import { createContext, useContext, ReactElement, useEffect, useState} from "rea
 import axios, { AxiosResponse } from "axios"
 import useAuth, { AuthActions, UserModel } from "./auth"
 import { Aircraft } from "./aircraft"
+import { toast } from "react-toastify"
 
 const LogbookContext = createContext<LogbookActions>({} as LogbookActions)
 const useLogbook = (): LogbookActions => useContext<LogbookActions>(LogbookContext)
@@ -77,9 +78,36 @@ const useLogbookActions = (): LogbookActions  => {
       user: auth.user,
       instructor: undefined,
       aircraft: undefined
-}
+    }
   }
-  return {populateLogbookEntries, getLogbookEntry, submitEntry, updateEntry, logbookData, getDefaultLogbookEntry}
+
+  const requestRemoveInstructorSignature = (entryId: number | undefined) => {
+    if (!entryId) {
+      toast.error('No logbook entry ID available.')
+      return
+    }
+
+    axios.delete('/api/instructor/request', {
+        data: {
+            entryId: entryId
+        }
+    }).then((response) => {
+        if (response.status == 200) {
+            toast.success('Instructor signature removed!')
+            populateLogbookEntries()
+        }
+    }).catch((error) => {
+        console.error(error)
+
+        if (error.status == 400) {
+            toast.error('Error 400 - Instructor not found')
+        } else {
+            toast.error(`Error ${error.status} - ` + error.response.statusText)
+        }
+    })
+  }
+
+  return {populateLogbookEntries, getLogbookEntry, submitEntry, updateEntry, logbookData, getDefaultLogbookEntry, requestRemoveInstructorSignature}
 }
 
 export const ProvideLogbook = ({children}): ReactElement => {
@@ -141,5 +169,6 @@ export interface LogbookActions {
   submitEntry: (data: LogbookEntry) => Promise<number>
   updateEntry: (data: LogbookEntry) => Promise<number>  
   getDefaultLogbookEntry: () => LogbookEntry
+  requestRemoveInstructorSignature: (entryId: number | undefined) => void
 }
 export default useLogbook

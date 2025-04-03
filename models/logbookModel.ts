@@ -262,3 +262,41 @@ export const submitSignature = async(entry: ClientLogbookEntry, canvasData: JSON
         }
     })
 }
+
+export const addInstructorRequest = async(entryId: number, user: UserModel, instructorId: number): Promise<boolean> => {
+    const query = await prisma.logbookEntry.update({
+        data: {
+            instructor_user_id: instructorId,
+            instructor_signature: Prisma.DbNull,
+            instructor_cid: null,
+            instructor_signed_date: null,
+            instructor_expiry_date: null
+        }, where: {
+            logbook_entry_id: entryId,
+            user_id: user.userId // so some prankster doesnt delete other peoples queries
+        }
+    })
+
+    return query ? true : false
+}
+
+export const clearInstructorAndSignature = async(entryId: number, user: UserModel): Promise<boolean> => {
+    if (!entryId) {
+        return false
+    }
+
+    const query = await prisma.logbookEntry.update({
+        data: {
+            instructor_user_id: null,
+            instructor_signature: Prisma.DbNull,
+            instructor_cid: null,
+            instructor_signed_date: null,
+            instructor_expiry_date: null
+        }, where: {
+            logbook_entry_id: entryId,
+            user_id: user.userId // so some prankster doesnt delete other peoples queries
+        }
+    })
+
+    return query ? true : false
+}

@@ -9,7 +9,6 @@ import Login from './views/auth/Login'
 import Signup from './views/auth/Signup'
 import Dashboard from './views/dashboard/Dashboard'
 import CreateLogbookEntry from './views/logbook/CreateLogbookEntry'
-import EditLogbookEntry from './views/logbook/EditLogbookEntry'
 import Logbook from './views/logbook/Logbook'
 import ContextProvider from './components/ContextProvider'
 import AircraftView from './views/aircraft/AircraftView'
@@ -36,7 +35,6 @@ const App = (): ReactElement => {
                       <Route index element={<Logbook/>}/>
                       <Route path='/dashboard/logbook/:entryId' index element={<Logbook/>}/>
                       <Route path='/dashboard/logbook/create' element={<CreateLogbookEntry/>}/>
-                      <Route path='/dashboard/logbook/edit/:entryId' element={<EditLogbookEntry/>}/>
                     </Route>
                     <Route path='/dashboard/aircraft'>
                       <Route index element={<AircraftView/>}/>

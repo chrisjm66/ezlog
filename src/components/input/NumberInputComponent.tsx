@@ -1,12 +1,12 @@
 import { ReactElement, useEffect, useRef, useState } from "react"
 
 const NumberInputComponent = ({formName, title, int, buttonHidden, fillValue, value, readOnly}: Props): ReactElement => {
-    const [localValue, setLocalValue] = useState<string | undefined>(undefined)
+    const [localValue, setLocalValue] = useState<string>('')
     const inputRef = useRef<HTMLInputElement | null>(null)
     const [inputEmpty, setInputEmpty] = useState<boolean>(false)
 
     const handleChange = () => {
-        setLocalValue(inputRef.current?.value)
+        setLocalValue(inputRef.current?.value || '')
         if (inputRef.current?.value === '') {
             setInputEmpty(true)
         } else {
@@ -28,7 +28,7 @@ const NumberInputComponent = ({formName, title, int, buttonHidden, fillValue, va
         if (value) {
             setLocalValue(value.toString())
         } else {
-            setLocalValue('0')
+            setLocalValue('')
         }
     }, [value])
     

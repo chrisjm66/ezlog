@@ -7,6 +7,7 @@ import SignatureRequest from "../instructor/SignatureRequest"
 import Modal from "../modal/Modal"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
+import axios from "axios"
 
 const LogbookForm: React.FC<Props> = ({data, readOnly}: Props) => {
     const signed: boolean = data?.instructorSignature ? true : false
@@ -107,19 +108,20 @@ const LogbookForm: React.FC<Props> = ({data, readOnly}: Props) => {
                 <button onClick={() => setSignatureModalVisible(false)} className='bg-ezgray mt-2 text-sm'>Cancel</button>
                 <button onClick={() => console.log('meow')} className='bg-ezred ml-2 text-sm'>Confirm</button>
             </Modal>
+
             {signed ? <SignatureDetails data={data}/> : ''}
     
             <GeneralInfo readOnly={signed || readOnly} data={data}/>
     
             <InstrumentInfo readOnly={signed || readOnly} data={data}/>
     
-            {!data.instructorSignature ? <SignatureRequest data={data}/> : ''}
+            {!data.instructorSignature && data.entryId ? <SignatureRequest data={data}/> : ''}
 
             <Remarks readOnly={signed || readOnly} data={data}/>
     
             <div className='w-full flex flex-row gap-x-2'>
-                    {!data.instructorSignature ? <button type='submit'>Submit Changes</button> : <button className='bg-amber-500'>Remove Instructor Signature</button>}
-                    <button onClick={requestDelete} className='bg-ezred'>Delete Entry</button>
+                    {!data.instructorSignature ? <button type='submit'>Submit Changes</button> : <button type='button' onClick={() => logbook.requestRemoveInstructorSignature(data?.entryId)} className='bg-amber-500'>Remove Instructor Signature</button>}
+                    <button type='button' onClick={requestDelete} className='bg-ezred'>Delete Entry</button>
             </div>
         </form>
     )

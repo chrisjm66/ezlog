@@ -30,7 +30,7 @@
   }
 
   button {
-    @apply border-1 bg-ezblue text-white border-ezblue p-2 text-lg rounded-md
+    @apply border-1 bg-ezblue text-white border-ezblue p-2 text-lg rounded-md transition hover:bg-gray-800
   }
 
   label {

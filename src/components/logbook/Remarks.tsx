@@ -10,9 +10,9 @@ const Remarks: React.FC<Props> = ({data, readOnly} : Props) => {
             <div className="w-1/3 ml-10">
                 <h2 className='text-lg font-bold mb-2'>Flight Tags</h2>
                 <div className='flex justify-left gap-x-12 w-full items-end'>
-                    <CheckboxComponent readOnly={readOnly} title="Checkride" value={data.checkride}/>
-                    <CheckboxComponent readOnly={readOnly} title="IPC" value={data.ipc}/>
-                    <CheckboxComponent readOnly={readOnly} title="Flight Review" value={data.flightReview}/>
+                    <CheckboxComponent readOnly={readOnly} formName='checkride' title="Checkride" value={data.checkride}/>
+                    <CheckboxComponent readOnly={readOnly} formName='ipc' title="IPC" value={data.ipc}/>
+                    <CheckboxComponent readOnly={readOnly} formName='flightReview' title="Flight Review" value={data.flightReview}/>
                 </div>
             </div>
         
