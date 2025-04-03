@@ -74,6 +74,7 @@ const LogbookForm: React.FC<Props> = ({data, readOnly}: Props) => {
 
             const newValues = { ...values, [event.target.name]: eventValue }
             setValues(newValues);
+            console.log(values)
         } catch (error) {
             console.error(error)
         }
