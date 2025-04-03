@@ -1,5 +1,5 @@
 import { ReactElement } from "react"
-import CurrencySummary from "../CurrencySummary"
+import CurrencySummary from "../logbook/CurrencySummary"
 
 const Dashboard = (): ReactElement => {
     return (

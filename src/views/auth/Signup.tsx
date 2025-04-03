@@ -19,8 +19,8 @@ const Signup = (): ReactElement => {
             confirmPassword: formData.get('confirmPassword')?.toString() || ''
         }
         
-        if (auth.user.userId !== -1) {
-            auth.signup(userData)
+        if (auth.user.userId == -1) {
+            await auth.signup(userData)
         }  
     }
     return (

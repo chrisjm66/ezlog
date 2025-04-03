@@ -1,6 +1,7 @@
 import { createContext, ReactElement, useContext, useEffect, useState } from "react"
 import { NavigateFunction, Outlet, redirect, useNavigate } from "react-router-dom"
 import axios, { AxiosResponse } from "axios"
+import { toast } from "react-toastify"
 
 const AuthContext = createContext({})
 const useAuth = (): any => useContext(AuthContext)
@@ -20,20 +21,26 @@ const useAuthActions = (): AuthActions => {
     const [user, setUser] = useState(defaultUser)
 
     const signup = async(userData: RegisterRequest): Promise<void> => {
-        const response = await axios.post("/api/auth/register", 
+        await axios.post("/api/auth/register", 
             userData,
             {headers: {
                 'Content-Type': 'application/json'
             }
+        }).then((response) => {
+            if (response.status == 200) {
+                toast.success('Signed up!')
+                setUser(response.data)
+                return navigate('/dashboard')
+            }
+        }).catch((error) => {
+            console.log(error)
+            toast.error(`Error ${error.status} - ${error.response.statusText}`)
         })
 
-        if (response.status == 200) {
-            setUser(response.data)
-            return navigate('/dashboard')
-        }
+        
     }
 
-    const login = async(userData: LoginRequest): Promise<number> => {
+    const login = async(userData: LoginRequest): Promise<void> => {
         return axios.post("/api/auth/login", 
             userData,
             {headers: {
@@ -41,13 +48,13 @@ const useAuthActions = (): AuthActions => {
             }
         }).then((response) => {
             if (response.status == 200) {
+                toast.success('Signed up!')
                 setUser(response.data)
+                return navigate('/dashboard')
             }
-
-            return response.status
         }).catch((error) => {
-
-            return error.status
+            console.log(error)
+            toast.error(`Error ${error.status} - ${error.response.statusText}`)
         })
     }
 
@@ -143,8 +150,8 @@ export type AuthActions = {
     user: UserModel
     loading: boolean
     setLoading: (data: boolean) => void
-    signup: (userData: RegisterRequest) => void
-    login: (userData: LoginRequest) => Promise<number>
+    signup: (userData: RegisterRequest) => Promise<void>
+    login: (userData: LoginRequest) => Promise<void>
     validate: () => void
     logout: () => void
 }
