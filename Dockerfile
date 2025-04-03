@@ -8,10 +8,9 @@ WORKDIR /home/node/app
 
 COPY . .
 
-# for prisma
-RUN ls
-
 RUN npm install --legacy-peer-deps
+
+ENV DATABASE_URL=${DATABASE_URL}
 
 RUN npx prisma generate
 
