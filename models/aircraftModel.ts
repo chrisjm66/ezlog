@@ -82,7 +82,6 @@ export const updateAircraft = async(data: ClientAircraft, userId: number): Promi
 }
 
 export const deleteAircraft = async(aircraftId: number, userId: number): Promise<number | null> => {
-    console.log(aircraftId, userId)
     if (!aircraftId || !userId) {
         return 400
     }

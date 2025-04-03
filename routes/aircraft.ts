@@ -26,10 +26,10 @@ router.get('/', async(req: Request, res: Response): Promise<any> => {
         responseData.push({
             aircraftId: data.aircraft_id,
             tailNumber: data.tail_number,
-            description: data.description,
-            make: data.make,
+            description: data.description || undefined,
+            make: data.make || undefined,
             typeCode: data.type_code,
-            model: data.model,
+            model: data.model || undefined,
             numberOfEngines: data.number_of_engines,
             engineType: data.engine_type,
             taa: data.taa as boolean,
