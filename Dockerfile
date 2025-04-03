@@ -8,6 +8,9 @@ WORKDIR /home/node/app
 
 COPY . .
 
+# for prisma
+COPY .env /usr/src/app/.env
+
 RUN npm install --legacy-peer-deps
 
 RUN npx prisma generate
