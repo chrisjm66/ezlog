@@ -51,6 +51,7 @@ const SignLogbook: FC<Props> = ({data, opened, onClose}: Props): ReactElement =>
                     <h4 className='italic tracking-tighter absolute right-1 bottom-1 select-none'>{user.firstName.toUpperCase()} {user.lastName.toUpperCase()} - {user.instructorCid?.toUpperCase()} EXP {user.instructorExpiryDate?.toUpperCase()}</h4>
                 </div>
 
+                {/* @ts-expect-error no types available */}
                 <button className='bg-ezred' onClick={() => canvas.current?.clear()}>Clear</button>
                 <button className='bg-ezgreen ml-5' onClick={sendSignRequest}>Sign</button>
             </div>

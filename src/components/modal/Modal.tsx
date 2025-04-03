@@ -40,7 +40,7 @@ const Modal = ({children, open, title, onClose}: ModalComponent): ReactElement =
                 </button> : ''}
             </div>
             
-            <div className='p-2'>
+            <div className='p-3'>
                 {children}  
             </div>
             
