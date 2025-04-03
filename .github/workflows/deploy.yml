@@ -2,31 +2,22 @@ name: Deploy to server
 
 on:
   workflow_dispatch:
-  push:
-      paths:
-        - prisma/migrations/**
-      branches:
-        - main
-        
 jobs:
-  migrate-prisma:
+  build_site:
     runs-on: self-hosted
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        
       - name: Setup Node
         uses: actions/setup-node@v3
+        
       - name: Install dependencies
         run: npm install -g prisma@latest
+        
       - name: Apply all pending migrations to the database
         run: npx prisma migrate deploy
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-  build_site:
-    runs-on: self-hosted
-    steps:
-      - name: Setup
-        uses: actions/checkout@v2
+        
       - name: Deploy
         run: docker compose up --build -d
     env:
