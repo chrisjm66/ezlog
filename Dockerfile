@@ -9,7 +9,7 @@ WORKDIR /home/node/app
 COPY . .
 
 # for prisma
-COPY .env /home/node/app/.env
+RUN echo "DATABASE_URL=${DATABASE_URL}" > .env.production
 
 RUN npm install --legacy-peer-deps
 
