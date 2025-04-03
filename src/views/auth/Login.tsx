@@ -1,7 +1,6 @@
 import { ReactElement } from "react"
-import { Link, redirect } from "react-router-dom"
+import { Link } from "react-router-dom"
 import useAuth, { LoginRequest } from "../../hooks/auth"
-import { toast } from "react-toastify"
 
 const Login = (): ReactElement => {
     const auth = useAuth()
@@ -20,17 +19,7 @@ const Login = (): ReactElement => {
 
         console.log(auth.user)
         if (auth.user.userId == -1) {
-            const status = await auth.login(userData)
-            console.log('ran')
-            console.log(status)
-            if (status == 200) {
-                toast.success('Welcome!')
-                redirect('/dashboard')
-            } else if (status == 401) {
-                toast.error('Invalid credentials')
-            } else {
-                toast.error('Unknown error - status ' + status)
-            }
+            await auth.login(userData)
         }  
     }
 
