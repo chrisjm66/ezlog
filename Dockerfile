@@ -10,11 +10,7 @@ COPY . .
 
 RUN npm install --legacy-peer-deps
 
-ENV DATABASE_URL=${DATABASE_URL}
-
 RUN npx prisma generate
-
-RUN npx prisma migrate deploy
 
 RUN npm run build
 
