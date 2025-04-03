@@ -8,12 +8,9 @@ import NotFound from './views/NotFound'
 import Login from './views/auth/Login'
 import Signup from './views/auth/Signup'
 import Dashboard from './views/dashboard/Dashboard'
-import CreateLogbookEntry from './views/logbook/CreateLogbookEntry'
 import Logbook from './views/logbook/Logbook'
 import ContextProvider from './components/ContextProvider'
-import AircraftView from './views/aircraft/AircraftView'
-import CreateAircraftEntry from './views/aircraft/CreateAircraftEntry'
-import EditAircraftEntry from './views/aircraft/EditAircraftEntry'
+import Aircraft from './views/aircraft/Aircraft'
 import UserSettings from './views/user/UserSettings'
 import InstructorPanel from './views/instructor/InstructorPanel'
 
@@ -37,9 +34,9 @@ const App = (): ReactElement => {
                       <Route path='/dashboard/logbook/create' element={<Logbook createEntry/>}/>
                     </Route>
                     <Route path='/dashboard/aircraft'>
-                      <Route index element={<AircraftView/>}/>
-                      <Route path='/dashboard/aircraft/create' element={<CreateAircraftEntry/>}/>
-                      <Route path='/dashboard/aircraft/edit/:aircraftId' element={<EditAircraftEntry/>}/>
+                      <Route index element={<Aircraft/>}/>
+                      <Route path='/dashboard/aircraft/:aircraftId' element={<Aircraft/>}/>
+                      <Route path='/dashboard/aircraft/create' element={<Aircraft createAircraft/>}/>
                     </Route>
                     <Route path='/dashboard/instructor/'>
                       <Route index element={<InstructorPanel/>}/>

@@ -46,6 +46,11 @@ router.delete('/', async(req: Request, res: Response): Promise<any> => {
     const entryId: number = req.body.entryId
     const user: UserModel = res.locals.user
 
+    if (!entryId || !user) {
+        res.statusMessage = 'No entryId or user found'
+        return res.sendStatus(400)
+    }
+
     const deleteQuery = await deleteEntryFromDatabase(user, entryId)
 
     if (deleteQuery) {

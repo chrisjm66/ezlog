@@ -294,7 +294,10 @@ export const clearInstructorAndSignature = async(entryId: number, user: UserMode
             instructor_expiry_date: null
         }, where: {
             logbook_entry_id: entryId,
-            user_id: user.userId // so some prankster doesnt delete other peoples queries
+            OR: [
+                {instructor_user_id: user.userId},
+                {user_id: user.userId}
+            ]
         }
     })
 

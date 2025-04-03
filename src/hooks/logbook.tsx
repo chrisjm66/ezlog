@@ -34,16 +34,41 @@ const useLogbookActions = (): LogbookActions  => {
     })
   }
 
-  const submitEntry = async(data: LogbookEntry): Promise<number> => {
-    const response: AxiosResponse = await axios.post('/api/logbook', data)
-
-    return response.status
+  const submitEntry = async(data: LogbookEntry): Promise<void> => {
+    axios.post('/api/logbook', data).then((res) => {
+      if (res.status == 200) {
+        toast.success('Entry submitted!')
+        populateLogbookEntries()
+      }
+    }).catch((err) => {
+      toast.error(`Error ${err.status} - ${err.response.statusText}`)
+    })
   }
 
-  const updateEntry = async(data: LogbookEntry): Promise<number> => {
-    const response: AxiosResponse = await axios.put('/api/logbook', data)
+  const deleteEntry = async(data: LogbookEntry): Promise<void> => {
+    await axios.delete('/api/logbook', {
+      data: {
+        entryId: data.entryId
+      }
+    }).then((res) => {
+      if (res.status == 200) {
+        toast.success('Entry deleted!')
+        populateLogbookEntries()
+      }
+    }).catch((err) => {
+      toast.error(`Error ${err.status} - ${err.response.statusText}`)
+    })
+  }
 
-    return response.status
+  const updateEntry = async(data: LogbookEntry): Promise<void> => {
+    axios.put('/api/logbook', data).then((res) => {
+      if (res.status == 200) {
+        toast.success('Entry Updated!')
+        populateLogbookEntries()
+      }
+    }).catch((err) => {
+      toast.error(`Error ${err.status} - ${err.response.statusText}`)
+    })
   }
 
   const getDefaultLogbookEntry = (): LogbookEntry => {
@@ -107,7 +132,27 @@ const useLogbookActions = (): LogbookActions  => {
     })
   }
 
-  return {populateLogbookEntries, getLogbookEntry, submitEntry, updateEntry, logbookData, getDefaultLogbookEntry, requestRemoveInstructorSignature}
+  const requestSignature = (entryId: number, instructorEmail: string) => {
+    axios.put('/api/instructor/request', {
+        entryId: entryId,
+        instructorEmail: instructorEmail
+    }).then((response) => {
+        if (response.status == 200) {
+            toast.success('Instructor signature requested!')
+            populateLogbookEntries()
+        }
+    }).catch((error) => {
+        console.error(error)
+
+        if (error.status == 400) {
+            toast.error('Error 400 - ' + error.response.statusText)
+        } else {
+            toast.error(`Error ${error.status} - ` + error.response.statusText)
+        }
+    })
+  }
+  
+  return {populateLogbookEntries, getLogbookEntry, submitEntry, updateEntry, deleteEntry, logbookData, getDefaultLogbookEntry, requestSignature, requestRemoveInstructorSignature}
 }
 
 export const ProvideLogbook = ({children}): ReactElement => {
@@ -166,9 +211,11 @@ export interface LogbookActions {
   logbookData: LogbookEntry[] | undefined
   populateLogbookEntries: () => void
   getLogbookEntry: (entryId: number) => LogbookEntry | undefined
-  submitEntry: (data: LogbookEntry) => Promise<number>
-  updateEntry: (data: LogbookEntry) => Promise<number>  
+  submitEntry: (data: LogbookEntry) => Promise<void>
+  updateEntry: (data: LogbookEntry) => Promise<void>  
+  deleteEntry: (data: LogbookEntry) => Promise<void>
   getDefaultLogbookEntry: () => LogbookEntry
+  requestSignature: (entryId: number, instructorEmail: string) => void
   requestRemoveInstructorSignature: (entryId: number | undefined) => void
 }
 export default useLogbook

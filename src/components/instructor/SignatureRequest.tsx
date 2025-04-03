@@ -1,7 +1,6 @@
 import { useEffect } from "react"
 import useLogbook, { LogbookActions, LogbookEntry } from "../../hooks/logbook"
 import TextInputComponent from "../input/TextInputComponent"
-import axios from "axios"
 import { toast } from "react-toastify"
 
 const SignatureRequest: React.FC<Props> = ({data}) => {
@@ -14,24 +13,12 @@ const SignatureRequest: React.FC<Props> = ({data}) => {
         if (!instructorEmail || instructorEmail == '') {
             return toast.error('Must enter instructor email.')
         }
-        
-        axios.put('/api/instructor/request', {
-            entryId: data.entryId,
-            instructorEmail: instructorEmail
-        }).then((response) => {
-            if (response.status == 200) {
-                toast.success('Instructor signature requested!')
-                logbook.populateLogbookEntries()
-            }
-        }).catch((error) => {
-            console.error(error)
 
-            if (error.status == 400) {
-                toast.error('Error 400 - ' + error.response.statusText)
-            } else {
-                toast.error(`Error ${error.status} - ` + error.response.statusText)
-            }
-        })
+        if (!data.entryId) {
+            return toast.error('Must submit entry before requesting signature')
+        }
+        
+        logbook.requestSignature(data.entryId, instructorEmail.toString())
     }
 
     useEffect(() => {

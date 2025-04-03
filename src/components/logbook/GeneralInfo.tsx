@@ -13,6 +13,8 @@ const GeneralInfo: React.FC<Props> = ({data, readOnly} : Props) => {
                 {/* general info page */}
                 <h1 className="form-header">GENERAL INFO</h1>
 
+                {data.user.userId != user.user.userId ? <TextInputComponent readOnly title='Pilot' value={data.user.firstName + ' ' + data.user.lastName}/> : ''}
+
                 <div className="flex flex-col w-40">
                     <label htmlFor='date'>Date</label>
                     <input title='date' required name='date' type="date" readOnly={readOnly} defaultValue={data.date.slice(0,10)}/>
@@ -20,7 +22,6 @@ const GeneralInfo: React.FC<Props> = ({data, readOnly} : Props) => {
 
                 <AircraftOptions readOnly={readOnly} data={data}/>
 
-                {data.user.userId != user.user.userId ? <TextInputComponent readOnly title='Pilot' value={data.user.firstName + ' ' + data.user.lastName}/> : ''}
                 <TextInputComponent readOnly={readOnly} formName='from' title='From' value={data.from.toUpperCase()}/>
                 <TextInputComponent readOnly={readOnly} formName='to' title='To' value={data.to.toUpperCase()}/>
                 <TextInputComponent readOnly={readOnly} formName='route' title='Route' value={data.route}/>

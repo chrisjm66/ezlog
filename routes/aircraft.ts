@@ -56,7 +56,7 @@ router.post('/', async(req: Request, res: Response): Promise<any> => {
 router.put('/', async(req: Request, res: Response): Promise<any> => {
     const user: UserModel = res.locals.user
 
-    const queryData: Aircraft = await updateAircraft(req.body, user.userId)
+    const queryData: Aircraft | undefined = await updateAircraft(req.body, user.userId)
 
     if (queryData) {
         return res.sendStatus(200)

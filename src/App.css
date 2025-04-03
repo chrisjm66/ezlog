@@ -25,7 +25,7 @@
     color: black;
   }
 
-  input {
+  input, select {
     @apply py-1 px-2 w-full bg-white rounded-sm border-1 font-bold text-xl text-ezblue
   }
 
@@ -61,6 +61,14 @@
   
   .gray-container {
     @apply flex flex-wrap justify-start border-2 border-ezgray bg-gray-200 p-5 rounded-xl gap-x-5 gap-y-1 w-3/4 h-3/4
+  }
+
+  .card {
+    @apply flex flex-col w-full h-max bg-gray-100 justify-start items-center px-2 py-1 transition hover:bg-gray-200
+  }
+
+  .form-container {
+    @apply flex gap-y-5 flex-col overflow-y-scroll max-h-screen
   }
 }
 

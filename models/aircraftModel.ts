@@ -51,27 +51,34 @@ export const addAircraft = async(data: ClientAircraft, userId: number): Promise<
     return insert
 }
 
-export const updateAircraft = async(data: ClientAircraft, userId: number): Promise<Aircraft> => {
-    const update: Aircraft = await prisma.aircraft.update({
-        data: {
-            tail_number: data.tailNumber,
-            description: data.description,
-            make: data.make,
-            type_code: data.typeCode,
-            model: data.model,
-            engine_type: data.engineType,
-            number_of_engines: data.numberOfEngines,
-            taa: data.taa,
-            complex: data.complex,
-            high_performance: data.highPerformance,
-        },
-        where: {
-            aircraft_id: data.aircraftId,
-            user_id: userId
-        }
-    })
+export const updateAircraft = async(data: ClientAircraft, userId: number): Promise<Aircraft | undefined> => {
+    try {
+        const update: Aircraft = await prisma.aircraft.update({
+            data: {
+                tail_number: data.tailNumber,
+                description: data.description,
+                make: data.make,
+                type_code: data.typeCode,
+                model: data.model,
+                engine_type: data.engineType,
+                number_of_engines: data.numberOfEngines,
+                taa: data.taa,
+                complex: data.complex,
+                high_performance: data.highPerformance,
+            },
+            where: {
+                aircraft_id: data.aircraftId,
+                user_id: userId
+            }
+        })
 
-    return update
+        return update
+    } catch (error) {
+        console.error(error)
+        throw new Error('Error updating aircraft')
+    }
+
+    return undefined
 }
 
 export const deleteAircraft = async(aircraftId: number, userId: number): Promise<number | null> => {

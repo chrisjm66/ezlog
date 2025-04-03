@@ -7,11 +7,12 @@ import SignatureRequest from "../instructor/SignatureRequest"
 import Modal from "../modal/Modal"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import axios from "axios"
+import useAuth, { AuthActions } from "../../hooks/auth"
 
 const LogbookForm: React.FC<Props> = ({data, readOnly}: Props) => {
     const signed: boolean = data?.instructorSignature ? true : false
     const logbook: LogbookActions = useLogbook()
+    const auth: AuthActions = useAuth()
 
     const [values, setValues] = useState<LogbookEntry>(logbook.getDefaultLogbookEntry())
     const [signatureModalVisible, setSignatureModalVisible] = useState<boolean>(false)
@@ -28,33 +29,27 @@ const LogbookForm: React.FC<Props> = ({data, readOnly}: Props) => {
         if (!submitActive) {
             form.preventDefault()
             setSubmitActive(true)
-            let response: number
+
             if (data?.entryId) {
                 console.log(data.entryId)
-                response = await logbook.updateEntry(values)
+                await logbook.updateEntry(values)
             } else {
-                response = await logbook.submitEntry(values)
+                await logbook.submitEntry(values)
             }
-    
-            if (response == 200) {
-                toast.success('Entry submitted!')
-            } else {
-                toast.error('Error occured')
-            }
-    
+
             setSubmitActive(false)
-            logbook.populateLogbookEntries()
         } else {
             toast.error('Entry already submitting.')
         }
     }
 
     const sendLogbookDeleteRequest = async() => {
-        //@ts-expect-error not available if data checked
-        const response = await axios.delete('/api/logbook', {data: {entryId: data.entryId}}) 
-        if (response.status == 200) {
-            window.location.reload()
+        if (!data || data.entryId == -1) {
+            toast.error('No data available')
+            return
         }
+
+        logbook.deleteEntry(data)
     }
 
     const handleChange = (event): void => {
@@ -66,7 +61,7 @@ const LogbookForm: React.FC<Props> = ({data, readOnly}: Props) => {
                     eventValue = (eventValue == undefined || eventValue === '') ? 0 : parseFloat(eventValue) 
                     break
                 case "boolean":
-                    eventValue = eventValue === 'on' ? true : false
+                    eventValue = eventValue !== 'on' ? true : false // somethign to do with updates times or some other bs lol
                     break
                 default:
                     break
@@ -95,7 +90,7 @@ const LogbookForm: React.FC<Props> = ({data, readOnly}: Props) => {
     }
 
     return (
-        <div className='flex gap-y-5 flex-col overflow-y-scroll max-h-screen'>
+        <div className='form-container'>
             <form onChange={handleChange} onSubmit={sendCreateOrUpdateRequest} className='flex gap-y-5 flex-col overflow-y-scroll max-h-screen'>
                 <Modal open={confirmModalVisible} title='Confirm Action' onClose={() => setConfirmModalVisible(false)}>
                     <h2>{modalBody}</h2>
@@ -123,7 +118,7 @@ const LogbookForm: React.FC<Props> = ({data, readOnly}: Props) => {
         
                 <div className='w-full flex flex-row gap-x-2'>
                         {!data.instructorSignature ? <button type='submit'>Submit Changes</button> : <button type='button' onClick={() => logbook.requestRemoveInstructorSignature(data?.entryId)} className='bg-amber-500'>Remove Instructor Signature</button>}
-                        <button type='button' onClick={requestDelete} className='bg-ezred'>Delete Entry</button>
+                        {data.entryId != -1 && data.user.userId == auth.user.userId ? <button type='button' onClick={requestDelete} className='bg-ezred'>Delete Entry</button> : ''}
                 </div>
             </form>
         </div>
