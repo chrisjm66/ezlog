@@ -23,6 +23,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "node": "^18.20.7",
+    "node-cron": "^3.0.3",
     "react": "^19.0.0",
     "react-canvas-draw": "^1.2.1",
     "react-dom": "^19.0.0",

@@ -123,6 +123,16 @@ export const toClientUserModel = (data: User | undefined): ClientUserModel | und
     return newModel
 }
 
+export const purgeSessions = async(): Promise<void> => {
+    await prisma.session.deleteMany({
+        where: {
+            expires: {
+                lt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 90) // delete sessions older than 90 days
+            }
+        }
+    })
+}
+
 // this exists to we arent sending a password around everywhere
 export type UserModel = {
     firstName: string
