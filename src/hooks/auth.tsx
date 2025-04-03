@@ -1,5 +1,5 @@
 import { createContext, ReactElement, useContext, useEffect, useState } from "react"
-import { NavigateFunction, Outlet, useNavigate } from "react-router-dom"
+import { NavigateFunction, Outlet, redirect, useNavigate } from "react-router-dom"
 import axios, { AxiosResponse } from "axios"
 
 const AuthContext = createContext({})
@@ -13,7 +13,8 @@ const useAuthActions = (): AuthActions => {
         firstName: "",
         lastName: "",
         email: "",
-        userId: -1
+        userId: -1,
+        isInstructor: false
     }
 
     const [user, setUser] = useState(defaultUser)
@@ -32,27 +33,31 @@ const useAuthActions = (): AuthActions => {
         }
     }
 
-    const login = async(userData: LoginRequest): Promise<void> => {
-        const response = await axios.post("/api/auth/login", 
+    const login = async(userData: LoginRequest): Promise<number> => {
+        return axios.post("/api/auth/login", 
             userData,
             {headers: {
                 'Content-Type': 'application/json'
             }
-        })
+        }).then((response) => {
+            if (response.status == 200) {
+                setUser(response.data)
+            }
 
-        if (response.status == 200) {
-            setUser(response.data)
-            return navigate('/dashboard')
-        }
+            return response.status
+        }).catch((error) => {
+
+            return error.status
+        })
     }
 
     const logout = async(): Promise<void> => {
         const response = await axios.post("/api/auth/logout", user)
         
-        
         if (response.status == 200) {
             setUser(defaultUser)
-            return navigate('/')
+            redirect('/')
+            
         }
 
     }
@@ -129,6 +134,9 @@ export type UserModel = {
     lastName: string
     email: string
     userId: number
+    instructorCid?: string
+    isInstructor: boolean
+    instructorExpiryDate?: string
 }
 
 export type AuthActions = {
@@ -136,7 +144,7 @@ export type AuthActions = {
     loading: boolean
     setLoading: (data: boolean) => void
     signup: (userData: RegisterRequest) => void
-    login: (userData: LoginRequest) => void
+    login: (userData: LoginRequest) => Promise<number>
     validate: () => void
     logout: () => void
 }

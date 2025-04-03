@@ -1,6 +1,8 @@
 import { User } from "@prisma/client"
 import prisma from "../middlewares/db"
 import bcrypt from 'bcrypt'
+import { type UserModel as ClientUserModel } from "../src/hooks/auth";
+
 
 const SALT_ROUNDS = 12
 
@@ -42,7 +44,10 @@ export const createUser = async(userData: RegisterRequest): Promise<UserModel> =
         firstName: newUser.first_name,
         lastName: newUser.last_name,
         email: newUser.email,
-        userId: newUser.user_id
+        userId: newUser.user_id,
+        isInstructor: newUser?.is_instructor,
+        instructorCid: newUser.instructor_cid || undefined,
+        instructorExpiryDate: newUser.instructor_expiry_date || undefined
     }
 
     if (!newUser) { throw new Error('Error generating new user.') }
@@ -61,7 +66,10 @@ export const getUser = async(userId: number): Promise<UserModel | null> => {
         firstName: result?.first_name,
         lastName: result?.last_name,
         email: result?.email,
-        userId: result?.user_id
+        userId: result?.user_id,
+        isInstructor: result?.is_instructor,
+        instructorCid: result.instructor_cid || undefined,
+        instructorExpiryDate: result.instructor_expiry_date || undefined
     }
 
     return user
@@ -78,7 +86,10 @@ export const getUserByEmail = async(email: string): Promise<UserModel | null> =>
         firstName: result?.first_name,
         lastName: result?.last_name,
         email: result?.email,
-        userId: result?.user_id
+        userId: result?.user_id,
+        isInstructor: result?.is_instructor,
+        instructorCid: result.instructor_cid || undefined,
+        instructorExpiryDate: result.instructor_expiry_date || undefined
     }
 
     return user
@@ -94,12 +105,33 @@ export const validateUser = async(loginRequest: LoginRequest): Promise<boolean> 
     return bcrypt.compare(loginRequest.password, user.password)
 }
 
+export const toClientUserModel = (data: User | undefined): ClientUserModel | undefined => {
+    if (!data) {
+        return undefined
+    }
+    
+    const newModel: ClientUserModel = {
+        firstName: data.first_name,
+        lastName: data.last_name,
+        email: data.email,
+        userId: data.user_id,
+        isInstructor: data.is_instructor,
+        instructorCid: data.instructor_cid || undefined,
+        instructorExpiryDate: data.instructor_expiry_date || undefined
+    }
+
+    return newModel
+}
+
 // this exists to we arent sending a password around everywhere
 export type UserModel = {
     firstName: string
     lastName: string
     email: string
     userId: number
+    isInstructor: boolean
+    instructorCid?: string
+    instructorExpiryDate?: string
 }
 
 export type RegisterRequest = {

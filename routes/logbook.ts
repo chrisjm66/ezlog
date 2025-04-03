@@ -12,9 +12,9 @@ router.use(populateUserInfo)
 router.get('/', async(req: Request, res: Response): Promise<any> => {
     const user: UserModel = res.locals.user
 
-    const userEntry = await getLogbookEntries(user)
+    const logbookEntries = await getLogbookEntries(user)
 
-    res.json(userEntry)
+    res.json(logbookEntries)
 })
 
 router.post('/', async(req: Request, res: Response): Promise<any> => {
@@ -32,7 +32,7 @@ router.post('/', async(req: Request, res: Response): Promise<any> => {
 router.put('/', async(req: Request, res: Response): Promise<any> => {
     const body: ClientLogbookEntry = req.body
     const user: UserModel = res.locals.user
-
+    console.log(body)
     const updateQuery = await updateLogbookEntry(user, body)
 
     if (updateQuery) {
@@ -45,6 +45,11 @@ router.put('/', async(req: Request, res: Response): Promise<any> => {
 router.delete('/', async(req: Request, res: Response): Promise<any> => {
     const entryId: number = req.body.entryId
     const user: UserModel = res.locals.user
+
+    if (!entryId || !user) {
+        res.statusMessage = 'No entryId or user found'
+        return res.sendStatus(400)
+    }
 
     const deleteQuery = await deleteEntryFromDatabase(user, entryId)
 

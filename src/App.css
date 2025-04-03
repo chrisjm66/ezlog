@@ -14,14 +14,28 @@
     background-color: white;
   }
   
+  h1 {
+    @apply font-bold text-3xl p-5
+  }
+
+  h3 {
+    @apply text-2xl font-bold w-screen
+  }
   h1, h2, h3, h4, h5, label, input {
     color: black;
   }
 
-  input {
-    @apply border-1
+  input, select {
+    @apply py-1 px-2 w-full bg-white rounded-sm border-1 font-bold text-xl text-ezblue
   }
 
+  button {
+    @apply border-1 bg-ezblue text-white border-ezblue p-2 text-lg rounded-md transition hover:bg-gray-800
+  }
+
+  label {
+    @apply text-lg mb-2 w-full
+  }
   a {
     @apply no-underline text-white hover:text-white
   }
@@ -36,6 +50,25 @@
   /* Firefox */
   input[type=number] {
     -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+@layer components {
+  .form-header {
+    @apply text-xl font-bold w-full mb-2 p-0
+  }
+  
+  .gray-container {
+    @apply flex flex-wrap justify-start border-2 border-ezgray bg-gray-200 p-5 rounded-xl gap-x-5 gap-y-1 w-3/4 h-3/4
+  }
+
+  .card {
+    @apply flex flex-col w-full h-max bg-gray-100 justify-start items-center px-2 py-1 transition hover:bg-gray-200
+  }
+
+  .form-container {
+    @apply flex gap-y-5 flex-col overflow-y-scroll max-h-screen
   }
 }
 

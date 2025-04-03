@@ -2,26 +2,24 @@ import './App.css'
 import { ReactElement } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ProtectedRoute, ProvideAuth } from './hooks/auth'
-import Layout from './views/Layout'
+import Layout from './layouts/Layout'
 import Homepage from './views/Homepage'
 import NotFound from './views/NotFound'
-import Login from './views/Login'
-import Signup from './views/Signup'
-import Dashboard from './views/Dashboard'
-import CreateLogbookEntry from './views/CreateLogbookEntry'
-import EditLogbookEntry from './views/EditLogbookEntry'
-import Logbook from './views/Logbook'
+import Login from './views/auth/Login'
+import Signup from './views/auth/Signup'
+import Dashboard from './views/dashboard/Dashboard'
+import Logbook from './views/logbook/Logbook'
 import ContextProvider from './components/ContextProvider'
-import AircraftView from './views/AircraftView'
-import CreateAircraftEntry from './views/CreateAircraftEntry'
-import EditAircraftEntry from './views/EditAircraftEntry'
-
+import Aircraft from './views/aircraft/Aircraft'
+import UserSettings from './views/user/UserSettings'
+import InstructorPanel from './views/instructor/InstructorPanel'
 
 const App = (): ReactElement => {
+  
   return (
     <BrowserRouter>
       <title>ezlog</title>
-      <ProvideAuth>
+      <ProvideAuth>  
         <Routes>
           <Route path='/' element={<Layout/>}>
             <Route index element={<Homepage/>}/>
@@ -32,21 +30,27 @@ const App = (): ReactElement => {
                     <Route index element={<Dashboard/>}/>
                     <Route path='/dashboard/logbook'>
                       <Route index element={<Logbook/>}/>
-                      <Route path='/dashboard/logbook/create' element={<CreateLogbookEntry/>}/>
-                      <Route path='/dashboard/logbook/edit/:entryId' element={<EditLogbookEntry/>}/>
+                      <Route path='/dashboard/logbook/:entryId' index element={<Logbook/>}/>
+                      <Route path='/dashboard/logbook/create' element={<Logbook createEntry/>}/>
                     </Route>
                     <Route path='/dashboard/aircraft'>
-                      <Route index element={<AircraftView/>}/>
-                      <Route path='/dashboard/aircraft/create' element={<CreateAircraftEntry/>}/>
-                      <Route path='/dashboard/aircraft/edit/:aircraftId' element={<EditAircraftEntry/>}/>
+                      <Route index element={<Aircraft/>}/>
+                      <Route path='/dashboard/aircraft/:aircraftId' element={<Aircraft/>}/>
+                      <Route path='/dashboard/aircraft/create' element={<Aircraft createAircraft/>}/>
+                    </Route>
+                    <Route path='/dashboard/instructor/'>
+                      <Route index element={<InstructorPanel/>}/>
+                      <Route path='/dashboard/instructor/:entryId' element={<InstructorPanel/>}/>
                     </Route>
                   </Route>
-                  
-                
+              </Route>
+              <Route path='/settings' element={<ProtectedRoute/>}>
+                  <Route index element={<UserSettings/>}/>
               </Route>
           </Route>
           <Route path="*" element={<NotFound/>}/>
         </Routes>
+
       </ProvideAuth>
       
     </BrowserRouter>

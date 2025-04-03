@@ -26,10 +26,10 @@ router.get('/', async(req: Request, res: Response): Promise<any> => {
         responseData.push({
             aircraftId: data.aircraft_id,
             tailNumber: data.tail_number,
-            description: data.description,
-            make: data.make,
+            description: data.description || undefined,
+            make: data.make || undefined,
             typeCode: data.type_code,
-            model: data.model,
+            model: data.model || undefined,
             numberOfEngines: data.number_of_engines,
             engineType: data.engine_type,
             taa: data.taa as boolean,
@@ -56,7 +56,7 @@ router.post('/', async(req: Request, res: Response): Promise<any> => {
 router.put('/', async(req: Request, res: Response): Promise<any> => {
     const user: UserModel = res.locals.user
 
-    const queryData: Aircraft = await updateAircraft(req.body, user.userId)
+    const queryData: Aircraft | undefined = await updateAircraft(req.body, user.userId)
 
     if (queryData) {
         return res.sendStatus(200)
@@ -67,8 +67,9 @@ router.put('/', async(req: Request, res: Response): Promise<any> => {
 
 router.delete('/', async(req: Request, res: Response): Promise<any> => {
     const user: UserModel = res.locals.user
+    const {aircraftId} = req.body
 
-    const queryData = await deleteAircraft(req.body, user.userId)
+    const queryData = await deleteAircraft(aircraftId, user.userId)
 
     if (queryData) {
         return res.sendStatus(queryData)

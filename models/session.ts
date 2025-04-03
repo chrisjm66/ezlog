@@ -18,7 +18,7 @@ export const generateSessionToken = () => {
 
 export const createWebSession = async(token: string, userId: number): Promise<Session> => {
     // session ID (stored in the DB) is the hash of the session token. this is so if DB leaked sessions cannot be stolen b/c hashing is one way
-    let sessionId: string = generateSessionHash(token)
+    const sessionId: string = generateSessionHash(token)
 
     const session: Session = {
         session_id: sessionId,
