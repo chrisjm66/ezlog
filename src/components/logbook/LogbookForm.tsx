@@ -95,42 +95,45 @@ const LogbookForm: React.FC<Props> = ({data, readOnly}: Props) => {
     }
 
     return (
-        <form onChange={handleChange} onSubmit={sendCreateOrUpdateRequest} className='flex gap-y-5 flex-col overflow-y-scroll max-h-screen'>
-            <Modal open={confirmModalVisible} title='Confirm Action' onClose={() => setConfirmModalVisible(false)}>
-                <h2>{modalBody}</h2>
+        <div className='flex gap-y-5 flex-col overflow-y-scroll max-h-screen'>
+            <form onChange={handleChange} onSubmit={sendCreateOrUpdateRequest} className='flex gap-y-5 flex-col overflow-y-scroll max-h-screen'>
+                <Modal open={confirmModalVisible} title='Confirm Action' onClose={() => setConfirmModalVisible(false)}>
+                    <h2>{modalBody}</h2>
 
-                <button onClick={() => setConfirmModalVisible(false)} className='bg-ezgray mt-2 text-sm'>Cancel</button>
-                <button onClick={sendLogbookDeleteRequest} className='bg-ezred ml-2 text-sm'>Confirm</button>
-            </Modal>
+                    <button onClick={() => setConfirmModalVisible(false)} className='bg-ezgray mt-2 text-sm'>Cancel</button>
+                    <button onClick={sendLogbookDeleteRequest} className='bg-ezred ml-2 text-sm'>Confirm</button>
+                </Modal>
 
-            <Modal open={signatureModalVisible} title='Confirm Action' onClose={() => setSignatureModalVisible(false)}>
-                <h2>{modalBody}</h2>
+                <Modal open={signatureModalVisible} title='Confirm Action' onClose={() => setSignatureModalVisible(false)}>
+                    <h2>{modalBody}</h2>
 
-                <button onClick={() => setSignatureModalVisible(false)} className='bg-ezgray mt-2 text-sm'>Cancel</button>
-                <button onClick={() => console.log('meow')} className='bg-ezred ml-2 text-sm'>Confirm</button>
-            </Modal>
+                    <button onClick={() => setSignatureModalVisible(false)} className='bg-ezgray mt-2 text-sm'>Cancel</button>
+                    <button onClick={() => console.log('meow')} className='bg-ezred ml-2 text-sm'>Confirm</button>
+                </Modal>
 
-            {signed ? <SignatureDetails data={data}/> : ''}
-    
-            <GeneralInfo readOnly={signed || readOnly} data={data}/>
-    
-            <InstrumentInfo readOnly={signed || readOnly} data={data}/>
-    
-            {!data.instructorSignature && data.entryId ? <SignatureRequest data={data}/> : ''}
+                {signed ? <SignatureDetails data={data}/> : ''}
+        
+                <GeneralInfo readOnly={signed || readOnly} data={data}/>
+        
+                <InstrumentInfo readOnly={signed || readOnly} data={data}/>
+        
+                {!data.instructorSignature && data.entryId ? <SignatureRequest data={data}/> : ''}
 
-            <Remarks readOnly={signed || readOnly} data={data}/>
-    
-            <div className='w-full flex flex-row gap-x-2'>
-                    {!data.instructorSignature ? <button type='submit'>Submit Changes</button> : <button type='button' onClick={() => logbook.requestRemoveInstructorSignature(data?.entryId)} className='bg-amber-500'>Remove Instructor Signature</button>}
-                    <button type='button' onClick={requestDelete} className='bg-ezred'>Delete Entry</button>
-            </div>
-        </form>
+                <Remarks readOnly={signed || readOnly} data={data}/>
+        
+                <div className='w-full flex flex-row gap-x-2'>
+                        {!data.instructorSignature ? <button type='submit'>Submit Changes</button> : <button type='button' onClick={() => logbook.requestRemoveInstructorSignature(data?.entryId)} className='bg-amber-500'>Remove Instructor Signature</button>}
+                        <button type='button' onClick={requestDelete} className='bg-ezred'>Delete Entry</button>
+                </div>
+            </form>
+        </div>
     )
 }
 
 type Props = {
     data?: LogbookEntry
     readOnly?: boolean
+    createEntry?: boolean
 }
 
 export default LogbookForm

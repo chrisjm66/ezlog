@@ -1,11 +1,12 @@
-import { ReactElement } from "react"
 import useLogbook, { LogbookActions, LogbookEntry } from "../../hooks/logbook.tsx"
 import LogbookCard from "../../components/logbook/LogbookCard.tsx"
-import LogbookDisplay from "../../components/logbook/LogbookDisplay.tsx"
 import CardLayout from '../../layouts/CardLayout.tsx'
 import { useNavigate, useParams } from "react-router-dom"
+import LogbookForm from "../../components/logbook/LogbookForm.tsx"
 
-const Logbook = (): ReactElement => {
+
+
+const Logbook: React.FC<Props> = ({createEntry}: Props) => {
     const logbook: LogbookActions = useLogbook()
     const {entryId} = useParams()
     const navigate = useNavigate()
@@ -23,14 +24,21 @@ const Logbook = (): ReactElement => {
         )
     }
 
+    const Window: React.FC = () => {
+        return createEntry ? <LogbookForm data={logbook.getDefaultLogbookEntry()}/> : <LogbookForm data={logbook.getLogbookEntry(parseInt(entryId || ''))}/>
+    }
+
     return (
         <CardLayout title='My Logbook' 
             buttonText='Create New Entry' 
             buttonHref='/dashboard/logbook/create' 
             ListObjects={<LogbookCards/>} 
-            WindowDisplay={entryId ? <LogbookDisplay data={logbook.getLogbookEntry(parseInt(entryId))}/> : null}
+            WindowDisplay={<Window/>}
         />
     )
 }
 
+type Props = {
+    createEntry?: boolean
+}
 export default Logbook

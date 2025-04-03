@@ -34,7 +34,7 @@ const App = (): ReactElement => {
                     <Route path='/dashboard/logbook'>
                       <Route index element={<Logbook/>}/>
                       <Route path='/dashboard/logbook/:entryId' index element={<Logbook/>}/>
-                      <Route path='/dashboard/logbook/create' element={<CreateLogbookEntry/>}/>
+                      <Route path='/dashboard/logbook/create' element={<Logbook createEntry/>}/>
                     </Route>
                     <Route path='/dashboard/aircraft'>
                       <Route index element={<AircraftView/>}/>
