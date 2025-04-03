@@ -1,5 +1,4 @@
-//@ts-nocheck
-import { ReactElement, useState } from "react"
+import { ReactElement } from "react"
 import { Link } from "react-router-dom"
 import { useFormStatus } from "react-dom"
 import useAuth, { RegisterRequest } from "../hooks/auth"
@@ -7,20 +6,20 @@ import useAuth, { RegisterRequest } from "../hooks/auth"
 const Signup = (): ReactElement => {
     const auth = useAuth()
     const status = useFormStatus()
-    const [formValid, setFormValid] = useState(true)
+    //const [formValid, setFormValid] = useState(true)
 
     const handleSubmit = async(e) => {
         e.preventDefault()
         const formData: FormData = new FormData(e.target)
         const userData: RegisterRequest = {
-            firstName: formData.get('firstName'),
-            lastName: formData.get('lastName'),
-            email: formData.get('email'),
-            password: formData.get('password'),
-            confirmPassword: formData.get('confirmPassword')
+            firstName: formData.get('firstName')?.toString() || '',
+            lastName: formData.get('lastName')?.toString() || '',
+            email: formData.get('email')?.toString() || '',
+            password: formData.get('password')?.toString() || '',
+            confirmPassword: formData.get('confirmPassword')?.toString() || ''
         }
         
-        if (!auth.userId == -1) {
+        if (auth.userId == -1) {
             auth.signup(userData)
         }  
     }
