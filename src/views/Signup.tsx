@@ -5,7 +5,7 @@ import useAuth, { RegisterRequest } from "../hooks/auth"
 
 const Signup = (): ReactElement => {
     const auth = useAuth()
-    const status = useFormStatus()
+    //const status = useFormStatus()
     //const [formValid, setFormValid] = useState(true)
 
     const handleSubmit = async(e) => {
@@ -56,7 +56,7 @@ const Signup = (): ReactElement => {
                 </div>
 
                 <div className='flex flex-col items-center mt-5'>
-                    <button type='submit' disabled={status.pending /*|| !formValid*/} className='bg-ezblue text-white text-xl w-max px-8 py-1 rounded-sm hover:bg-blue-500 transition-all'>
+                    <button type='submit' disabled={false /*status.pending || !formValid*/} className='bg-ezblue text-white text-xl w-max px-8 py-1 rounded-sm hover:bg-blue-500 transition-all'>
                         Sign Up
                     </button>
 
