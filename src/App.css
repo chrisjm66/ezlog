@@ -63,6 +63,14 @@
     @apply flex flex-wrap justify-start border-2 border-ezgray bg-gray-200 p-5 rounded-xl gap-x-5 gap-y-1 w-3/4 h-3/4
   }
 
+  .grid-object {
+    @apply flex flex-col justify-start border-2 border-ezgray bg-gray-200 p-5 rounded-xl gap-x-5 w-full h-full
+  }
+
+  .grid-container {
+    @apply grid col-span-2 gap-x-5 gap-y-5 p-2 w-125
+  }
+
   .card {
     @apply flex flex-col w-full h-max bg-gray-100 justify-start items-center px-2 py-1 transition hover:bg-gray-200
   }
