@@ -1,5 +1,6 @@
 import { ReactElement } from "react"
 import CurrencySummary from "../../components/currency/CurrencySummary"
+import RecentExperience from "../../components/logbook/RecentExperience"
 
 const Dashboard = (): ReactElement => {
     return (
@@ -8,6 +9,7 @@ const Dashboard = (): ReactElement => {
 
                 <div className='grid-container'>
                     <CurrencySummary/>
+                    <RecentExperience/>
                 </div>
             </div>
     )
