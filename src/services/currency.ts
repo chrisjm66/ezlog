@@ -1,12 +1,13 @@
 import { LogbookEntry } from "../hooks/logbook";
 
-export const calculateIfrCurrency = (entries: LogbookEntry[] | undefined) => {
+export const calculateIfrCurrency = (entries: LogbookEntry[] | undefined): IFRCurrencyData => {
     if (!entries) {
         return {
             current: false,
             approaches: 0,
             intercepting: false,
-            holding: false
+            holding: false,
+            currentFor: 0
         }
     }
 
@@ -54,6 +55,8 @@ export const calculateIfrCurrency = (entries: LogbookEntry[] | undefined) => {
 export const calculateAselCurrency = (entries: LogbookEntry[] | undefined): ASELCurrencyData => {
     if (!entries) {
         return {
+            dayLandings: 0,
+            nightLandings: 0,
             dayCurrent: false,
             nightCurrent: false,
             dayCurrentFor: 0,
@@ -79,6 +82,8 @@ export const calculateAselCurrency = (entries: LogbookEntry[] | undefined): ASEL
     const nightCurrent = nightLandings >= 3
 
     return {
+        dayLandings: dayLandings,
+        nightLandings: nightLandings,
         dayCurrent: dayCurrent,
         nightCurrent: nightCurrent,
         dayCurrentFor: 0,
@@ -207,6 +212,8 @@ export type IFRCurrencyData = {
 }
 
 export type ASELCurrencyData = {
+    dayLandings: number,
+    nightLandings: number,
     dayCurrent: boolean,
     nightCurrent: boolean,
     dayCurrentFor: number,

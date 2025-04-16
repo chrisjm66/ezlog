@@ -1,5 +1,6 @@
+import { NavLink } from "react-router-dom"
 import useLogbook, { LogbookActions } from "../../hooks/logbook"
-import { calculateAselCurrency, calculateFlightReviewCurrency, calculateIfrCurrency } from "../../services/Currency"
+import { calculateAselCurrency, calculateFlightReviewCurrency, calculateIfrCurrency } from "../../services/currency"
 import CurrencyListItem from "./CurrencyListItem"
 import { useEffect, useState } from "react"
 
@@ -22,12 +23,14 @@ const CurrencySummary: React.FC = () => {
     }, [logbookData])
 
     return (
-        <div className="grid-object">
+        <div className="grid-object relative">
             <h1 className="font-bold p-0 mb-5">Currency Summary</h1>
             <CurrencyListItem title='IFR' current={ifrCurrent}/>
             <CurrencyListItem title='ASEL - Passengers' current={dayCurrent}/>
             <CurrencyListItem title='ASEL - Passengers (Night)' current={nightCurrent}/>
             <CurrencyListItem title='Flight Review' current={flightReviewCurrent} lastItem/>
+
+            <NavLink className='button absolute bottom-5 left-5' to='/dashboard/currency'>View detailed currency</NavLink>
         </div>   
     )
 }

@@ -1,6 +1,6 @@
 import { ReactElement } from "react"
 import CurrencySummary from "../../components/currency/CurrencySummary"
-import RecentExperience from "../../components/logbook/RecentExperience"
+import RecentExperience from "../../components/experience/RecentExperience"
 
 const Dashboard = (): ReactElement => {
     return (

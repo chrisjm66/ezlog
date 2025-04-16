@@ -1,7 +1,7 @@
 import useLogbook, { LogbookActions } from "../../hooks/logbook"
 import { useEffect, useState } from "react"
 import RecentExperienceListItem from "./RecentExperienceListItem"
-import { getRecentExperienceData, RecentExperienceData } from "../../services/Currency"
+import { getRecentExperienceData, RecentExperienceData } from "../../services/currency"
 import { NavLink } from "react-router-dom"
 
 const RecentExperience: React.FC = () => {

@@ -34,6 +34,14 @@ const AccountDropdown = (): ReactElement => {
                     Aircraft
             </NavLink>
 
+            <NavLink to='/dashboard/currency' className={styleNavLink}>
+                    Currency
+            </NavLink>
+
+            <NavLink to='/dashboard/experience' className={styleNavLink}>
+                    Experience
+            </NavLink>
+
             {user.isInstructor ? instructorNavLink() : null}
             <div className='flex flex-row items-center gap-x-4'>
                 <Icon icon="mdi:person" width={40} className="text-white text-2xl"/>

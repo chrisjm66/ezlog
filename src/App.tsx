@@ -13,6 +13,8 @@ import ContextProvider from './components/ContextProvider'
 import Aircraft from './views/aircraft/Aircraft'
 import UserSettings from './views/user/UserSettings'
 import InstructorPanel from './views/instructor/InstructorPanel'
+import CurrencyView from './views/currency/CurrencySummary'
+import Experience from './views/experience/Experience'
 
 const App = (): ReactElement => {
   
@@ -42,6 +44,8 @@ const App = (): ReactElement => {
                       <Route index element={<InstructorPanel/>}/>
                       <Route path='/dashboard/instructor/:entryId' element={<InstructorPanel/>}/>
                     </Route>
+                    <Route path='/dashboard/currency' element={<CurrencyView/>}/>
+                    <Route path='/dashboard/experience' element={<Experience/>}/>
                   </Route>
               </Route>
               <Route path='/settings' element={<ProtectedRoute/>}>
