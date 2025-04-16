@@ -48,7 +48,7 @@ const useAuthActions = (): AuthActions => {
             }
         }).then((response) => {
             if (response.status == 200) {
-                toast.success('Signed up!')
+                toast.success('Logged In!')
                 setUser(response.data)
                 return navigate('/dashboard')
             }
@@ -64,7 +64,6 @@ const useAuthActions = (): AuthActions => {
         if (response.status == 200) {
             setUser(defaultUser)
             redirect('/')
-            
         }
 
     }
@@ -80,10 +79,7 @@ const useAuthActions = (): AuthActions => {
         }).catch((err) => {
             setLoading(false)
             console.error(err)
-        })
-        
-        
-            
+        }) 
     }
     return {user, signup, login, validate, logout, loading, setLoading}
 }
