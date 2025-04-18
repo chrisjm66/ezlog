@@ -5,7 +5,7 @@ import { LogbookEntry } from "../../hooks/logbook"
 const AircraftOptions: React.FC<Props> = ({data, readOnly}: Props) => {
     const aircraft: AircraftActions = useAircraft()
     const rows: JSX.Element[] = []
-    const [selectedAircraftId, setAircraftId] = useState<number>(-1)
+    const [selectedAircraftId, setAircraftId] = useState<string>("-1")
 
     const handleChange = (e) => {
         setAircraftId(e.target.value)
@@ -18,7 +18,7 @@ const AircraftOptions: React.FC<Props> = ({data, readOnly}: Props) => {
     })
 
     useEffect(() => {
-        setAircraftId(data?.aircraftId || -1)
+        setAircraftId(data?.aircraftId || "-1")
     }, [data, setAircraftId])
 
     if (data && readOnly) {

@@ -174,7 +174,7 @@ export type LogbookEntry = {
   aircraft: Aircraft | undefined
   instructor: UserModel | undefined
   entryId: number | undefined
-  aircraftId?: number
+  aircraftId?: string
   date: string
   totalTime: number
   pic: number

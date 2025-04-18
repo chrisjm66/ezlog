@@ -10,6 +10,16 @@
 }
 
 @layer base {
+  table {
+    @apply border-2
+  }
+  thead tr td {
+    @apply text-xl
+  }
+
+  td {
+    @apply px-2 py-1 text-lg border-r-1 border-b-1
+  }
   body {
     background-color: white;
   }
@@ -55,12 +65,27 @@
 }
 
 @layer components {
+  .page-container {
+    @apply flex flex-col justify-center items-center p-5 z-10
+  }
+
+  .button {
+    @apply mt-5 bg-ezblue w-max p-2 rounded-md
+  }
   .form-header {
     @apply text-xl font-bold w-full mb-2 p-0
   }
   
   .gray-container {
     @apply flex flex-wrap justify-start border-2 border-ezgray bg-gray-200 p-5 rounded-xl gap-x-5 gap-y-1 w-3/4 h-3/4
+  }
+
+  .grid-object {
+    @apply flex flex-col justify-start border-2 border-ezgray bg-gray-200 p-5 rounded-xl gap-x-5 w-full h-full
+  }
+
+  .grid-container {
+    @apply grid gap-x-5 gap-y-5 p-2 grid-cols-2 w-250
   }
 
   .card {

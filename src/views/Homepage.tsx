@@ -1,8 +1,18 @@
-import { ReactElement } from "react"
+import { ReactElement, useEffect } from "react"
 import bg from "../assets/site-background.jpg"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import useAuth, { AuthActions } from "../hooks/auth"
 
 const Homepage = (): ReactElement => {
+    const {user}: AuthActions = useAuth()
+    const navigate = useNavigate()
+    
+    useEffect(() => {
+        if(user.userId !== -1) {
+            navigate('/dashboard')
+        }
+    }, [user])
+
     return (
         <div id="home" className="absolute top-0 w-screen h-screen flex justify-center items-center">
             <img src={bg} alt='background' className="absolute top-0 w-screen h-screen object-cover object-bottom blur-md z-0"/>

@@ -16,7 +16,7 @@ export const addEntryToDatabase = async(user: UserModel, body: ClientLogbookEntr
             data: {
                 date: new Date(body.date),
                 user_id: user.userId,
-                aircraft_id: body.aircraftId,
+                aircraft_id: body.aircraftId ? parseInt(body.aircraftId) : undefined,
                 total_time: body.totalTime,
                 pic: body.pic,
                 sic: body.sic,
@@ -113,7 +113,7 @@ export const updateLogbookEntry = async(user: UserModel, body: ClientLogbookEntr
         const entry = await prisma.logbookEntry.update({
             data: {
                 date: new Date(body.date),
-                aircraft_id: 1,
+                aircraft_id: body.aircraftId ? parseInt(body.aircraftId) : undefined,
                 total_time: body.totalTime,
                 pic: body.pic,
                 sic: body.sic,
@@ -147,7 +147,8 @@ export const updateLogbookEntry = async(user: UserModel, body: ClientLogbookEntr
         })
 
         return entry
-    } catch {
+    } catch(error) {
+        console.error(error)
         console.error('Error updating logbook entry')
         return null
     }
@@ -214,7 +215,7 @@ export const getLogbookEntries = async(user: UserModel): Promise<ClientLogbookEn
             user: toClientUserModel(query[i].user),
             entryId: query[i].logbook_entry_id,
             aircraft: toClientAircraft(query[i].aircraft || undefined) || undefined,
-            aircraftId: query[i].aircraft_id || -1,
+            aircraftId: query[i].aircraft_id?.toString() || "-1",
             date: query[i].date.toISOString(),
             totalTime: Prisma.Decimal(query[i].total_time).toNumber(),
             pic: Prisma.Decimal(query[i].pic).toNumber(),
