@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { ASELCurrencyData, calculateAselCurrency, calculateFlightReviewCurrency, calculateIfrCurrency, FlightReviewCurrencyData, IFRCurrencyData } from "../../services/currency"
 import IFRCurrencyDetail from "../../components/currency/IFRCurrencyDetail"
 import ASELCurrencyDetail from "../../components/currency/AselCurrencyDetail"
+import FlightReviewCurrencyDetail from "../../components/currency/FlightReviewCurrencyDetail"
 
 const CurrencyView: React.FC = () => {
     const {logbookData}: LogbookActions = useLogbook()
@@ -21,12 +22,13 @@ const CurrencyView: React.FC = () => {
     }, [logbookData])
 
     return (
-        <div className="flex flex-col justify-center items-center p-5 z-10">
+        <div className='page-container'>
             <h1 className="text-4xl font-bold w-screen pl-5">Currency</h1>
 
             <div className='grid-container'>
                 <IFRCurrencyDetail data={ifrCurrent}/>
                 <ASELCurrencyDetail data={aselData}/>
+                <FlightReviewCurrencyDetail data={flightReviewCurrent}/>
             </div>
         </div>
     )

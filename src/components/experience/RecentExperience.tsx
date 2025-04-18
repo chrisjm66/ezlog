@@ -1,15 +1,15 @@
 import useLogbook, { LogbookActions } from "../../hooks/logbook"
 import { useEffect, useState } from "react"
 import RecentExperienceListItem from "./RecentExperienceListItem"
-import { getRecentExperienceData, RecentExperienceData } from "../../services/currency"
+import { getRecentExperienceData, RecentExperienceData } from "../../services/experience"
 import { NavLink } from "react-router-dom"
 
 const RecentExperience: React.FC = () => {
     const {logbookData}: LogbookActions = useLogbook()
     const [recentExperienceData, setRecentExperienceData] = useState<RecentExperienceData | undefined>(undefined)
-
+    
     useEffect(() => {
-        setRecentExperienceData(getRecentExperienceData(logbookData))
+        setRecentExperienceData(getRecentExperienceData(logbookData, 90))
     }, [logbookData])
 
     const RecentExperienceList: React.FC = () => {
@@ -23,7 +23,7 @@ const RecentExperience: React.FC = () => {
                 <RecentExperienceListItem title={'Cross Country'} time={recentExperienceData.crossCountry} />
                 <RecentExperienceListItem title={'Instrument'} time={recentExperienceData.instrument} />
                 <RecentExperienceListItem title={'Night'} time={recentExperienceData.night} />
-                <RecentExperienceListItem title={'Landings'} time={recentExperienceData.landings} />
+                <RecentExperienceListItem title={'Landings'} time={`${recentExperienceData.dayLandings}D/${recentExperienceData.nightLandings}N`} />
                 <RecentExperienceListItem title={'Total Time'} time={recentExperienceData.totalTime} lastItem/>
             </>
         )
@@ -35,7 +35,7 @@ const RecentExperience: React.FC = () => {
 
             <RecentExperienceList />
 
-            <NavLink className={'button'} to='/dashboard/logbook'>View Logbook</NavLink>
+            <NavLink className={'button'} to='/dashboard/experience'>View Experience Report</NavLink>
         </div>   
     )
 }

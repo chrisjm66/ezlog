@@ -10,6 +10,16 @@
 }
 
 @layer base {
+  table {
+    @apply border-2
+  }
+  thead tr td {
+    @apply text-xl
+  }
+
+  td {
+    @apply px-2 py-1 text-lg border-r-1 border-b-1
+  }
   body {
     background-color: white;
   }
@@ -55,8 +65,12 @@
 }
 
 @layer components {
+  .page-container {
+    @apply flex flex-col justify-center items-center p-5 z-10
+  }
+
   .button {
-    @apply mt-5 p-2 bg-ezblue w-max p-2 rounded-md
+    @apply mt-5 bg-ezblue w-max p-2 rounded-md
   }
   .form-header {
     @apply text-xl font-bold w-full mb-2 p-0
