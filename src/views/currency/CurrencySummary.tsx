@@ -23,7 +23,7 @@ const CurrencyView: React.FC = () => {
 
     return (
         <div className='page-container'>
-            <h1 className="text-4xl font-bold w-screen pl-5">Currency</h1>
+            <h1 className="font-bold w-screen">Currency</h1>
 
             <div className='grid-container'>
                 <IFRCurrencyDetail data={ifrCurrent}/>

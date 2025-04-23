@@ -7,10 +7,10 @@ const Dashboard = (): ReactElement => {
     const {user}: AuthActions = useAuth()
 
     return (
-            <div className="flex flex-col justify-center items-center p-5 z-10">
+            <div className="page-container">
                 <div className='w-screen'>
-                    <h1 className="text-4xl font-bold ">Dashboard</h1>
-                    <h2 className="pl-5 text-xl">Welcome, {user.firstName}</h2>
+                    <h1 className="font-bold">Dashboard</h1>
+                    <h2 className="text-xl pl-5">Welcome, {user.firstName}</h2>
                 </div>
                 
 

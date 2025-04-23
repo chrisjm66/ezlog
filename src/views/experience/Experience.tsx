@@ -1,6 +1,5 @@
 import useLogbook, { LogbookActions } from "../../hooks/logbook"
 import { useEffect, useState } from "react"
-import RecentExperienceListItem from "../../components/experience/RecentExperienceListItem"
 import { getRecentExperienceData, RecentExperienceData } from "../../services/experience"
 import { NavLink } from "react-router-dom"
 
@@ -124,7 +123,7 @@ const RecentExperience: React.FC = () => {
     }
     return (
         <div className="page-container">
-            <h1 className="text-4xl font-bold w-screen pl-5">Recent Experience</h1>
+            <h1 className="font-bold w-screen pl-5">Recent Experience</h1>
 
             <RecentExperienceTable />
 
