@@ -85,7 +85,7 @@
   }
 
   .grid-container {
-    @apply grid gap-x-5 gap-y-5 p-2 grid-cols-2 w-250
+    @apply grid gap-x-5 gap-y-5 p-2 grid-cols-1 lg:grid-cols-2 sm:w-100 md:w-150 lg:w-250
   }
 
   .card {

@@ -10,7 +10,7 @@ const CardLayout: React.FC<Props> = ({title, buttonText, buttonHref, ListObjects
             </div>
 
             <div className='flex flex-row h-rvh'>
-                <div className='flex flex-col w-60 overflow-x-hidden overflow-y-auto gap-y-1 h-svh'>
+                <div className='flex flex-col w-70 lg:w-60 overflow-x-hidden overflow-y-auto gap-y-1 h-svh'>
                     {ListObjects}
                 </div>
 

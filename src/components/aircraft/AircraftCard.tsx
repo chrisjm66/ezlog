@@ -1,8 +1,8 @@
 import { FC, ReactElement } from "react"
-import { Aircraft } from "../../hooks/aircraft"
+import useAircraft, { Aircraft, AircraftActions } from "../../hooks/aircraft"
 
 const AircraftCard: FC<{data: Aircraft, onClick: (data: Aircraft) => void}> = ({data, onClick}): ReactElement => {
-    
+    const aircraft: AircraftActions = useAircraft()
     return (
             <button onClick={() => {onClick(data)}} className="card">
                 <div className='flex flex-row justify-between w-full'>
@@ -22,7 +22,7 @@ const AircraftCard: FC<{data: Aircraft, onClick: (data: Aircraft) => void}> = ({
                         <h2 className='text-ezblue font-bold text-md'>-</h2>
                         <h2 className='text-sm italic align-sub'>-</h2>
                         <h2 className='text-sm'>
-                            - 
+                            {aircraft.getAircraftTotalTime(data.aircraftId)}
                             <p className='font-bold inline'> Total</p>
                         </h2>
                         
