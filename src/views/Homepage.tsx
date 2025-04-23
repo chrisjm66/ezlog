@@ -17,7 +17,7 @@ const Homepage = (): ReactElement => {
         <div id="home" className="absolute top-0 w-screen h-screen flex justify-center items-center">
             <img src={bg} alt='background' className="absolute top-0 w-screen h-screen object-cover object-bottom blur-md z-0"/>
             <div className="flex flex-col justify-center z-10">
-                <h1 className="text-white text-4xl font-bold">The <span className="text-ezblue">ez</span> logging solution for pilots and instructors</h1>
+                <h1 className="text-white text-center text-4xl font-bold">The <span className="text-ezblue">ez</span> logging solution for pilots and instructors</h1>
 
                 <div className="text-center flex justify-center items-center flex-col m-5">
                     <h2 className="text-3xl py-1 border-y-1 w-72 text-white">Logbook Validation</h2>
