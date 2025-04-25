@@ -1,3 +1,4 @@
 export const formatDate = (date: Date): string => {
-    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+    console.log(date)
+    return `${(date.getUTCMonth() + 1).toString().padStart(2, "0")}/${date.getUTCDate().toString().padStart(2, "0")}/${date.getFullYear()}`
 }

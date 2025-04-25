@@ -24,8 +24,8 @@ const InstructorCard: FC<{data: LogbookEntry, onClick: () => void}> = ({data, on
 
                     
                     <div className='flex flex-col items-end h-full'>
-                        <h2 className='text-ezblue font-bold text-md'>{data.aircraft ? data.aircraft.tailNumber : ''}</h2>
-                        <h2 className='text-sm italic align-sub'>{data.aircraft ? data.aircraft.typeCode : ''}</h2>
+                        <h2 className='text-ezblue font-bold text-md'>{data.aircraft ? data.aircraft.tailNumber.toUpperCase() : ''}</h2>
+                        <h2 className='text-sm italic align-sub'>{data.aircraft ? data.aircraft.typeCode.toUpperCase() : ''}</h2>
                         <h2 className='text-sm'>
                             {data.totalTime} 
                             <p className='font-bold inline'> Total</p>

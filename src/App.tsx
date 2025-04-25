@@ -15,6 +15,8 @@ import UserSettings from './views/user/UserSettings'
 import InstructorPanel from './views/instructor/InstructorPanel'
 import CurrencyView from './views/currency/CurrencySummary'
 import Experience from './views/experience/Experience'
+import RecentExperienceTable from './components/experience/RecentExperienceTable'
+import PrivatePilotProgress from './components/experience/PrivatePilotProgress'
 
 const App = (): ReactElement => {
   
@@ -45,7 +47,10 @@ const App = (): ReactElement => {
                       <Route path='/dashboard/instructor/:entryId' element={<InstructorPanel/>}/>
                     </Route>
                     <Route path='/dashboard/currency' element={<CurrencyView/>}/>
-                    <Route path='/dashboard/experience' element={<Experience/>}/>
+                    <Route path='/dashboard/experience' element={<Experience/>}>
+                      <Route index element={<RecentExperienceTable/>}/>
+                      <Route path='/dashboard/experience/progress/private' element={<PrivatePilotProgress/>}/>
+                    </Route>
                   </Route>
               </Route>
               <Route path='/settings' element={<ProtectedRoute/>}>

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 @theme {
   --color-ezgreen: #48d14d;
@@ -6,7 +7,7 @@
   --color-ezblue: #5296f0;
   --color-ezgray: #adadad;
 
-  --font-display: 'Times New Roman', sans-serif;
+  --font-inter: 'Inter', 'sans-serif'
 }
 
 @layer base {
@@ -20,19 +21,35 @@
   td {
     @apply px-2 py-1 text-lg border-r-1 border-b-1
   }
+  table {
+    @apply border-2
+  }
+  thead tr td {
+    @apply text-xl
+  }
+
+  td {
+    @apply px-2 py-1 text-lg border-r-1 border-b-1
+  }
   body {
     background-color: white;
+    @apply font-inter
   }
   
   h1 {
-    @apply font-bold text-3xl p-5
+    @apply font-bold text-2xl lg:text-3xl p-5 drop-shadow-xl drop-shadow-gray-300
+  }
+
+  h2 {
+    @apply text-xl
   }
 
   h3 {
     @apply text-2xl font-bold w-screen
   }
+
   h1, h2, h3, h4, h5, label, input {
-    color: black;
+    @apply text-black 
   }
 
   input, select {
@@ -66,7 +83,7 @@
 
 @layer components {
   .page-container {
-    @apply flex flex-col justify-center items-center p-5 z-10
+    @apply flex flex-col justify-center items-center pl-5 z-10
   }
 
   .button {
@@ -85,7 +102,7 @@
   }
 
   .grid-container {
-    @apply grid gap-x-5 gap-y-5 p-2 grid-cols-2 w-250
+    @apply grid gap-x-5 gap-y-5 p-2 grid-cols-1 lg:grid-cols-2 sm:w-100 md:w-150 lg:w-250
   }
 
   .card {
@@ -94,6 +111,14 @@
 
   .form-container {
     @apply flex gap-y-5 flex-col overflow-y-scroll max-h-screen
+  }
+
+  .nav-link {
+    @apply text-lg lg:text-2xl transition-all hover:text-amber-200
+  }
+
+  .mobile-nav-container {
+    @apply w-screen border-t-2 border-ezgray bg-ezblue h-max flex-col flex gap-x-10 gap-y-2 pl-5 py-2 transition-all
   }
 }
 

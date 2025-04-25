@@ -10,6 +10,7 @@ const Logbook: React.FC<Props> = ({createEntry}: Props) => {
     const logbook: LogbookActions = useLogbook()
     const {entryId} = useParams()
     const navigate = useNavigate()
+    
     const handleClick = (data: LogbookEntry): void => {
         navigate(`/dashboard/logbook/${data.entryId}`)
     }

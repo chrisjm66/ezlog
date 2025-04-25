@@ -8,12 +8,14 @@ import Modal from "../modal/Modal"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import useAuth, { AuthActions } from "../../hooks/auth"
+import { validateTimes } from "../../services/validation"
+import { useNavigate } from "react-router-dom"
 
 const LogbookForm: React.FC<Props> = ({data, readOnly}: Props) => {
     const signed: boolean = data?.instructorSignature ? true : false
     const logbook: LogbookActions = useLogbook()
     const auth: AuthActions = useAuth()
-
+    const navigate = useNavigate()
     const [values, setValues] = useState<LogbookEntry>(logbook.getDefaultLogbookEntry())
     const [signatureModalVisible, setSignatureModalVisible] = useState<boolean>(false)
     const [confirmModalVisible, setConfirmModalVisible] = useState<boolean>(false)
@@ -50,6 +52,7 @@ const LogbookForm: React.FC<Props> = ({data, readOnly}: Props) => {
         }
 
         logbook.deleteEntry(data)
+        navigate('/dashboard/logbook')
     }
 
     const handleChange = (event): void => {
@@ -95,15 +98,15 @@ const LogbookForm: React.FC<Props> = ({data, readOnly}: Props) => {
                 <Modal open={confirmModalVisible} title='Confirm Action' onClose={() => setConfirmModalVisible(false)}>
                     <h2>{modalBody}</h2>
 
-                    <button onClick={() => setConfirmModalVisible(false)} className='bg-ezgray mt-2 text-sm'>Cancel</button>
-                    <button onClick={sendLogbookDeleteRequest} className='bg-ezred ml-2 text-sm'>Confirm</button>
+                    <button type='button' onClick={() => setConfirmModalVisible(false)} className='bg-ezgray mt-2 text-sm'>Cancel</button>
+                    <button type='button' onClick={sendLogbookDeleteRequest} className='bg-ezred ml-2 text-sm'>Confirm</button>
                 </Modal>
 
                 <Modal open={signatureModalVisible} title='Confirm Action' onClose={() => setSignatureModalVisible(false)}>
                     <h2>{modalBody}</h2>
 
-                    <button onClick={() => setSignatureModalVisible(false)} className='bg-ezgray mt-2 text-sm'>Cancel</button>
-                    <button onClick={() => console.log('meow')} className='bg-ezred ml-2 text-sm'>Confirm</button>
+                    <button type='button' onClick={() => setSignatureModalVisible(false)} className='bg-ezgray mt-2 text-sm'>Cancel</button>
+                    <button type='button' onClick={() => console.log('meow')} className='bg-ezred ml-2 text-sm'>Confirm</button>
                 </Modal>
 
                 {signed ? <SignatureDetails data={data}/> : ''}
@@ -119,6 +122,7 @@ const LogbookForm: React.FC<Props> = ({data, readOnly}: Props) => {
                 <div className='w-full flex flex-row gap-x-2'>
                         {!data.instructorSignature ? <button type='submit'>Submit Changes</button> : <button type='button' onClick={() => logbook.requestRemoveInstructorSignature(data?.entryId)} className='bg-amber-500'>Remove Instructor Signature</button>}
                         {data.entryId != -1 && data.user.userId == auth.user.userId ? <button type='button' onClick={requestDelete} className='bg-ezred'>Delete Entry</button> : ''}
+                        {!data.instructorSignature ? <button type='button' onClick={() => validateTimes(data)}>Verify Times</button> : ''}
                 </div>
             </form>
         </div>

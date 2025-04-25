@@ -5,7 +5,7 @@ import NumberInputComponent from "../../components/input/NumberInputComponent";
 import AircraftOptions from "../../components/aircraft/AircraftOptions";
 import useAuth, { AuthActions } from "../../hooks/auth";
 
-const GeneralInfo: React.FC<Props> = ({data, readOnly} : Props) => {
+const GeneralInfo: React.FC<Props> = ({data, readOnly, instructor} : Props) => {
     const user: AuthActions = useAuth()
 
     return (
@@ -20,7 +20,7 @@ const GeneralInfo: React.FC<Props> = ({data, readOnly} : Props) => {
                     <input title='date' required name='date' type="date" readOnly={readOnly} defaultValue={data.date.slice(0,10)}/>
                 </div>
 
-                <AircraftOptions readOnly={readOnly} data={data}/>
+                <AircraftOptions readOnly={readOnly || instructor} data={data}/>
 
                 <TextInputComponent readOnly={readOnly} formName='from' title='From' value={data.from.toUpperCase()}/>
                 <TextInputComponent readOnly={readOnly} formName='to' title='To' value={data.to.toUpperCase()}/>
@@ -49,6 +49,7 @@ const GeneralInfo: React.FC<Props> = ({data, readOnly} : Props) => {
 type Props = {
     data: LogbookEntry
     readOnly?: boolean
+    instructor?: boolean
 }
 
 export default GeneralInfo

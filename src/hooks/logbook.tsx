@@ -51,7 +51,7 @@ const useLogbookActions = (): LogbookActions  => {
         entryId: data.entryId
       }
     }).then((res) => {
-      if (res.status == 200) {
+      if (res.status == 204) {
         toast.success('Entry deleted!')
         populateLogbookEntries()
       }

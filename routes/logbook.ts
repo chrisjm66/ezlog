@@ -51,13 +51,9 @@ router.delete('/', async(req: Request, res: Response): Promise<any> => {
         return res.sendStatus(400)
     }
 
-    const deleteQuery = await deleteEntryFromDatabase(user, entryId)
+    await deleteEntryFromDatabase(user, entryId)
 
-    if (deleteQuery) {
-        return res.sendStatus(200)
-    }
-
-    res.sendStatus(400)
+    res.sendStatus(204)
 })
 
 export default router

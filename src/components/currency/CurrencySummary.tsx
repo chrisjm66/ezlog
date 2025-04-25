@@ -30,7 +30,7 @@ const CurrencySummary: React.FC = () => {
             <CurrencyListItem title='ASEL - Passengers (Night)' current={nightCurrent}/>
             <CurrencyListItem title='Flight Review' current={flightReviewCurrent} lastItem/>
 
-            <NavLink className='button absolute bottom-5 left-5' to='/dashboard/currency'>View detailed currency</NavLink>
+            <NavLink className='button lg:absolute bottom-5 left-5' to='/dashboard/currency'>View detailed currency</NavLink>
         </div>   
     )
 }

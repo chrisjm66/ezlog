@@ -36,7 +36,7 @@ const InstructorForm: FC<{data?: LogbookEntry}> = ({data}): ReactElement => {
         <div className='flex gap-y-5 flex-col overflow-y-scroll max-h-screen'>
             {signed ? <SignatureDetails data={data}/> : ''}
 
-            <GeneralInfo readOnly={signed} data={data}/>
+            <GeneralInfo readOnly={signed} data={data} instructor/>
 
             <InstrumentInfo readOnly={signed} data={data}/>
 

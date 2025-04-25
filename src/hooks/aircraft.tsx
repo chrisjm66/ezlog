@@ -2,6 +2,7 @@ import { createContext, ReactElement, useContext, useEffect, useState } from "re
 import axios, { AxiosResponse } from "axios"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
+import useLogbook, { LogbookActions } from "./logbook"
 
 const AircraftContext = createContext({})
 const useAircraft = (): any => useContext(AircraftContext)
@@ -10,6 +11,7 @@ const useAircraft = (): any => useContext(AircraftContext)
 const useAircraftActions = (): AircraftActions => {
     const [aircraftData, setAircraftData] = useState<Aircraft[] | undefined>([] as Aircraft[])
     const navigate = useNavigate()
+    const logbook: LogbookActions = useLogbook()
 
     const getDefaultAircraftEntry = (): Aircraft => {
         return {
@@ -88,7 +90,17 @@ const useAircraftActions = (): AircraftActions => {
         })
     }
 
-    return {aircraftData, getDefaultAircraftEntry, addAircraft, deleteAircraft, getAircraft, updateAircraft, populateAircraftEntries}
+    const getAircraftTotalTime = (aircraftId: number): number => {
+        let total = 0
+        logbook.logbookData?.map((entry) => {
+            if (entry.aircraftId == aircraftId.toString()) {
+                total += entry.totalTime
+            }
+        })
+
+        return total
+    }
+    return {aircraftData, getDefaultAircraftEntry, addAircraft, deleteAircraft, getAircraft, updateAircraft, populateAircraftEntries, getAircraftTotalTime}
 }
 
 // creates a wrapper for the rest of the app
@@ -114,6 +126,7 @@ export interface AircraftActions {
     deleteAircraft: (aircraftId: number) => Promise<void>
     getAircraft: (aircraftId: number | undefined) => Aircraft | undefined
     updateAircraft: (data: Aircraft) => Promise<void>
+    getAircraftTotalTime: (aircraftId: number) => number
 }
 
 export type Aircraft = {
