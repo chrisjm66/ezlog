@@ -21,6 +21,16 @@
   td {
     @apply px-2 py-1 text-lg border-r-1 border-b-1
   }
+  table {
+    @apply border-2
+  }
+  thead tr td {
+    @apply text-xl
+  }
+
+  td {
+    @apply px-2 py-1 text-lg border-r-1 border-b-1
+  }
   body {
     background-color: white;
     @apply font-inter
