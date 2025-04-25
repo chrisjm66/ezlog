@@ -31,6 +31,7 @@ const InstructorSettings: React.FC = (): ReactNode => {
 
         setSubmitting(false)
     }
+    
     return (
         <div className="gray-container gap-y-5">
             <Modal title='Form Status' open={submitting}>
