@@ -4,9 +4,9 @@ import { NavLink } from 'react-router-dom'
 const CardLayout: React.FC<Props> = ({title, buttonText, buttonHref, baseRoute, ListObjects, WindowDisplay}) => {
     return (
         <div className="flex flex-col h-full">
-            <div className="w-full p-2 flex flex-col md:flex-row gap-y-2">
+            <div className="w-full p-2 flex flex-col lg:flex-row lg:items-center gap-y-2">
                 <h1 className="inline-block">{title}</h1>
-                {buttonText ? <NavLink className='bg-ezblue justify-self-stretch inline-block p-2 rounded-md ml-5' to={buttonHref || ''}>{buttonText}</NavLink> : null}
+                {buttonText ? <NavLink className='bg-ezblue justify-self-stretch inline-block p-2 rounded-md ml-5 h-max' to={buttonHref || ''}>{buttonText}</NavLink> : null}
                 <NavLink to={baseRoute || '/dashboard'} className='bg-ezblue justify-self-stretch inline-block p-2 rounded-md ml-5 lg:hidden'>Back</NavLink>
             </div>
 

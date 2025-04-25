@@ -83,7 +83,7 @@ const Navbar = (): ReactElement => {
     const [isMobile, setMobile] = useState<boolean>(false)
 
     const handleResize = () => {
-        setMobile(window.innerWidth < 1030)
+        setMobile(window.innerWidth < 1600)
     }
 
     useEffect(() => {

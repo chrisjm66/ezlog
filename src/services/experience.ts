@@ -14,6 +14,7 @@ export const getRecentExperienceData = (entries: LogbookEntry[] | undefined, day
    if (!entries) {
         return {
             pic: 0,
+            dual: 0,
             crossCountry: 0,
             instrument: 0,
             night: 0,
@@ -24,6 +25,7 @@ export const getRecentExperienceData = (entries: LogbookEntry[] | undefined, day
    }
 
    let pic = 0
+   let dual = 0
    let xc = 0
    let instrument = 0
    let night = 0
@@ -38,6 +40,7 @@ export const getRecentExperienceData = (entries: LogbookEntry[] | undefined, day
 
         if (!checkCalendarDate || (date.getTime() > checkCalendarDate.getTime())) {
             pic += data.pic
+            dual += data.dualRecieved
             xc += data.crossCountry
             instrument += data.actImc + data.simImc
             night += data.night
@@ -49,6 +52,7 @@ export const getRecentExperienceData = (entries: LogbookEntry[] | undefined, day
 
    return {
         pic: pic,
+        dual: dual,
         crossCountry: xc,
         instrument: instrument,
         night: night,
@@ -60,6 +64,7 @@ export const getRecentExperienceData = (entries: LogbookEntry[] | undefined, day
 
 export type RecentExperienceData = {
     pic: number
+    dual: number
     crossCountry: number
     instrument: number
     night: number
