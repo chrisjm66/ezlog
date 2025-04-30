@@ -27,20 +27,6 @@ model Aircraft {
   @@map("aircraft")
 }
 
-model Certificate {
-  certificate_id            Int       @id @default(autoincrement()) @db.UnsignedInt
-  expires                   DateTime? @db.DateTime(0)
-  user_id                   Int       @db.UnsignedInt
-  name                      String    @db.VarChar(50)
-  ratings                   String?   @db.VarChar(1000)
-  is_pillot_certificate     Int       @default(0) @db.TinyInt
-  is_instructor_certificate Int       @default(0) @db.TinyInt
-  issued                    DateTime  @db.DateTime(0)
-
-  @@index([user_id], map: "certificates_users_user_id_fk")
-  @@map("certificates")
-}
-
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model LogbookEntry {
   logbook_entry_id       Int      @id @default(autoincrement()) @db.UnsignedInt
