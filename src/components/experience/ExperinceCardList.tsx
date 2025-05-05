@@ -10,8 +10,8 @@ const ExperienceCardList: React.FC = () => {
 
     return (
         <>
-            <ExperienceCard title='Recent Experience' subtext='0/0 test' onClick={() => {handleClick('/')}}/>
-            <ExperienceCard title='Private Pilot Progress' subtext='0/0 test' onClick={() => {handleClick('/progress/private')}}/>
+            <ExperienceCard title='Recent Experience' onClick={() => {handleClick('/')}}/>
+            <ExperienceCard title='Private Pilot Progress' onClick={() => {handleClick('/progress/private')}}/>
         </> 
     )
 }
