@@ -122,7 +122,7 @@ const LogbookForm: React.FC<Props> = ({data, readOnly}: Props) => {
                 <div className='w-full flex flex-row gap-x-2'>
                         {!data.instructorSignature ? <button type='submit'>Submit Changes</button> : <button type='button' onClick={() => logbook.requestRemoveInstructorSignature(data?.entryId)} className='bg-amber-500'>Remove Instructor Signature</button>}
                         {data.entryId != -1 && data.user.userId == auth.user.userId ? <button type='button' onClick={requestDelete} className='bg-ezred'>Delete Entry</button> : ''}
-                        {!data.instructorSignature ? <button type='button' onClick={() => validateTimes(data)}>Verify Times</button> : ''}
+                        {!data.instructorSignature ? <button type='button' onClick={() => validateTimes(values)}>Verify Times</button> : ''}
                 </div>
             </form>
         </div>

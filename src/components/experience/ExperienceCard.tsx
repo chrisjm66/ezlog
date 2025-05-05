@@ -4,7 +4,7 @@ const ExperienceCard: FC<Props> = ({title, subtext, onClick}: Props): ReactEleme
     return (
             <button onClick={() => {onClick()}} className="flex flex-col w-full h-max bg-gray-100 justify-start items-center px-2 py-1 transition hover:bg-gray-200">
                 <div className='flex flex-col items-start w-full'>
-                    <h2 className='font-bold'>{title}</h2>
+                    <h2 className='font-bold w-full text-left'>{title}</h2>
                     <h2 >{subtext}</h2>
                 </div>
             </button>
