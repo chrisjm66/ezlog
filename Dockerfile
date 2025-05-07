@@ -8,6 +8,8 @@ WORKDIR /home/node/app
 
 COPY . .
 
+RUN npm install -g pnpm
+
 RUN pnpm install
 
 RUN pnpx prisma generate
