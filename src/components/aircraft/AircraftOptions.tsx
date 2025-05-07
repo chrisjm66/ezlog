@@ -16,7 +16,6 @@ const AircraftOptions: React.FC<Props> = ({data, readOnly}: Props) => {
             <option title={plane.tailNumber} value={plane.aircraftId} key={plane.aircraftId}>{plane.tailNumber} ({plane.typeCode.toUpperCase()})</option>
         )
     })
-
     useEffect(() => {
         setAircraftId(data?.aircraftId || "-1")
     }, [data, setAircraftId])
@@ -33,6 +32,7 @@ const AircraftOptions: React.FC<Props> = ({data, readOnly}: Props) => {
             <div>
                 <label htmlFor='aircraftId'>Aircraft</label>
                 <select title='aircraftId' name='aircraftId' onChange={handleChange} value={selectedAircraftId} className='bg-white px-2 py-1 font-bold text-ezblue rounded-sm w-full border-1 border-ezblue mt-2 h-10'>
+                    <option title={"None"} value={'-1'} key={-1}>None</option>
                     {rows}
                 </select>
             </div> 

@@ -113,7 +113,7 @@ export const updateLogbookEntry = async(user: UserModel, body: ClientLogbookEntr
         const entry = await prisma.logbookEntry.update({
             data: {
                 date: new Date(body.date),
-                aircraft_id: body.aircraftId ? parseInt(body.aircraftId) : undefined,
+                aircraft_id: (body.aircraftId && body.aircraftId !== '-1') ? parseInt(body.aircraftId) : null,
                 total_time: body.totalTime,
                 pic: body.pic,
                 sic: body.sic,
