@@ -21,6 +21,7 @@ model Aircraft {
   complex           Boolean?
   high_performance  Boolean?
   user_id           Int      @db.UnsignedInt
+  user              User      @relation(fields: [user_id], references: [user_id])
   logbook_entries   LogbookEntry[]
 
   @@index([user_id], map: "aircraft_users_user_id_fk")
@@ -95,5 +96,6 @@ model User {
   logbook_entries        LogbookEntry[] @relation("User")
   signed_entries        LogbookEntry[] @relation("Instructor")
   sessions               Session[]    
+  aircraft                Aircraft[]
   @@map("users")
 }
