@@ -3,9 +3,9 @@ import { LogbookEntry } from "../../hooks/logbook"
 
 const EntryStatusText: React.FC<{instructorSignedDate: string | undefined}> = ({instructorSignedDate}: {instructorSignedDate: string | undefined})  => {
     if (!instructorSignedDate) {
-        return <h2 className='text-amber-500 font-bold'>Unsigned</h2>
+        return <h2 className='text-amber-500 font-bold text-md'>Unsigned</h2>
     } else {
-        return <h2 className='text-green-500  font-bold'>Signed</h2>
+        return <h2 className='text-green-500 font-bold text-md'>Signed</h2>
     }
 }
 
@@ -15,7 +15,7 @@ const InstructorCard: FC<{data: LogbookEntry, onClick: () => void}> = ({data, on
                 <div className='flex flex-row justify-between w-full'>
                     <div className='flex flex-col h-full items-start'>
                         <h2 className='text-ezblue font-bold text-md'>{new Date(data.date).toLocaleDateString('en-US')}</h2>
-                        <h2 className='text-md'>{data.from.toUpperCase()} - {data.to.toUpperCase()}</h2>
+                        <h2 className='text-sm'>{data.from.toUpperCase()} - {data.to.toUpperCase()}</h2>
                         <h2 className='text-sm'>
                             {data.user.firstName + ' ' + data.user.lastName} 
                         </h2>
