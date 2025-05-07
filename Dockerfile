@@ -8,12 +8,12 @@ WORKDIR /home/node/app
 
 COPY . .
 
-RUN npm install --legacy-peer-deps
+RUN pnpm install
 
-RUN npx prisma generate
+RUN pnpx prisma generate
 
-RUN npm run build
+RUN pnpm run build
 
 EXPOSE 8100
 
-CMD npm run prod
+CMD pnpm run prod
