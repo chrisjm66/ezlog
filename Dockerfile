@@ -9,7 +9,7 @@ WORKDIR /home/node/app
 COPY . .
 
 
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 RUN npx prisma generate
 
