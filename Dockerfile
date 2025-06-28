@@ -8,14 +8,13 @@ WORKDIR /home/node/app
 
 COPY . .
 
-RUN npm install -g pnpm
 
-RUN pnpm install
+RUN npm install
 
-RUN pnpx prisma generate
+RUN npx prisma generate
 
-RUN pnpm run build
+RUN npm run build
 
 EXPOSE 8100
 
-CMD pnpm run prod
+CMD npm run prod
